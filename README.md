@@ -6,7 +6,7 @@ A rust wrapper for [Menoh](https://github.com/pfnet-research/menoh)
 - Rust 1.26+
 - Cargo
 - pkg-config (for [pkg-config](https://crates.io/crates/pkg-config))
-- libclang (for [bindgen](https://crates.io/crates/bindgen)
+- libclang (for [bindgen](https://crates.io/crates/bindgen))
 - [Menoh](https://github.com/pfnet-research/menoh) 1.0+
 
 ## Demo
