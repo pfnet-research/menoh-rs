@@ -8,7 +8,7 @@ mod model_data;
 mod variable_profile_table;
 mod variable_profile_table_builder;
 
-pub use dtype::Dtype;
+pub use dtype::{Dtype, DtypeCode};
 pub use error::Error;
 pub use model::Model;
 pub use model_builder::ModelBuilder;

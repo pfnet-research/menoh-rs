@@ -2,12 +2,12 @@ use menoh_sys;
 use std::ffi;
 use std::mem;
 
-use Dtype;
+use DtypeCode;
 use Error;
 use error::check;
 
 pub struct VariableProfile {
-    pub dtype: Dtype,
+    pub dtype: DtypeCode,
     pub dims: Vec<usize>,
 }
 
@@ -41,7 +41,7 @@ impl VariableProfileTable {
                 dims.push(dim as _);
             }
             Ok(VariableProfile {
-                   dtype: Dtype::from_raw(dtype),
+                   dtype: dtype as _,
                    dims,
                })
         }

@@ -3,7 +3,6 @@ use std::ffi;
 use std::os::raw::c_void;
 use std::ptr;
 
-use Dtype;
 use Error;
 use error::check;
 use Model;
@@ -62,24 +61,3 @@ impl Drop for ModelBuilder {
         unsafe { menoh_sys::menoh_delete_model_builder(self.handle) }
     }
 }
-
-
-// /*! \brief Delete function for model
-//  *
-//  * Users must call to release memory resources allocated for model
-//  */
-// void MENOH_API menoh_delete_model(menoh_model_handle model);
-
-// /*! \brief Get a buffer handle attached to target variable.
-//  *
-//  * Users can get a buffer handle attached to target variable.
-//  *
-//  * If that buffer is allocated by users and attached to the variable by calling
-//  * menoh_model_builder_attach_external_buffer(), returned buffer handle is same
-//  * to it.
-//  *
-//  * \note Automatically allocated internal buffers are released automatically so
-//  * users do not need to (and must not) release them.
-//  */
-// menoh_error_code MENOH_API menoh_model_get_variable_buffer_handle(
-//   const menoh_model_handle model, const char* variable_name, void** dst_data);

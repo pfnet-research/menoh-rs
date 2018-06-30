@@ -1,6 +1,5 @@
 use menoh_sys;
 use std::ffi;
-use std::os::raw::c_void;
 use std::ptr;
 
 use Error;
@@ -15,7 +14,7 @@ impl Model {
         Self { handle }
     }
 
-    pub fn get_variable_buffer_handle(&self, name: &str) -> Result<*const c_void, Error> {
+    pub fn get_buffer<T>(&self, name: &str) -> Result<*const T, Error> {
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
         let mut buffer = ptr::null_mut();
         unsafe {
@@ -23,7 +22,7 @@ impl Model {
                                                                     name.as_ptr(),
                                                                     &mut buffer))?;
         }
-        Ok(buffer)
+        Ok(buffer as _)
     }
 
     pub fn run(&mut self) -> Result<(), Error> {
