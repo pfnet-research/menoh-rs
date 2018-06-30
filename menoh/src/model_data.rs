@@ -1,6 +1,7 @@
 use menoh_sys;
 use std::ffi;
 use std::mem;
+use std::path;
 
 use error::check;
 use Error;
@@ -10,8 +11,11 @@ pub struct ModelData {
 }
 
 impl ModelData {
-    pub fn from_onnx(path: &str) -> Result<Self, Error> {
-        let path = ffi::CString::new(path).unwrap();
+    pub fn from_onnx<P>(path: P) -> Result<Self, Error>
+        where P: AsRef<path::Path>
+    {
+        let path = ffi::CString::new(path.as_ref().as_os_str().to_string_lossy().as_ref())
+            .map_err(|_| Error::InvalidFilename)?;
         let mut model_data = unsafe { mem::uninitialized() };
         unsafe {
             check(menoh_sys::menoh_make_model_data_from_onnx(path.as_ptr(), &mut model_data))?;
