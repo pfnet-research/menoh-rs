@@ -1,0 +1,6 @@
+[package]
+name = "menoh"
+version = "0.1.0"
+
+[dependencies]
+menoh-sys = { path = "../menoh-sys" }
