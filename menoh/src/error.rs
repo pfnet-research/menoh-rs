@@ -19,6 +19,7 @@ pub enum Error {
     FailedToConfigureOperator,
     BackendError,
     SameNamedVariableAlreadyExist,
+    NulError,
 }
 
 impl Error {

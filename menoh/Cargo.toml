@@ -4,3 +4,6 @@ version = "0.1.0"
 
 [dependencies]
 menoh-sys = { path = "../menoh-sys" }
+
+[dev-dependencies]
+menoh-sys = { path = "../menoh-sys" }
