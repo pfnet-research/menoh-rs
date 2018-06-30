@@ -18,6 +18,7 @@ fn main() {
         .header("wrapper.h")
         .whitelist_type("menoh_.*")
         .whitelist_function("menoh_.*")
+        .prepend_enum_name(false)
         .rustfmt_bindings(false)
         .generate()
         .unwrap();
