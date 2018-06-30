@@ -19,11 +19,12 @@ pub enum Error {
     FailedToConfigureOperator,
     BackendError,
     SameNamedVariableAlreadyExist,
+    InvalidDimsSize,
     NulError,
 }
 
 impl Error {
-    fn from_code(code: menoh_sys::menoh_error_code) -> Option<Self> {
+    fn from_raw(code: menoh_sys::menoh_error_code) -> Option<Self> {
         match code as _ {
             menoh_sys::menoh_error_code_success => None,
             menoh_sys::menoh_error_code_std_error => Some(Error::StdError),
@@ -57,7 +58,7 @@ impl Error {
 }
 
 pub fn check(code: menoh_sys::menoh_error_code) -> Result<(), Error> {
-    match Error::from_code(code) {
+    match Error::from_raw(code) {
         Some(err) => Err(err),
         None => Ok(()),
     }
