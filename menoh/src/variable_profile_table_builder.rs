@@ -2,7 +2,7 @@ use menoh_sys;
 use std::ffi;
 use std::ptr;
 
-use Dtype;
+use dtype::Dtype;
 use Error;
 use error::check;
 use ModelData;
