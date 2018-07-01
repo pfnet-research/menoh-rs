@@ -1,4 +1,4 @@
-# monoh-rs
+# menoh-rs
 
 A rust wrapper for [Menoh](https://github.com/pfnet-research/menoh)
 
