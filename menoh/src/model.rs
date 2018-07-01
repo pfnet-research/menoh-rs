@@ -61,6 +61,21 @@ impl Model {
         }
     }
 
+    pub fn get_variable_mut<T>(&mut self, name: &str) -> Result<(Vec<usize>, &mut [T]), Error>
+        where T: Dtype
+    {
+        let dims = self.get_dims::<T>(name)?;
+        let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
+        let mut buffer = ptr::null_mut();
+        unsafe {
+            check(menoh_sys::menoh_model_get_variable_buffer_handle(self.handle,
+                                                                    name.as_ptr(),
+                                                                    &mut buffer))?;
+            let buffer = slice::from_raw_parts_mut(buffer as _, dims.iter().product());
+            Ok((dims, buffer))
+        }
+    }
+
     pub fn run(&mut self) -> Result<(), Error> {
         unsafe { check(menoh_sys::menoh_model_run(self.handle)) }
     }

@@ -69,11 +69,6 @@ fn main() {
     const FC6_OUT_NAME: &'static str = "140326200777584";
     const SOFTMAX_OUT_NAME: &'static str = "140326200803680";
 
-    let img = image::open(args.flag_i).unwrap();
-    let mut input_buf = reorder_to_chw(&crop_and_resize(img, INSIZE));
-
-    let mut model_data = menoh::ModelData::from_onnx(args.flag_m).unwrap();
-
     let mut vpt_builder = menoh::VariableProfileTableBuilder::new().unwrap();
     vpt_builder
         .add_input::<f32>(CONV1_1_IN_NAME, &[1, 3, INSIZE, INSIZE])
@@ -81,17 +76,18 @@ fn main() {
     vpt_builder.add_output::<f32>(FC6_OUT_NAME).unwrap();
     vpt_builder.add_output::<f32>(SOFTMAX_OUT_NAME).unwrap();
 
+    let mut model_data = menoh::ModelData::from_onnx(args.flag_m).unwrap();
     let vpt = vpt_builder.build(&model_data).unwrap();
     model_data.optimize(&vpt).unwrap();
 
-    let mut model_builder = menoh::ModelBuilder::new(&vpt).unwrap();
-    unsafe {
-        model_builder
-            .attach_external(CONV1_1_IN_NAME, &mut input_buf)
-            .unwrap();
-    }
-
+    let model_builder = menoh::ModelBuilder::new(&vpt).unwrap();
     let mut model = model_builder.build(&model_data, "mkldnn", "").unwrap();
+    let img = image::open(args.flag_i).unwrap();
+    model
+        .get_variable_mut(CONV1_1_IN_NAME)
+        .unwrap()
+        .1
+        .copy_from_slice(&reorder_to_chw(&crop_and_resize(img, INSIZE)));
     model.run().unwrap();
 
     let (_, fc6_buf) = model.get_variable::<f32>(FC6_OUT_NAME).unwrap();
