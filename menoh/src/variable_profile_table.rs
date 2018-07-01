@@ -15,7 +15,7 @@ impl VariableProfileTable {
         Self { handle }
     }
 
-    pub fn get<T>(&self, name: &str) -> Result<Vec<usize>, Error>
+    pub fn get_dims<T>(&self, name: &str) -> Result<Vec<usize>, Error>
         where T: Dtype
     {
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;

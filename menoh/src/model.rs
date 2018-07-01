@@ -1,7 +1,10 @@
 use menoh_sys;
 use std::ffi;
+use std::mem;
 use std::ptr;
+use std::slice;
 
+use dtype::Dtype;
 use Error;
 use error::check;
 
@@ -14,15 +17,48 @@ impl Model {
         Self { handle }
     }
 
-    pub fn get_buffer<T>(&self, name: &str) -> Result<*const T, Error> {
+    pub fn get_dims<T>(&self, name: &str) -> Result<Vec<usize>, Error>
+        where T: Dtype
+    {
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
-        let mut buffer = ptr::null_mut();
+        unsafe {
+            let mut dtype = mem::uninitialized();
+            check(menoh_sys::menoh_model_get_variable_dtype(self.handle,
+                                                            name.as_ptr(),
+                                                            &mut dtype))?;
+            if dtype != T::ID {
+                return Err(Error::InvalidDtype);
+            }
+            let mut size = 0;
+            check(menoh_sys::menoh_model_get_variable_dims_size(self.handle,
+                                                                name.as_ptr(),
+                                                                &mut size))?;
+            let mut dims = Vec::with_capacity(size as _);
+            for index in 0..size {
+                let mut dim = 0;
+                check(menoh_sys::menoh_model_get_variable_dims_at(self.handle,
+                                                                  name.as_ptr(),
+                                                                  index,
+                                                                  &mut dim))?;
+                dims.push(dim as _);
+            }
+            Ok(dims)
+        }
+    }
+
+    pub fn get_variable<T>(&self, name: &str) -> Result<(Vec<usize>, &[T]), Error>
+        where T: Dtype
+    {
+        let dims = self.get_dims::<T>(name)?;
+        let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
+        let mut data = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_model_get_variable_buffer_handle(self.handle,
                                                                     name.as_ptr(),
-                                                                    &mut buffer))?;
+                                                                    &mut data))?;
+            let data = slice::from_raw_parts(data as _, dims.iter().product());
+            Ok((dims, data))
         }
-        Ok(buffer as _)
     }
 
     pub fn run(&mut self) -> Result<(), Error> {

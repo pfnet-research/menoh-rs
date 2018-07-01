@@ -1,7 +1,5 @@
 extern crate menoh;
 
-use std::slice;
-
 fn main() -> Result<(), menoh::Error> {
     let conv1_1_in_name = "140326425860192";
     let fc6_out_name = "140326200777584";
@@ -16,7 +14,6 @@ fn main() -> Result<(), menoh::Error> {
     vpt_builder.add_output::<f32>(softmax_out_name)?;
 
     let variable_profile_table = vpt_builder.build(&model_data)?;
-    let softmax_out = variable_profile_table.get::<f32>(softmax_out_name)?;
     model_data.optimize(&variable_profile_table)?;
 
     let mut model_builder = menoh::ModelBuilder::new(&variable_profile_table)?;
@@ -29,17 +26,13 @@ fn main() -> Result<(), menoh::Error> {
     let mut model = model_builder.build(&model_data, "mkldnn", "")?;
     model.run()?;
 
-    let fc6_output_buff = model.get_buffer::<f32>(fc6_out_name)?;
-    let softmax_output_buff = model.get_buffer::<f32>(softmax_out_name)?;
+    let (_, fc6_data) = model.get_variable::<f32>(fc6_out_name)?;
+    println!("{:?}", &fc6_data[..10]);
 
-    println!("{:?}",
-             unsafe { slice::from_raw_parts(fc6_output_buff, 10) });
-
-    let softmax_output_buff =
-        unsafe { slice::from_raw_parts(softmax_output_buff, softmax_out[0] * softmax_out[1]) };
-    for n in 0..softmax_out[0] {
+    let (softmax_dims, softmax_data) = model.get_variable::<f32>(softmax_out_name)?;
+    for n in 0..softmax_dims[0] {
         println!("{:?}",
-                 &softmax_output_buff[n * softmax_out[1]..(n + 1) * softmax_out[1]]);
+                 &softmax_data[n * softmax_dims[1]..(n + 1) * softmax_dims[1]]);
     }
 
     Ok(())
