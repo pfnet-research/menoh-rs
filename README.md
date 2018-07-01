@@ -19,5 +19,6 @@ $ curl -L https://www.dropbox.com/s/bjfn9kehukpbmcm/VGG16.onnx?dl=1 -o VGG16.onn
 $ curl -LO https://raw.githubusercontent.com/HoldenCaulfieldRye/caffe/master/data/ilsvrc12/synset_words.txt
 $ curl -LO https://upload.wikimedia.org/wikipedia/commons/5/54/Light_sussex_hen.jpg
 
-$ cargo run --example vgg16
+$ cargo run --example vgg16  # use Light_sussex_hen.jpg
+$ cargo run --example vgg16 -- --image <image>  # use your image
 ```
