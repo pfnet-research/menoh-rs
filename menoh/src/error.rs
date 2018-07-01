@@ -38,7 +38,7 @@ impl Error {
             ffi::CStr::from_ptr(menoh_sys::menoh_get_last_error_message())
                 .to_owned()
                 .into_string()
-                .unwrap()
+                .unwrap_or("[failed to decode message]".to_owned())
         };
         match code {
             menoh_sys::menoh_error_code_std_error => Some(Error::StdError(message)),
