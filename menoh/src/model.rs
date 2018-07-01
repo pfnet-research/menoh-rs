@@ -13,10 +13,6 @@ pub struct Model {
 }
 
 impl Model {
-    pub unsafe fn from_handle(handle: menoh_sys::menoh_model_handle) -> Self {
-        Self { handle }
-    }
-
     pub fn get_variable_dims<T>(&self, name: &str) -> Result<Vec<usize>, Error>
         where T: Dtype
     {
@@ -78,6 +74,10 @@ impl Model {
 
     pub fn run(&mut self) -> Result<(), Error> {
         unsafe { check(menoh_sys::menoh_model_run(self.handle)) }
+    }
+
+    pub unsafe fn from_handle(handle: menoh_sys::menoh_model_handle) -> Self {
+        Self { handle }
     }
 }
 

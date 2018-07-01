@@ -11,10 +11,6 @@ pub struct VariableProfileTable {
 }
 
 impl VariableProfileTable {
-    pub unsafe fn from_handle(handle: menoh_sys::menoh_variable_profile_table_handle) -> Self {
-        Self { handle }
-    }
-
     pub fn get_variable_dims<T>(&self, name: &str) -> Result<Vec<usize>, Error>
         where T: Dtype
     {
@@ -42,6 +38,10 @@ impl VariableProfileTable {
             }
             Ok(dims)
         }
+    }
+
+    pub unsafe fn from_handle(handle: menoh_sys::menoh_variable_profile_table_handle) -> Self {
+        Self { handle }
     }
 
     pub unsafe fn handle(&self) -> menoh_sys::menoh_variable_profile_table_handle {
