@@ -3,7 +3,7 @@
 A rust wrapper for [Menoh](https://github.com/pfnet-research/menoh)
 
 ## Requirements
-- Rust 1.26+
+- Rust 1.27
 - Cargo
 - pkg-config (for [pkg-config](https://crates.io/crates/pkg-config))
 - libclang (for [bindgen](https://crates.io/crates/bindgen))
@@ -14,6 +14,10 @@ A rust wrapper for [Menoh](https://github.com/pfnet-research/menoh)
 ```
 $ git clone https://github.com/Hakuyume/menoh-rs.git
 $ cd menoh-rs/menoh
+
 $ curl -L https://www.dropbox.com/s/bjfn9kehukpbmcm/VGG16.onnx?dl=1 -o VGG16.onnx
+$ curl -LO https://raw.githubusercontent.com/HoldenCaulfieldRye/caffe/master/data/ilsvrc12/synset_words.txt
+$ curl -LO https://upload.wikimedia.org/wikipedia/commons/5/54/Light_sussex_hen.jpg
+
 $ cargo run --example vgg16
 ```
