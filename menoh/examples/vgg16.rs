@@ -72,7 +72,7 @@ fn main() {
     let img = image::open(args.flag_i).unwrap();
     let mut input_buf = reorder_to_chw(&crop_and_resize(img, INSIZE));
 
-    let mut model_data = menoh::ModelData::from_onnx(&args.flag_m.to_string_lossy()).unwrap();
+    let mut model_data = menoh::ModelData::from_onnx(args.flag_m).unwrap();
 
     let mut vpt_builder = menoh::VariableProfileTableBuilder::new().unwrap();
     vpt_builder
