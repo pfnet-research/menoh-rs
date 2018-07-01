@@ -6,6 +6,7 @@ extern crate serde_derive;
 
 use image::GenericImage;
 use std::cmp;
+use std::error;
 use std::fs;
 use std::io;
 use std::io::BufRead;
@@ -59,7 +60,7 @@ struct Args {
     flag_s: path::PathBuf,
 }
 
-fn main() {
+fn main() -> Result<(), Box<dyn(error::Error)>> {
     let args: Args = docopt::Docopt::new(USAGE)
         .and_then(|d| d.deserialize())
         .unwrap_or_else(|e| e.exit());
@@ -69,39 +70,39 @@ fn main() {
     const FC6_OUT_NAME: &'static str = "140326200777584";
     const SOFTMAX_OUT_NAME: &'static str = "140326200803680";
 
-    let mut vpt_builder = menoh::VariableProfileTableBuilder::new().unwrap();
+    let mut vpt_builder = menoh::VariableProfileTableBuilder::new()?;
     vpt_builder
-        .add_input::<f32>(CONV1_1_IN_NAME, &[1, 3, INSIZE, INSIZE])
-        .unwrap();
-    vpt_builder.add_output::<f32>(FC6_OUT_NAME).unwrap();
-    vpt_builder.add_output::<f32>(SOFTMAX_OUT_NAME).unwrap();
+        .add_input::<f32>(CONV1_1_IN_NAME, &[1, 3, INSIZE, INSIZE])?;
+    vpt_builder.add_output::<f32>(FC6_OUT_NAME)?;
+    vpt_builder.add_output::<f32>(SOFTMAX_OUT_NAME)?;
 
-    let mut model_data = menoh::ModelData::from_onnx(args.flag_m).unwrap();
-    let vpt = vpt_builder.build(&model_data).unwrap();
-    model_data.optimize(&vpt).unwrap();
+    let mut model_data = menoh::ModelData::from_onnx(args.flag_m)?;
+    let vpt = vpt_builder.build(&model_data)?;
+    model_data.optimize(&vpt)?;
 
-    let model_builder = menoh::ModelBuilder::new(&vpt).unwrap();
-    let mut model = model_builder.build(&model_data, "mkldnn", "").unwrap();
-    let img = image::open(args.flag_i).unwrap();
+    let model_builder = menoh::ModelBuilder::new(&vpt)?;
+    let mut model = model_builder.build(&model_data, "mkldnn", "")?;
+    let img = image::open(args.flag_i)?;
     model
-        .get_variable_mut(CONV1_1_IN_NAME)
-        .unwrap()
+        .get_variable_mut(CONV1_1_IN_NAME)?
         .1
         .copy_from_slice(&reorder_to_chw(&crop_and_resize(img, INSIZE)));
-    model.run().unwrap();
+    model.run()?;
 
-    let (_, fc6_buf) = model.get_variable::<f32>(FC6_OUT_NAME).unwrap();
+    let (_, fc6_buf) = model.get_variable::<f32>(FC6_OUT_NAME)?;
     println!("{:?}", &fc6_buf[..10]);
 
-    let (softmax_dims, softmax_buf) = model.get_variable::<f32>(SOFTMAX_OUT_NAME).unwrap();
+    let (softmax_dims, softmax_buf) = model.get_variable::<f32>(SOFTMAX_OUT_NAME)?;
     let mut indices: Vec<_> = (0..softmax_dims[1]).collect();
     indices.sort_unstable_by(|&i, &j| {
                                  softmax_buf[j]
                                      .partial_cmp(&softmax_buf[i])
                                      .unwrap_or(cmp::Ordering::Equal)
                              });
-    let categories = load_category_list(args.flag_s).unwrap();
+    let categories = load_category_list(args.flag_s)?;
     for &i in &indices[..5] {
         println!("{} {} {}", i, softmax_buf[i], categories[i]);
     }
+
+    Ok(())
 }

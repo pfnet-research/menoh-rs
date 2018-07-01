@@ -1,4 +1,6 @@
 use menoh_sys;
+use std::error;
+use std::fmt;
 
 #[derive(Debug)]
 pub enum Error {
@@ -63,3 +65,11 @@ pub fn check(code: menoh_sys::menoh_error_code) -> Result<(), Error> {
         None => Ok(()),
     }
 }
+
+impl fmt::Display for Error {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+impl error::Error for Error {}
