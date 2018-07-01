@@ -17,22 +17,22 @@ fn main() -> Result<(), menoh::Error> {
     model_data.optimize(&vpt)?;
 
     let mut model_builder = menoh::ModelBuilder::new(&vpt)?;
-    let mut input_data = [0.5_f32; 1 * 3 * 224 * 224];
+    let mut input_buf = [0.5_f32; 1 * 3 * 224 * 224];
     unsafe {
         model_builder
-            .attach_external_buffer(conv1_1_in_name, input_data.as_mut_ptr() as _)?;
+            .attach_external(conv1_1_in_name, &mut input_buf)?;
     }
 
     let mut model = model_builder.build(&model_data, "mkldnn", "")?;
     model.run()?;
 
-    let (_, fc6_data) = model.get_variable::<f32>(fc6_out_name)?;
-    println!("{:?}", &fc6_data[..10]);
+    let (_, fc6_buf) = model.get_variable::<f32>(fc6_out_name)?;
+    println!("{:?}", &fc6_buf[..10]);
 
-    let (softmax_dims, softmax_data) = model.get_variable::<f32>(softmax_out_name)?;
+    let (softmax_dims, softmax_buf) = model.get_variable::<f32>(softmax_out_name)?;
     for n in 0..softmax_dims[0] {
         println!("{:?}",
-                 &softmax_data[n * softmax_dims[1]..(n + 1) * softmax_dims[1]]);
+                 &softmax_buf[n * softmax_dims[1]..(n + 1) * softmax_dims[1]]);
     }
 
     Ok(())

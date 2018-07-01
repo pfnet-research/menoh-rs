@@ -1,8 +1,8 @@
 use menoh_sys;
 use std::ffi;
-use std::os::raw::c_void;
 use std::ptr;
 
+use dtype::Dtype;
 use Error;
 use error::check;
 use Model;
@@ -23,14 +23,19 @@ impl ModelBuilder {
         Ok(Self { handle })
     }
 
-    pub unsafe fn attach_external_buffer(&mut self,
-                                         name: &str,
-                                         buffer: *mut c_void)
-                                         -> Result<(), Error> {
+    /*
+    This method assumes the following things.
+     * T is proper dtype
+     * buffer is long enough
+     * buffer lives long enough
+    */
+    pub unsafe fn attach_external<T>(&mut self, name: &str, buffer: &mut [T]) -> Result<(), Error>
+        where T: Dtype
+    {
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
         check(menoh_sys::menoh_model_builder_attach_external_buffer(self.handle,
                                                                     name.as_ptr(),
-                                                                    buffer))
+                                                                    buffer.as_mut_ptr() as _))
     }
 
     pub fn build(&self,

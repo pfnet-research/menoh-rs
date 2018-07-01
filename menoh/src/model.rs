@@ -51,13 +51,13 @@ impl Model {
     {
         let dims = self.get_dims::<T>(name)?;
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
-        let mut data = ptr::null_mut();
+        let mut buffer = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_model_get_variable_buffer_handle(self.handle,
                                                                     name.as_ptr(),
-                                                                    &mut data))?;
-            let data = slice::from_raw_parts(data as _, dims.iter().product());
-            Ok((dims, data))
+                                                                    &mut buffer))?;
+            let buffer = slice::from_raw_parts(buffer as _, dims.iter().product());
+            Ok((dims, buffer))
         }
     }
 
