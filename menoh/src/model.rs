@@ -17,7 +17,7 @@ impl Model {
         Self { handle }
     }
 
-    pub fn get_dims<T>(&self, name: &str) -> Result<Vec<usize>, Error>
+    pub fn get_variable_dims<T>(&self, name: &str) -> Result<Vec<usize>, Error>
         where T: Dtype
     {
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
@@ -49,7 +49,7 @@ impl Model {
     pub fn get_variable<T>(&self, name: &str) -> Result<(Vec<usize>, &[T]), Error>
         where T: Dtype
     {
-        let dims = self.get_dims::<T>(name)?;
+        let dims = self.get_variable_dims::<T>(name)?;
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
         let mut buffer = ptr::null_mut();
         unsafe {
@@ -64,7 +64,7 @@ impl Model {
     pub fn get_variable_mut<T>(&mut self, name: &str) -> Result<(Vec<usize>, &mut [T]), Error>
         where T: Dtype
     {
-        let dims = self.get_dims::<T>(name)?;
+        let dims = self.get_variable_dims::<T>(name)?;
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
         let mut buffer = ptr::null_mut();
         unsafe {
