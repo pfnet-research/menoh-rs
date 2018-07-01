@@ -13,14 +13,14 @@ fn main() -> Result<(), menoh::Error> {
     vpt_builder.add_output::<f32>(fc6_out_name)?;
     vpt_builder.add_output::<f32>(softmax_out_name)?;
 
-    let variable_profile_table = vpt_builder.build(&model_data)?;
-    model_data.optimize(&variable_profile_table)?;
+    let vpt = vpt_builder.build(&model_data)?;
+    model_data.optimize(&vpt)?;
 
-    let mut model_builder = menoh::ModelBuilder::new(&variable_profile_table)?;
-    let mut input_buff = [0.5_f32; 1 * 3 * 224 * 224];
+    let mut model_builder = menoh::ModelBuilder::new(&vpt)?;
+    let mut input_data = [0.5_f32; 1 * 3 * 224 * 224];
     unsafe {
         model_builder
-            .attach_external_buffer(conv1_1_in_name, input_buff.as_mut_ptr() as _)?;
+            .attach_external_buffer(conv1_1_in_name, input_data.as_mut_ptr() as _)?;
     }
 
     let mut model = model_builder.build(&model_data, "mkldnn", "")?;
