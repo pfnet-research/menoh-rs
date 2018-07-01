@@ -22,19 +22,23 @@ impl VariableProfileTableBuilder {
     pub fn add_input<T>(&mut self, name: &str, dims: &[usize]) -> Result<(), Error>
         where T: Dtype
     {
-        let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
+        let c_name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
         match dims.len() {
             2 => unsafe {
                 check(menoh_sys::menoh_variable_profile_table_builder_add_input_profile_dims_2(
-                    self.handle, name.as_ptr(), T::ID,
+                    self.handle, c_name.as_ptr(), T::ID,
                     dims[0] as _, dims[1] as _))
             },
             4 => unsafe {
                 check(menoh_sys::menoh_variable_profile_table_builder_add_input_profile_dims_4(
-                    self.handle, name.as_ptr(), T::ID,
+                    self.handle, c_name.as_ptr(), T::ID,
                     dims[0] as _, dims[1] as _, dims[2] as _, dims[3] as _))
             },
-            _ => return Err(Error::InvalidDimsSize),
+            _ => {
+                Err(Error::InvalidDimsSize(format!("menoh invalid dims size error (2 or 4 is valid): dims size of {} is specified {}",
+                                                   name,
+                                                   dims.len())))
+            }
         }
     }
 

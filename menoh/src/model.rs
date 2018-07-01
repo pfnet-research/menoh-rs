@@ -23,7 +23,7 @@ impl Model {
                                                             name.as_ptr(),
                                                             &mut dtype))?;
             if dtype != T::ID {
-                return Err(Error::InvalidDtype);
+                return Err(Error::InvalidDtype(format!("menoh invalid dtype error: {}", dtype)));
             }
             let mut size = 0;
             check(menoh_sys::menoh_model_get_variable_dims_size(self.handle,
