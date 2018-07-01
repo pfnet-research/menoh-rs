@@ -2,14 +2,9 @@ use menoh_sys;
 use std::ffi;
 use std::mem;
 
-use DtypeCode;
+use Dtype;
 use Error;
 use error::check;
-
-pub struct VariableProfile {
-    pub dtype: DtypeCode,
-    pub dims: Vec<usize>,
-}
 
 pub struct VariableProfileTable {
     handle: menoh_sys::menoh_variable_profile_table_handle,
@@ -20,13 +15,18 @@ impl VariableProfileTable {
         Self { handle }
     }
 
-    pub fn get(&self, name: &str) -> Result<VariableProfile, Error> {
+    pub fn get<T>(&self, name: &str) -> Result<Vec<usize>, Error>
+        where T: Dtype
+    {
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
         unsafe {
             let mut dtype = mem::uninitialized();
             check(menoh_sys::menoh_variable_profile_table_get_dtype(self.handle,
                                                                     name.as_ptr(),
                                                                     &mut dtype))?;
+            if dtype != T::ID {
+                return Err(Error::InvalidDtype);
+            }
             let mut size = 0;
             check(menoh_sys::menoh_variable_profile_table_get_dims_size(self.handle,
                                                                         name.as_ptr(),
@@ -40,10 +40,7 @@ impl VariableProfileTable {
                                                                           &mut dim))?;
                 dims.push(dim as _);
             }
-            Ok(VariableProfile {
-                   dtype: dtype as _,
-                   dims,
-               })
+            Ok(dims)
         }
     }
 

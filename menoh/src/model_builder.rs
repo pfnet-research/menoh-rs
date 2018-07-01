@@ -28,11 +28,9 @@ impl ModelBuilder {
                                          buffer: *mut c_void)
                                          -> Result<(), Error> {
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
-        unsafe {
-            check(menoh_sys::menoh_model_builder_attach_external_buffer(self.handle,
-                                                                        name.as_ptr(),
-                                                                        buffer))
-        }
+        check(menoh_sys::menoh_model_builder_attach_external_buffer(self.handle,
+                                                                    name.as_ptr(),
+                                                                    buffer))
     }
 
     pub fn build(&self,

@@ -2,7 +2,7 @@ use menoh_sys;
 use std::ffi;
 use std::ptr;
 
-use DtypeCode;
+use Dtype;
 use Error;
 use error::check;
 use ModelData;
@@ -19,28 +19,32 @@ impl VariableProfileTableBuilder {
         Ok(Self { handle })
     }
 
-    pub fn add_input(&mut self, name: &str, dtype: DtypeCode, dims: &[usize]) -> Result<(), Error> {
+    pub fn add_input<T>(&mut self, name: &str, dims: &[usize]) -> Result<(), Error>
+        where T: Dtype
+    {
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
         match dims.len() {
             2 => unsafe {
                 check(menoh_sys::menoh_variable_profile_table_builder_add_input_profile_dims_2(
-                    self.handle, name.as_ptr(), dtype as _,
+                    self.handle, name.as_ptr(), T::ID,
                     dims[0] as _, dims[1] as _))
             },
             4 => unsafe {
                 check(menoh_sys::menoh_variable_profile_table_builder_add_input_profile_dims_4(
-                    self.handle, name.as_ptr(), dtype as _,
+                    self.handle, name.as_ptr(), T::ID,
                     dims[0] as _, dims[1] as _, dims[2] as _, dims[3] as _))
             },
             _ => return Err(Error::InvalidDimsSize),
         }
     }
 
-    pub fn add_output(&mut self, name: &str, dtype: DtypeCode) -> Result<(), Error> {
+    pub fn add_output<T>(&mut self, name: &str) -> Result<(), Error>
+        where T: Dtype
+    {
         let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
         unsafe {
             check(menoh_sys::menoh_variable_profile_table_builder_add_output_profile(
-                self.handle, name.as_ptr(), dtype as _))
+                self.handle, name.as_ptr(), T::ID))
         }
     }
 
