@@ -40,8 +40,7 @@ impl Error {
                 .into_string()
                 .unwrap()
         };
-
-        match code as _ {
+        match code {
             menoh_sys::menoh_error_code_std_error => Some(Error::StdError(message)),
             menoh_sys::menoh_error_code_unknown_error => Some(Error::UnknownError(message)),
             menoh_sys::menoh_error_code_invalid_filename => Some(Error::InvalidFilename(message)),
