@@ -1,6 +1,6 @@
 # menoh-rs
 
-A rust wrapper for [Menoh](https://github.com/pfnet-research/menoh)
+A rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 
 ## Requirements
 - Rust 1.27
