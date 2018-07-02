@@ -64,3 +64,6 @@ impl Drop for VariableProfileTableBuilder {
         unsafe { menoh_sys::menoh_delete_variable_profile_table_builder(self.handle) }
     }
 }
+
+#[cfg(test)]
+mod tests;
