@@ -54,4 +54,4 @@ before_script:
     cd $TRAVIS_BUILD_DIR
     export LD_LIBRARY_PATH=$HOME/local/lib
     export PKG_CONFIG_PATH=$HOME/local/share/pkgconfig
-  - curl https://github.com/Hakuyume/menoh-rs/releases/download/assets/test.onnx -o menoh/test.onnx
+  - curl -O https://github.com/Hakuyume/menoh-rs/releases/download/assets/test.onnx
