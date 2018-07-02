@@ -1,5 +1,7 @@
 # menoh-rs
 
+[![Build Status](https://travis-ci.org/Hakuyume/menoh-rs.svg?branch=master)](https://travis-ci.org/Hakuyume/menoh-rs)
+
 A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 
 ## Requirements
