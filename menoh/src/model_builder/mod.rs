@@ -23,12 +23,10 @@ impl ModelBuilder {
         Ok(Self { handle })
     }
 
-    /*
-    This method assumes the following things.
-     * T is proper dtype
-     * buffer is long enough
-     * buffer lives long enough
-    */
+    /// This method assumes
+    /// - T is proper dtype
+    /// - buffer is long enough
+    /// - buffer lives long enough
     pub unsafe fn attach_external<T>(&mut self, name: &str, buffer: &mut [T]) -> Result<(), Error>
         where T: Dtype
     {
