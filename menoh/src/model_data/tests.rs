@@ -1,11 +1,8 @@
-extern crate mktemp;
-
 use super::ModelData;
 
 #[test]
 fn from_onnx() {
-    let file = mktemp::Temp::new_file().unwrap();
-    ModelData::from_onnx(file).unwrap();
+    ModelData::from_onnx("test.onnx").unwrap();
 }
 
 #[test]
