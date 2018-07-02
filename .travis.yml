@@ -55,5 +55,5 @@ before_script:
     export LD_LIBRARY_PATH=$HOME/local/lib
     export PKG_CONFIG_PATH=$HOME/local/share/pkgconfig
   - |
-    curl -LO https://github.com/Hakuyume/menoh-rs/releases/download/assets/test.onnx
-    echo 16431ac1fb35576d14ba53e7d0000ef4644b24a5217827f9297c6bae11437a93 test.onnx | sha256sum -c
+    curl -L https://github.com/Hakuyume/menoh-rs/releases/download/assets/test.onnx -o menoh/test.onnx
+    echo 16431ac1fb35576d14ba53e7d0000ef4644b24a5217827f9297c6bae11437a93 menoh/test.onnx | sha256sum -c
