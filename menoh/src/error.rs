@@ -22,13 +22,46 @@ pub enum Error {
     FailedToConfigureOperator(String),
     BackendError(String),
     SameNamedVariableAlreadyExist(String),
-    InvalidDimsSize(String),
-    NulError,
+
+    InvalidDimsSize(String, usize),
+    DtypeMismatch(menoh_sys::menoh_dtype, menoh_sys::menoh_dtype),
+    NulError(ffi::NulError),
 }
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
+        match self {
+            Error::StdError(message) => write!(f, "{}", message),
+            Error::UnknownError(message) => write!(f, "{}", message),
+            Error::InvalidFilename(message) => write!(f, "{}", message),
+            Error::UnsupportedOnnxOpsetVersion(message) => write!(f, "{}", message),
+            Error::OnnxParseError(message) => write!(f, "{}", message),
+            Error::InvalidDtype(message) => write!(f, "{}", message),
+            Error::InvalidAttributeType(message) => write!(f, "{}", message),
+            Error::UnsupportedOperatorAttribute(message) => write!(f, "{}", message),
+            Error::DimensionMismatch(message) => write!(f, "{}", message),
+            Error::VariableNotFound(message) => write!(f, "{}", message),
+            Error::IndexOutOfRange(message) => write!(f, "{}", message),
+            Error::JsonParseError(message) => write!(f, "{}", message),
+            Error::InvalidBackendName(message) => write!(f, "{}", message),
+            Error::UnsupportedOperator(message) => write!(f, "{}", message),
+            Error::FailedToConfigureOperator(message) => write!(f, "{}", message),
+            Error::BackendError(message) => write!(f, "{}", message),
+            Error::SameNamedVariableAlreadyExist(message) => write!(f, "{}", message),
+            Error::InvalidDimsSize(name, size) => {
+                write!(f,
+                       "menoh invalid dims size error (2 or 4 is valid): dims size of {} is specified {}",
+                       name,
+                       size)
+            }
+            Error::DtypeMismatch(actural, expected) => {
+                write!(f,
+                       "menoh dtype mismatch error: actural {}, expected {}",
+                       actural,
+                       expected)
+            }
+            Error::NulError(err) => err.fmt(f),
+        }
     }
 }
 
@@ -82,5 +115,11 @@ pub fn check(code: menoh_sys::menoh_error_code) -> Result<(), Error> {
             }
             _ => unreachable!(),
         }
+    }
+}
+
+impl From<ffi::NulError> for Error {
+    fn from(value: ffi::NulError) -> Self {
+        Error::NulError(value)
     }
 }

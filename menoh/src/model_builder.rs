@@ -32,7 +32,7 @@ impl ModelBuilder {
     pub unsafe fn attach_external<T>(&mut self, name: &str, buffer: &mut [T]) -> Result<(), Error>
         where T: Dtype
     {
-        let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
+        let name = ffi::CString::new(name)?;
         check(menoh_sys::menoh_model_builder_attach_external_buffer(self.handle,
                                                                     name.as_ptr(),
                                                                     buffer.as_mut_ptr() as _))
@@ -43,10 +43,8 @@ impl ModelBuilder {
                  backend_name: &str,
                  backend_config: &str)
                  -> Result<Model, Error> {
-        let backend_name = ffi::CString::new(backend_name)
-            .map_err(|_| Error::NulError)?;
-        let backend_config = ffi::CString::new(backend_config)
-            .map_err(|_| Error::NulError)?;
+        let backend_name = ffi::CString::new(backend_name)?;
+        let backend_config = ffi::CString::new(backend_config)?;
         let mut handle = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_build_model(self.handle,

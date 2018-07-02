@@ -16,7 +16,7 @@ impl Model {
     pub fn get_variable_dims<T>(&self, name: &str) -> Result<Vec<usize>, Error>
         where T: Dtype
     {
-        let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
+        let name = ffi::CString::new(name)?;
         unsafe {
             let mut dtype = mem::uninitialized();
             check(menoh_sys::menoh_model_get_variable_dtype(self.handle,
@@ -44,7 +44,7 @@ impl Model {
         where T: Dtype
     {
         let dims = self.get_variable_dims::<T>(name)?;
-        let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
+        let name = ffi::CString::new(name)?;
         let mut buffer = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_model_get_variable_buffer_handle(self.handle,
@@ -59,7 +59,7 @@ impl Model {
         where T: Dtype
     {
         let dims = self.get_variable_dims::<T>(name)?;
-        let name = ffi::CString::new(name).map_err(|_| Error::NulError)?;
+        let name = ffi::CString::new(name)?;
         let mut buffer = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_model_get_variable_buffer_handle(self.handle,

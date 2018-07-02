@@ -9,7 +9,7 @@ pub trait Dtype {
         if dtype == Self::ID {
             Ok(())
         } else {
-            Err(Error::InvalidDtype(format!("menoh invalid dtype error: {}", dtype)))
+            Err(Error::DtypeMismatch(dtype, Self::ID))
         }
     }
 }
