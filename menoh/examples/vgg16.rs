@@ -12,38 +12,8 @@ use std::io;
 use std::io::BufRead;
 use std::path;
 
-fn crop_and_resize(mut img: image::DynamicImage, size: usize) -> image::DynamicImage {
-    let (h, w) = (img.height(), img.width());
-    let min = cmp::min(w, h);
-    img.crop((w - min) / 2, (h - min) / 2, min, min)
-        .resize_exact(size as _, size as _, image::FilterType::Nearest)
-}
-
-fn reorder_to_chw(img: &image::DynamicImage) -> Vec<f32> {
-    let mut data = Vec::new();
-    // rev: RGB -> BGR
-    for c in (0..3).rev() {
-        for y in 0..img.height() {
-            for x in 0..img.width() {
-                data.push(img.get_pixel(x, y).data[c] as f32);
-            }
-        }
-    }
-    data
-}
-
-fn load_category_list<P>(path: P) -> io::Result<Vec<String>>
-    where P: AsRef<path::Path>
-{
-    let mut categories = Vec::new();
-    for line in io::BufReader::new(fs::File::open(path)?).lines() {
-        categories.push(line?);
-    }
-    Ok(categories)
-}
-
 const USAGE: &'static str = r#"
-vgg16 example
+VGG16 example
 
 Usage: vgg16 [options]
 
@@ -99,4 +69,34 @@ fn main() -> Result<(), Box<dyn(error::Error)>> {
     }
 
     Ok(())
+}
+
+fn crop_and_resize(mut img: image::DynamicImage, size: usize) -> image::DynamicImage {
+    let (h, w) = (img.height(), img.width());
+    let min = cmp::min(w, h);
+    img.crop((w - min) / 2, (h - min) / 2, min, min)
+        .resize_exact(size as _, size as _, image::FilterType::Nearest)
+}
+
+fn reorder_to_chw(img: &image::DynamicImage) -> Vec<f32> {
+    let mut data = Vec::new();
+    // rev: RGB -> BGR
+    for c in (0..3).rev() {
+        for y in 0..img.height() {
+            for x in 0..img.width() {
+                data.push(img.get_pixel(x, y).data[c] as f32);
+            }
+        }
+    }
+    data
+}
+
+fn load_category_list<P>(path: P) -> io::Result<Vec<String>>
+    where P: AsRef<path::Path>
+{
+    let mut categories = Vec::new();
+    for line in io::BufReader::new(fs::File::open(path)?).lines() {
+        categories.push(line?);
+    }
+    Ok(categories)
 }
