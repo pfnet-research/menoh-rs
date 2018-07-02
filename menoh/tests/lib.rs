@@ -4,13 +4,6 @@ const IN_NAME: &'static str = "139830916504208";
 const FC1_NAME: &'static str = "139830916504600";
 const FC2_NAME: &'static str = "139830916504880";
 
-fn assert_almost_eq(actual: &[f32], expected: &[f32]) {
-    assert_eq!(actual.len(), expected.len());
-    for i in 0..expected.len() {
-        assert!((actual[i] - expected[i]).abs() < 1e-6);
-    }
-}
-
 #[test]
 fn inference() {
     let mut model = (|| {
@@ -44,5 +37,12 @@ fn inference() {
         assert_almost_eq(fc2_buf,
                          &[0.5048409, 0.30410108, 0., 0.5193354, 1.2016813, 0.35719275,
                            0.13083139, 0., 0.31098637, 0.88258076]);
+    }
+}
+
+fn assert_almost_eq(actual: &[f32], expected: &[f32]) {
+    assert_eq!(actual.len(), expected.len());
+    for i in 0..expected.len() {
+        assert!((actual[i] - expected[i]).abs() < 1e-6);
     }
 }
