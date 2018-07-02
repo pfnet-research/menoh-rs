@@ -25,7 +25,7 @@ impl ModelBuilder {
 
     /// This method assumes
     /// - T is proper dtype
-    /// - buffer is long enough
+    /// - buffer is large enough
     /// - buffer lives long enough
     pub unsafe fn attach_external<T>(&mut self, name: &str, buffer: &mut [T]) -> Result<(), Error>
         where T: Dtype
