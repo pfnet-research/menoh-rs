@@ -77,10 +77,10 @@ fn main() -> Result<(), Box<dyn(error::Error)>> {
         .build("mkldnn", "")?;
 
     let img = image::open(args.flag_i)?;
-    model
-        .get_variable_mut(CONV1_1_IN_NAME)?
-        .1
-        .copy_from_slice(&reorder_to_chw(&crop_and_resize(img, INSIZE)));
+    {
+        let (_, conv1_1_buf) = model.get_variable_mut(CONV1_1_IN_NAME)?;
+        conv1_1_buf.copy_from_slice(&reorder_to_chw(&crop_and_resize(img, INSIZE)));
+    }
     model.run()?;
 
     let (_, fc6_buf) = model.get_variable::<f32>(FC6_OUT_NAME)?;
