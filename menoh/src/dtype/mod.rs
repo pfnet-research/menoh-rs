@@ -17,3 +17,6 @@ pub trait Dtype {
 impl Dtype for f32 {
     const ID: menoh_sys::menoh_dtype = menoh_sys::menoh_dtype_float as _;
 }
+
+#[cfg(test)]
+mod tests;
