@@ -70,18 +70,12 @@ fn main() -> Result<(), Box<dyn(error::Error)>> {
     const FC6_OUT_NAME: &'static str = "140326200777584";
     const SOFTMAX_OUT_NAME: &'static str = "140326200803680";
 
-    let mut vpt_builder = menoh::VariableProfileTableBuilder::new()?;
-    vpt_builder
-        .add_input::<f32>(CONV1_1_IN_NAME, &[1, 3, INSIZE, INSIZE])?;
-    vpt_builder.add_output::<f32>(FC6_OUT_NAME)?;
-    vpt_builder.add_output::<f32>(SOFTMAX_OUT_NAME)?;
+    let mut model = menoh::Builder::new(args.flag_m)?
+        .add_input::<f32>(CONV1_1_IN_NAME, &[1, 3, INSIZE, INSIZE])?
+        .add_output::<f32>(FC6_OUT_NAME)?
+        .add_output::<f32>(SOFTMAX_OUT_NAME)?
+        .build("mkldnn", "")?;
 
-    let mut model_data = menoh::ModelData::from_onnx(args.flag_m)?;
-    let vpt = vpt_builder.build(&model_data)?;
-    model_data.optimize(&vpt)?;
-
-    let model_builder = menoh::ModelBuilder::new(&vpt)?;
-    let mut model = model_builder.build(&model_data, "mkldnn", "")?;
     let img = image::open(args.flag_i)?;
     model
         .get_variable_mut(CONV1_1_IN_NAME)?

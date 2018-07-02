@@ -14,3 +14,6 @@ pub use model_builder::ModelBuilder;
 pub use model_data::ModelData;
 pub use variable_profile_table::VariableProfileTable;
 pub use variable_profile_table_builder::VariableProfileTableBuilder;
+
+mod builder;
+pub use builder::Builder;
