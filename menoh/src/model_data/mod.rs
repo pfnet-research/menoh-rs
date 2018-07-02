@@ -38,3 +38,6 @@ impl Drop for ModelData {
         unsafe { menoh_sys::menoh_delete_model_data(self.handle) }
     }
 }
+
+#[cfg(test)]
+mod tests;
