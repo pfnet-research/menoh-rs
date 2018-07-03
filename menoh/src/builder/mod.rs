@@ -13,7 +13,7 @@ pub struct Builder {
 }
 
 impl Builder {
-    pub fn new<P>(path: P) -> Result<Self, Error>
+    pub fn from_onnx<P>(path: P) -> Result<Self, Error>
         where P: AsRef<path::Path>
     {
         Ok(Self {

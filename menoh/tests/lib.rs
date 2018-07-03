@@ -7,7 +7,7 @@ const FC2_NAME: &'static str = "139830916504880";
 #[test]
 fn inference() {
     let mut model = (|| {
-                         menoh::Builder::new("test.onnx")?
+                         menoh::Builder::from_onnx("test.onnx")?
                              .add_input::<f32>(IN_NAME, &[2, 3])?
                              .add_output::<f32>(FC1_NAME)?
                              .add_output::<f32>(FC2_NAME)?
