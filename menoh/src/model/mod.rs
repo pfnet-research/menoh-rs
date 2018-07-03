@@ -13,16 +13,9 @@ pub struct Model {
 }
 
 impl Model {
-    pub fn get_variable_dims<T>(&self, name: &str) -> Result<Vec<usize>, Error>
-        where T: Dtype
-    {
+    pub fn get_variable_dims(&self, name: &str) -> Result<Vec<usize>, Error> {
         let name = ffi::CString::new(name)?;
         unsafe {
-            let mut dtype = mem::uninitialized();
-            check(menoh_sys::menoh_model_get_variable_dtype(self.handle,
-                                                            name.as_ptr(),
-                                                            &mut dtype))?;
-            T::check(dtype)?;
             let mut size = 0;
             check(menoh_sys::menoh_model_get_variable_dims_size(self.handle,
                                                                 name.as_ptr(),
@@ -40,10 +33,23 @@ impl Model {
         }
     }
 
+    fn get_variable_dtype(&self, name: &str) -> Result<menoh_sys::menoh_dtype, Error> {
+        let name = ffi::CString::new(name)?;
+        unsafe {
+            let mut dtype = mem::uninitialized();
+            check(menoh_sys::menoh_model_get_variable_dtype(self.handle,
+                                                            name.as_ptr(),
+                                                            &mut dtype))?;
+            Ok(dtype)
+        }
+    }
+
     pub fn get_variable<T>(&self, name: &str) -> Result<(Vec<usize>, &[T]), Error>
         where T: Dtype
     {
-        let dims = self.get_variable_dims::<T>(name)?;
+        T::check(self.get_variable_dtype(name)?)?;
+        let dims = self.get_variable_dims(name)?;
+
         let name = ffi::CString::new(name)?;
         let mut buffer = ptr::null_mut();
         unsafe {
@@ -58,7 +64,9 @@ impl Model {
     pub fn get_variable_mut<T>(&mut self, name: &str) -> Result<(Vec<usize>, &mut [T]), Error>
         where T: Dtype
     {
-        let dims = self.get_variable_dims::<T>(name)?;
+        T::check(self.get_variable_dtype(name)?)?;
+        let dims = self.get_variable_dims(name)?;
+
         let name = ffi::CString::new(name)?;
         let mut buffer = ptr::null_mut();
         unsafe {
