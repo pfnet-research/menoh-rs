@@ -48,8 +48,8 @@ fn main() -> Result<(), Box<dyn(error::Error)>> {
 
     let img = image::open(args.flag_i)?;
     {
-        let (_, conv1_1_buf) = model.get_variable_mut(CONV1_1_IN_NAME)?;
-        conv1_1_buf.copy_from_slice(&reorder_to_chw(&crop_and_resize(img, INSIZE)));
+        let (_, conv1_1_buf) = model.get_variable_mut::<f32>(CONV1_1_IN_NAME)?;
+        set_image(conv1_1_buf, &crop_and_resize(img, INSIZE));
     }
     model.run()?;
 
@@ -78,17 +78,20 @@ fn crop_and_resize(mut img: image::DynamicImage, size: usize) -> image::DynamicI
         .resize_exact(size as _, size as _, image::FilterType::Nearest)
 }
 
-fn reorder_to_chw(img: &image::DynamicImage) -> Vec<f32> {
-    let mut data = Vec::new();
+fn set_image<T>(buf: &mut [T], img: &image::DynamicImage)
+    where T: From<u8>
+{
+    let (h, w) = (img.height() as usize, img.width() as usize);
+    assert_eq!(buf.len(), 3 * h * w);
+
     // rev: RGB -> BGR
     for c in (0..3).rev() {
-        for y in 0..img.height() {
-            for x in 0..img.width() {
-                data.push(img.get_pixel(x, y).data[c] as f32);
+        for y in 0..h {
+            for x in 0..w {
+                buf[(c * h + y) * w + x] = img.get_pixel(x as _, y as _).data[c].into();
             }
         }
     }
-    data
 }
 
 fn load_category_list<P>(path: P) -> io::Result<Vec<String>>
