@@ -40,7 +40,7 @@ fn main() -> Result<(), Box<dyn(error::Error)>> {
     const FC6_OUT_NAME: &'static str = "140326200777584";
     const SOFTMAX_OUT_NAME: &'static str = "140326200803680";
 
-    let mut model = menoh::Builder::new(args.flag_m)?
+    let mut model = menoh::Builder::from_onnx(args.flag_m)?
         .add_input::<f32>(CONV1_1_IN_NAME, &[1, 3, INSIZE, INSIZE])?
         .add_output::<f32>(FC6_OUT_NAME)?
         .add_output::<f32>(SOFTMAX_OUT_NAME)?
