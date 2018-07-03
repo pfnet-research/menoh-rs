@@ -84,11 +84,11 @@ fn set_image<T>(buf: &mut [T], img: &image::DynamicImage)
     let (h, w) = (img.height() as usize, img.width() as usize);
     assert_eq!(buf.len(), 3 * h * w);
 
-    // rev: RGB -> BGR
-    for c in (0..3).rev() {
+    for c in 0..3 {
         for y in 0..h {
             for x in 0..w {
-                buf[(c * h + y) * w + x] = img.get_pixel(x as _, y as _).data[c].into();
+                // 3 - (c + 1): RGB -> BGR
+                buf[(c * h + y) * w + x] = img.get_pixel(x as _, y as _).data[3 - (c + 1)].into();
             }
         }
     }
