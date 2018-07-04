@@ -15,7 +15,7 @@ fn main() {
                         .include_paths
                         .iter()
                         .map(|p| "-I".to_owned() + p.to_str().unwrap()))
-        .header("wrapper.h")
+        .header_contents("wrapper.h", "#include <menoh/menoh.h>")
         .whitelist_type("menoh_.*")
         .whitelist_function("menoh_.*")
         .prepend_enum_name(false)
