@@ -2,7 +2,6 @@ use menoh_sys;
 use std::ffi;
 use std::ptr;
 
-use dtype::Dtype;
 use Error;
 use error::check;
 use Model;
@@ -23,8 +22,8 @@ impl ModelBuilder {
         Ok(Self { handle })
     }
 
-    pub fn build(&self,
-                 model_data: &ModelData,
+    pub fn build(self,
+                 model_data: ModelData,
                  backend_name: &str,
                  backend_config: &str)
                  -> Result<Model, Error> {

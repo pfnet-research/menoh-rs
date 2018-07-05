@@ -41,6 +41,6 @@ impl Builder {
         self.model_data.optimize(&vpt)?;
         let model_builder = ModelBuilder::new(&vpt)?;
         Ok(model_builder
-               .build(&self.model_data, backend, backend_config)?)
+               .build(self.model_data, backend, backend_config)?)
     }
 }

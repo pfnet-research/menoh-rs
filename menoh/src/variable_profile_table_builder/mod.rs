@@ -48,7 +48,7 @@ impl VariableProfileTableBuilder {
         }
     }
 
-    pub fn build(&self, model_data: &ModelData) -> Result<VariableProfileTable, Error> {
+    pub fn build(self, model_data: &ModelData) -> Result<VariableProfileTable, Error> {
         let mut handle = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_build_variable_profile_table(self.handle,
