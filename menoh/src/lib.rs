@@ -1,6 +1,8 @@
 extern crate menoh_sys;
 
 mod dtype;
+mod handler;
+
 mod error;
 mod model;
 mod model_builder;

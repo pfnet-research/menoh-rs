@@ -5,6 +5,7 @@ use std::ptr;
 use dtype::Dtype;
 use Error;
 use error::check;
+use handler::Handler;
 use ModelData;
 use VariableProfileTable;
 

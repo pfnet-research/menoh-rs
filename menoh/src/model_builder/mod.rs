@@ -4,6 +4,7 @@ use std::ptr;
 
 use Error;
 use error::check;
+use handler::Handler;
 use Model;
 use ModelData;
 use VariableProfileTable;

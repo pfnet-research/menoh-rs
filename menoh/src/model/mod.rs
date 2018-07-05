@@ -5,6 +5,7 @@ use std::ptr;
 use std::slice;
 
 use dtype::Dtype;
+use handler::Handler;
 use Error;
 use error::check;
 
@@ -81,9 +82,15 @@ impl Model {
     pub fn run(&mut self) -> Result<(), Error> {
         unsafe { check(menoh_sys::menoh_model_run(self.handle)) }
     }
+}
 
-    pub unsafe fn from_handle(handle: menoh_sys::menoh_model_handle) -> Self {
+impl Handler for Model {
+    type Handle = menoh_sys::menoh_model_handle;
+    unsafe fn from_handle(handle: Self::Handle) -> Self {
         Self { handle }
+    }
+    unsafe fn handle(&self) -> Self::Handle {
+        self.handle
     }
 }
 

@@ -5,6 +5,7 @@ use std::mem;
 use dtype::Dtype;
 use Error;
 use error::check;
+use handler::Handler;
 
 pub struct VariableProfileTable {
     handle: menoh_sys::menoh_variable_profile_table_handle,
@@ -37,12 +38,14 @@ impl VariableProfileTable {
             Ok(dims)
         }
     }
+}
 
-    pub unsafe fn from_handle(handle: menoh_sys::menoh_variable_profile_table_handle) -> Self {
+impl Handler for VariableProfileTable {
+    type Handle = menoh_sys::menoh_variable_profile_table_handle;
+    unsafe fn from_handle(handle: Self::Handle) -> Self {
         Self { handle }
     }
-
-    pub unsafe fn handle(&self) -> menoh_sys::menoh_variable_profile_table_handle {
+    unsafe fn handle(&self) -> Self::Handle {
         self.handle
     }
 }

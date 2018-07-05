@@ -4,6 +4,7 @@ use std::path;
 use std::ptr;
 
 use Error;
+use handler::Handler;
 use error::check;
 use VariableProfileTable;
 
@@ -29,6 +30,16 @@ impl ModelData {
     }
 
     pub unsafe fn handle(&self) -> menoh_sys::menoh_model_data_handle {
+        self.handle
+    }
+}
+
+impl Handler for ModelData {
+    type Handle = menoh_sys::menoh_model_data_handle;
+    unsafe fn from_handle(handle: Self::Handle) -> Self {
+        Self { handle }
+    }
+    unsafe fn handle(&self) -> Self::Handle {
         self.handle
     }
 }
