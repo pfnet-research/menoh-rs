@@ -23,19 +23,6 @@ impl ModelBuilder {
         Ok(Self { handle })
     }
 
-    /// This method assumes
-    /// - T is proper dtype
-    /// - buffer is large enough
-    /// - buffer lives long enough
-    pub unsafe fn attach_external<T>(&mut self, name: &str, buffer: &mut [T]) -> Result<(), Error>
-        where T: Dtype
-    {
-        let name = ffi::CString::new(name)?;
-        check(menoh_sys::menoh_model_builder_attach_external_buffer(self.handle,
-                                                                    name.as_ptr(),
-                                                                    buffer.as_mut_ptr() as _))
-    }
-
     pub fn build(&self,
                  model_data: &ModelData,
                  backend_name: &str,
