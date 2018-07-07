@@ -28,10 +28,6 @@ impl ModelData {
                                                        variable_profile_table.handle()))
         }
     }
-
-    pub unsafe fn handle(&self) -> menoh_sys::menoh_model_data_handle {
-        self.handle
-    }
 }
 
 impl Handler for ModelData {
