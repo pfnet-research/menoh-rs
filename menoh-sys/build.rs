@@ -14,7 +14,7 @@ fn main() {
         .clang_args(library
                         .include_paths
                         .iter()
-                        .map(|p| "-I".to_owned() + p.to_str().unwrap()))
+                        .map(|p| format!("-I{}", p.to_str().unwrap())))
         .header_contents("wrapper.h", "#include <menoh/menoh.h>")
         .whitelist_type("menoh_.*")
         .whitelist_function("menoh_.*")
