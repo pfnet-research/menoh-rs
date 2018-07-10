@@ -1,5 +1,4 @@
 language: rust
-python: 3.6
 env:
   global:
     - MKL_DNN_VERSION=0.14
@@ -10,10 +9,11 @@ addons:
       - ubuntu-toolchain-r-test
       - sourceline: 'ppa:maarten-fonville/protobuf'
     packages:
-      - gcc-7
       - g++-7
+      - gcc-7
       - libprotobuf-dev
       - protobuf-compiler
+      - python3-pip
 cache:
   cargo: true
   directories:
