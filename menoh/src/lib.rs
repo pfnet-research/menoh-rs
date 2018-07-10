@@ -14,7 +14,7 @@
 //! {
 //!     let (in_dims, in_buf) = model.get_variable_mut::<f32>(in_name)?;
 //!     in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
-//!     println!("in");
+//!     println!("in:");
 //!     # assert_eq!(in_dims, &[2, 3]);
 //!     println!("    dims: {:?}", in_dims);
 //!     println!("    buf: {:?}", in_buf);
@@ -23,7 +23,7 @@
 //! model.run()?;
 //!
 //! let (out_dims, out_buf) = model.get_variable::<f32>(out_name)?;
-//! println!("out");
+//! println!("out:");
 //! # assert_eq!(out_dims, &[2, 5]);
 //! println!("    dims: {:?}", out_dims);
 //! println!("    buf: {:?}", out_buf);
