@@ -13,24 +13,23 @@ addons:
       - gcc-7
       - libprotobuf-dev
       - protobuf-compiler
-      - python3-numpy
       - python3-pip
 cache:
   cargo: true
   directories:
-    - $HOME/local
+    - $HOME/.local
 install:
   # mkl-dnn
   - |
     cd
-    if [[ ! -f $HOME/local/lib/libmkldnn.so ]]; then
+    if [[ ! -f $HOME/.local/lib/libmkldnn.so ]]; then
         git clone https://github.com/intel/mkl-dnn.git --branch v$MKL_DNN_VERSION --depth=1
         cd mkl-dnn
         cd scripts && ./prepare_mkl.sh && cd ..
         mkdir -p build
         cd build
         cmake .. \
-              -DCMAKE_INSTALL_PREFIX=$HOME/local \
+              -DCMAKE_INSTALL_PREFIX=$HOME/.local \
               -DWITH_EXAMPLE=OFF \
               -DWITH_TEST=OFF
         make && make install
@@ -38,13 +37,13 @@ install:
   # menoh
   - |
     cd
-    if [[ ! -f $HOME/local/lib/libmenoh.so ]]; then
+    if [[ ! -f $HOME/.local/lib/libmenoh.so ]]; then
         git clone https://github.com/pfnet-research/menoh.git --branch v$MENOH_VERSION --depth=1
         cd menoh
         mkdir -p build
         cd build
         CC=gcc-7 CXX=g++-7 cmake .. \
-              -DCMAKE_INSTALL_PREFIX=$HOME/local \
+              -DCMAKE_INSTALL_PREFIX=$HOME/.local \
               -DENABLE_TEST=OFF \
               -DENABLE_BENCHMARK=OFF \
               -DENABLE_EXAMPLE=OFF \
@@ -56,7 +55,7 @@ install:
 before_script:
   - |
     cd $TRAVIS_BUILD_DIR
-    export LD_LIBRARY_PATH=$HOME/local/lib
-    export PKG_CONFIG_PATH=$HOME/local/share/pkgconfig
+    export LD_LIBRARY_PATH=$HOME/.local/lib
+    export PKG_CONFIG_PATH=$HOME/.local/share/pkgconfig
 
     python3 make_onnx.py menoh/MLP.onnx
