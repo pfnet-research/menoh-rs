@@ -34,7 +34,7 @@ impl VariableProfileTableBuilder {
     /// ```
     /// # fn main() -> Result<(), menoh::Error> {
     /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
-    /// vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// vpt_builder.add_input::<f32>("input", &[2, 3])?;
     /// # Ok(())
     /// # }
     /// ```
@@ -67,8 +67,8 @@ impl VariableProfileTableBuilder {
     /// ```
     /// # fn main() -> Result<(), menoh::Error> {
     /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
-    /// # vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
-    /// vpt_builder.add_output::<f32>("139830916504880")?;
+    /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
+    /// vpt_builder.add_output::<f32>("fc2")?;
     /// # Ok(())
     /// # }
     /// ```
@@ -86,10 +86,10 @@ impl VariableProfileTableBuilder {
     ///
     /// ```
     /// # fn main() -> Result<(), menoh::Error> {
-    /// # let mut model_data = menoh::ModelData::from_onnx("test.onnx")?;
+    /// # let mut model_data = menoh::ModelData::from_onnx("MLP.onnx")?;
     /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
-    /// # vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
-    /// # vpt_builder.add_output::<f32>("139830916504880")?;
+    /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
+    /// # vpt_builder.add_output::<f32>("fc2")?;
     /// let vpt = vpt_builder.build(&model_data)?;
     /// # Ok(())
     /// # }

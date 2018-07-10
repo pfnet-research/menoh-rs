@@ -19,11 +19,11 @@ impl Model {
     ///
     /// ```
     /// # fn main() -> Result<(), menoh::Error> {
-    /// # let model = menoh::Builder::from_onnx("test.onnx")?
-    /// #                     .add_input::<f32>("139830916504208", &[2, 3])?
-    /// #                     .add_output::<f32>("139830916504880")?
+    /// # let model = menoh::Builder::from_onnx("MLP.onnx")?
+    /// #                     .add_input::<f32>("input", &[2, 3])?
+    /// #                     .add_output::<f32>("fc2")?
     /// #                     .build("mkldnn", "")?;
-    /// let dims = model.get_variable_dims("139830916504880")?;
+    /// let dims = model.get_variable_dims("fc2")?;
     /// # assert_eq!(dims, &[2, 5]);
     /// # Ok(())
     /// # }
@@ -63,11 +63,11 @@ impl Model {
     ///
     /// ```
     /// # fn main() -> Result<(), menoh::Error> {
-    /// # let model = menoh::Builder::from_onnx("test.onnx")?
-    /// #                     .add_input::<f32>("139830916504208", &[2, 3])?
-    /// #                     .add_output::<f32>("139830916504880")?
+    /// # let model = menoh::Builder::from_onnx("MLP.onnx")?
+    /// #                     .add_input::<f32>("input", &[2, 3])?
+    /// #                     .add_output::<f32>("fc2")?
     /// #                     .build("mkldnn", "")?;
-    /// let (dims, buf) = model.get_variable::<f32>("139830916504880")?;
+    /// let (dims, buf) = model.get_variable::<f32>("fc2")?;
     /// # assert_eq!(dims, &[2, 5]);
     /// # Ok(())
     /// # }
@@ -93,11 +93,11 @@ impl Model {
     ///
     /// ```
     /// # fn main() -> Result<(), menoh::Error> {
-    /// # let mut model = menoh::Builder::from_onnx("test.onnx")?
-    /// #                     .add_input::<f32>("139830916504208", &[2, 3])?
-    /// #                     .add_output::<f32>("139830916504880")?
+    /// # let mut model = menoh::Builder::from_onnx("MLP.onnx")?
+    /// #                     .add_input::<f32>("input", &[2, 3])?
+    /// #                     .add_output::<f32>("fc2")?
     /// #                     .build("mkldnn", "")?;
-    /// let (dims, buf) = model.get_variable_mut::<f32>("139830916504880")?;
+    /// let (dims, buf) = model.get_variable_mut::<f32>("fc2")?;
     /// # assert_eq!(dims, &[2, 5]);
     /// # Ok(())
     /// # }

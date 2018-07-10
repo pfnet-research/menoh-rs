@@ -19,7 +19,7 @@ impl Builder {
     /// ```
     /// # use menoh::Builder;
     /// # fn main() -> Result<(), menoh::Error> {
-    /// let builder = Builder::from_onnx("test.onnx")?;
+    /// let builder = Builder::from_onnx("MLP.onnx")?;
     /// # Ok(())
     /// # }
     /// ```
@@ -37,8 +37,8 @@ impl Builder {
     /// ```
     /// # use menoh::Builder;
     /// # fn main() -> Result<(), menoh::Error> {
-    /// # let builder = Builder::from_onnx("test.onnx")?;
-    /// let builder = builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// # let builder = Builder::from_onnx("MLP.onnx")?;
+    /// let builder = builder.add_input::<f32>("input", &[2, 3])?;
     /// # Ok(())
     /// # }
     /// ```
@@ -54,8 +54,8 @@ impl Builder {
     /// ```
     /// # use menoh::Builder;
     /// # fn main() -> Result<(), menoh::Error> {
-    /// # let builder = Builder::from_onnx("test.onnx")?;
-    /// let builder = builder.add_output::<f32>("139830916504880")?;
+    /// # let builder = Builder::from_onnx("MLP.onnx")?;
+    /// let builder = builder.add_output::<f32>("fc2")?;
     /// # Ok(())
     /// # }
     /// ```
@@ -71,9 +71,9 @@ impl Builder {
     /// ```
     /// # use menoh::Builder;
     /// # fn main() -> Result<(), menoh::Error> {
-    /// # let builder = Builder::from_onnx("test.onnx")?
-    /// #                   .add_input::<f32>("139830916504208", &[2, 3])?
-    /// #                   .add_output::<f32>("139830916504880")?;
+    /// # let builder = Builder::from_onnx("MLP.onnx")?
+    /// #                   .add_input::<f32>("input", &[2, 3])?
+    /// #                   .add_output::<f32>("fc2")?;
     /// let model = builder.build("mkldnn", "")?;
     /// # Ok(())
     /// # }
