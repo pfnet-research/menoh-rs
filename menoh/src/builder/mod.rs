@@ -32,7 +32,7 @@ impl Builder {
            })
     }
 
-    /// Register an input variable.
+    /// Register a variable as input.
     ///
     /// ```
     /// # use menoh::Builder;
@@ -49,7 +49,7 @@ impl Builder {
         Ok(self)
     }
 
-    /// Register an output variable.
+    /// Register a variable as output.
     ///
     /// ```
     /// # use menoh::Builder;
