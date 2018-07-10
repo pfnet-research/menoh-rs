@@ -24,9 +24,9 @@ pub enum Error {
     SameNamedVariableAlreadyExist(String),
 
     InvalidDimsSize {
-        /// Name of variable.
+        /// Name of the variable.
         name: String,
-        /// Size of specified dims.
+        /// Size of the specified dims.
         size: usize,
     },
     DtypeMismatch {
