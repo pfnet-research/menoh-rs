@@ -81,8 +81,8 @@ impl Builder {
     /// ```
     /// # fn main() -> Result<(), menoh::Error> {
     /// # let builder = menoh::Builder::from_onnx("test.onnx")?
-    ///                     .add_input::<f32>("139830916504208", &[2, 3])?
-    ///                     .add_output::<f32>("139830916504880")?;
+    /// #                   .add_input::<f32>("139830916504208", &[2, 3])?
+    /// #                   .add_output::<f32>("139830916504880")?;
     /// let model = builder.build("mkldnn", "")?;
     /// # Ok(())
     /// # }
