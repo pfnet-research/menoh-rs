@@ -58,4 +58,4 @@ before_script:
     export LD_LIBRARY_PATH=$HOME/.local/lib
     export PKG_CONFIG_PATH=$HOME/.local/share/pkgconfig
 
-    python3 make_onnx.py menoh/MLP.onnx
+    python3 menoh/make_onnx.py menoh/MLP.onnx
