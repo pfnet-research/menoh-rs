@@ -7,9 +7,9 @@ A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 
 ## Requirements
 - Rust 1.27+
+- [Menoh](https://github.com/pfnet-research/menoh) 1.0+
 - pkg-config (for [pkg-config](https://crates.io/crates/pkg-config))
 - libclang (for [bindgen](https://crates.io/crates/bindgen))
-- [Menoh](https://github.com/pfnet-research/menoh) 1.0+
 
 ## Demo
 
