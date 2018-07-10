@@ -45,7 +45,11 @@ install:
         cd menoh
         mkdir -p build
         cd build
-        CC=gcc-7 CXX=g++-7 cmake .. \
+        if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
+            export CC=gcc-7
+            export CXX=g++-7
+        fi
+        cmake .. \
               -DCMAKE_INSTALL_PREFIX=$HOME/.local \
               -DENABLE_TEST=OFF \
               -DENABLE_BENCHMARK=OFF \
