@@ -64,10 +64,10 @@ impl fmt::Display for Error {
                        name,
                        size)
             }
-            Error::DtypeMismatch { actural, expected } => {
+            Error::DtypeMismatch { actual, expected } => {
                 write!(f,
                        "menoh dtype mismatch error: actural {}, expected {}",
-                       actural,
+                       actual,
                        expected)
             }
             Error::NulError(err) => err.fmt(f),
