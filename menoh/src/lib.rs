@@ -1,5 +1,7 @@
 //! A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 //!
+//! ## Example
+//!
 //! ```
 //! # fn main() -> Result<(), menoh::Error> {
 //! let mut model = menoh::Builder::from_onnx("MLP.onnx")?
@@ -24,7 +26,7 @@
 //! # assert_eq!(out_dims, &[2, 5]);
 //! println!("    dims: {:?}", out_dims);
 //! println!("    buf: {:?}", out_buf);
-//! let expected = &[0., 0., 15., 96., 177., 0., 0., 51., 312., 573.];
+//! # let expected = &[0., 0., 15., 96., 177., 0., 0., 51., 312., 573.];
 //! # for i in 0..10 {
 //! #     assert!((out_buf[i] - expected[i]).abs() < 1e-6);
 //! # }
