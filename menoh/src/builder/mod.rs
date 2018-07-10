@@ -7,12 +7,34 @@ use ModelBuilder;
 use ModelData;
 use VariableProfileTableBuilder;
 
+/// Helper to build a model.
+///
+/// ```
+/// # fn main() -> Result<(), menoh::Error> {
+/// let in_name = "139830916504208";
+/// let out_name = "139830916504880";
+///
+/// let model = menoh::Builder::from_onnx("test.onnx")?
+///                 .add_input::<f32>(in_name, &[2, 3])?
+///                 .add_output::<f32>(out_name)?
+///                 .build("mkldnn", "")?;
+/// # Ok(())
+/// # }
+/// ```
 pub struct Builder {
     model_data: ModelData,
     vpt_builder: VariableProfileTableBuilder,
 }
 
 impl Builder {
+    /// Create a builder from a ONNX file.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// let builder = menoh::Builder::from_onnx("test.onnx")?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn from_onnx<P>(path: P) -> Result<Self, Error>
         where P: AsRef<path::Path>
     {
@@ -22,6 +44,15 @@ impl Builder {
            })
     }
 
+    /// Register an input variable.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let builder = menoh::Builder::from_onnx("test.onnx")?;
+    /// let builder = builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn add_input<T>(mut self, name: &str, dims: &[usize]) -> Result<Self, Error>
         where T: Dtype
     {
@@ -29,6 +60,15 @@ impl Builder {
         Ok(self)
     }
 
+    /// Register an output variable.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let builder = menoh::Builder::from_onnx("test.onnx")?;
+    /// let builder = builder.add_output::<f32>("139830916504880")?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn add_output<T>(mut self, name: &str) -> Result<Self, Error>
         where T: Dtype
     {
@@ -36,6 +76,17 @@ impl Builder {
         Ok(self)
     }
 
+    /// Build a model.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let builder = menoh::Builder::from_onnx("test.onnx")?
+    ///                     .add_input::<f32>("139830916504208", &[2, 3])?
+    ///                     .add_output::<f32>("139830916504880")?;
+    /// let model = builder.build("mkldnn", "")?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn build(mut self, backend: &str, backend_config: &str) -> Result<Model, Error> {
         let vpt = self.vpt_builder.build(&self.model_data)?;
         self.model_data.optimize(&vpt)?;
