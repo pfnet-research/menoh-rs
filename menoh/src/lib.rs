@@ -1,5 +1,7 @@
 //! A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 //!
+//! ## Example
+//!
 //! ```
 //! # fn main() -> Result<(), menoh::Error> {
 //! let mut model = menoh::Builder::from_onnx("MLP.onnx")?
