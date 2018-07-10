@@ -33,7 +33,7 @@
 //!
 //! ## Usage
 //!
-//! ### 1. Build a `menoh::Model`.
+//! ### 1. Build a `Model`.
 //!
 //! ```
 //! # fn main() -> Result<(), menoh::Error> {
@@ -49,7 +49,7 @@
 //! # Ok(())
 //! # }
 //! ```
-//! Instead of `menoh::Builder`, we can use a combination of some low-level APIs.
+//! Instead of `Builder`, we can use a combination of some low-level APIs.
 //! ```
 //! # fn main() -> Result<(), menoh::Error> {
 //! let mut model_data = menoh::ModelData::from_onnx("test.onnx")?;
@@ -80,7 +80,7 @@
 //! # Ok(())
 //! # }
 //! ```
-//! Note: The lifetime of views has to end before executing `menoh::Model::run`.
+//! Note: The lifetime of views has to end before executing `Model::run`.
 //! Blocks will be required to limit the lifetime.
 //! ```compile_fail
 //! // NG: `in_buf` lives after `model.run()`.
@@ -139,9 +139,6 @@
 //! # Ok(())
 //! # }
 //! ```
-
-
-
 
 extern crate menoh_sys;
 
