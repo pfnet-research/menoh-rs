@@ -15,12 +15,29 @@ pub struct VariableProfileTableBuilder {
 }
 
 impl VariableProfileTableBuilder {
+    /// Create a builder.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// let vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn new() -> Result<Self, Error> {
         let mut handle = ptr::null_mut();
         unsafe { check(menoh_sys::menoh_make_variable_profile_table_builder(&mut handle))? };
         Ok(Self { handle })
     }
 
+    /// Register a variable as input.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn add_input<T>(&mut self, name: &str, dims: &[usize]) -> Result<(), Error>
         where T: Dtype
     {
@@ -45,6 +62,16 @@ impl VariableProfileTableBuilder {
         }
     }
 
+    /// Register a variable as output.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// # vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// vpt_builder.add_output::<f32>("139830916504880")?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn add_output<T>(&mut self, name: &str) -> Result<(), Error>
         where T: Dtype
     {
@@ -55,6 +82,18 @@ impl VariableProfileTableBuilder {
         }
     }
 
+    /// Build a `VariableProfileTable` using a `ModelData`.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let mut model_data = menoh::ModelData::from_onnx("test.onnx")?;
+    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// # vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// # vpt_builder.add_output::<f32>("139830916504880")?;
+    /// let vpt = vpt_builder.build(&model_data)?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn build(self, model_data: &ModelData) -> Result<VariableProfileTable, Error> {
         let mut handle = ptr::null_mut();
         unsafe {

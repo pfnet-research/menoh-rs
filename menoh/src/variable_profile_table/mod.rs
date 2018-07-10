@@ -1,28 +1,33 @@
 use menoh_sys;
 use std::ffi;
-use std::mem;
 
-use Dtype;
 use Error;
 use error::check;
 use handler::Handler;
 
-/// Container of variable profiles (type, shape and mark of input/output).
+/// Container of variable profiles (type, shape and flag of input/output).
 pub struct VariableProfileTable {
     handle: menoh_sys::menoh_variable_profile_table_handle,
 }
 
 impl VariableProfileTable {
-    pub fn get_variable_dims<T>(&self, name: &str) -> Result<Vec<usize>, Error>
-        where T: Dtype
-    {
+    /// Fetch the shape of variable.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let mut model_data = menoh::ModelData::from_onnx("test.onnx")?;
+    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// # vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// # vpt_builder.add_output::<f32>("139830916504880")?;
+    /// # let vpt = vpt_builder.build(&model_data)?;
+    /// let dims = vpt.get_variable_dims("139830916504880")?;
+    /// # assert_eq!(dims, &[2, 5]);
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn get_variable_dims(&self, name: &str) -> Result<Vec<usize>, Error> {
         let name = ffi::CString::new(name)?;
         unsafe {
-            let mut dtype = mem::uninitialized();
-            check(menoh_sys::menoh_variable_profile_table_get_dtype(self.handle,
-                                                                    name.as_ptr(),
-                                                                    &mut dtype))?;
-            T::check(dtype)?;
             let mut size = 0;
             check(menoh_sys::menoh_variable_profile_table_get_dims_size(self.handle,
                                                                         name.as_ptr(),

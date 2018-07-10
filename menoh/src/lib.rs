@@ -38,10 +38,10 @@
 //! ```
 //! # fn main() -> Result<(), menoh::Error> {
 //! let mut model = menoh::Builder::from_onnx("test.onnx")?
-//! // mark `"139830916504208"` as input
+//! // register `"139830916504208"` as input
 //! // and specify its type (`f32`) and shape (`&[2, 3]`).
 //!                     .add_input::<f32>("139830916504208", &[2, 3])?
-//! // mark `"139830916504880"` as output
+//! // register `"139830916504880"` as output
 //! // and specify its type (`f32`).
 //!                     .add_output::<f32>("139830916504880")?
 //! // specify backend (`"mkldnn"`) and its configuration (`""`).
@@ -65,6 +65,7 @@
 //! # Ok(())
 //! # }
 //! ```
+//!
 //! ### 2. Set data to input variable(s).
 //!
 //! ```
@@ -73,7 +74,7 @@
 //! #                     .add_input::<f32>("139830916504208", &[2, 3])?
 //! #                     .add_output::<f32>("139830916504880")?
 //! #                     .build("mkldnn", "")?;
-//! // retrive a read/write view of a variable.
+//! // fetch a read/write view of a variable.
 //! let (in_dims, in_buf) = model.get_variable_mut::<f32>("139830916504208")?;
 //! // set data to the variable.
 //! in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
@@ -124,7 +125,7 @@
 //! # }
 //! ```
 //!
-//! ### 4. Retrive the result(s).
+//! ### 4. Fetch the result(s).
 //!
 //! ```
 //! # fn main() -> Result<(), menoh::Error> {
@@ -132,7 +133,7 @@
 //! #                     .add_input::<f32>("139830916504208", &[2, 3])?
 //! #                     .add_output::<f32>("139830916504880")?
 //! #                     .build("mkldnn", "")?;
-//! // retrive a read only view of a variable.
+//! // fetch a read-only view of a variable.
 //! let (out_dims, out_buf) = model.get_variable::<f32>("139830916504880")?;
 //! // use the data (e.g. print them).
 //! println!("{:?}", out_buf);

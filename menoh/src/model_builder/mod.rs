@@ -15,6 +15,19 @@ pub struct ModelBuilder {
 }
 
 impl ModelBuilder {
+    /// Create a builder using a `VariableProfileTable`.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let mut model_data = menoh::ModelData::from_onnx("test.onnx")?;
+    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// # vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// # vpt_builder.add_output::<f32>("139830916504880")?;
+    /// # let vpt = vpt_builder.build(&model_data)?;
+    /// let model_builder = menoh::ModelBuilder::new(&vpt)?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn new(variable_profile_table: &VariableProfileTable) -> Result<Self, Error> {
         let mut handle = ptr::null_mut();
         unsafe {
@@ -24,6 +37,21 @@ impl ModelBuilder {
         Ok(Self { handle })
     }
 
+    /// Build a `Model` from a `ModelData`.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let mut model_data = menoh::ModelData::from_onnx("test.onnx")?;
+    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// # vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// # vpt_builder.add_output::<f32>("139830916504880")?;
+    /// # let vpt = vpt_builder.build(&model_data)?;
+    /// # model_data.optimize(&vpt)?;
+    /// # let model_builder = menoh::ModelBuilder::new(&vpt)?;
+    /// let model = model_builder.build(model_data, "mkldnn", "")?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn build(self,
                  model_data: ModelData,
                  backend_name: &str,

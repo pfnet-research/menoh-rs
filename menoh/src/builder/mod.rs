@@ -66,7 +66,7 @@ impl Builder {
         Ok(self)
     }
 
-    /// Build a model.
+    /// Build a `Model`.
     ///
     /// ```
     /// # use menoh::Builder;

@@ -14,6 +14,15 @@ pub struct ModelData {
 }
 
 impl ModelData {
+    /// Load data from a ONNX file.
+    ///
+    /// ```
+    /// # use menoh::ModelData;
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// let model_data = ModelData::from_onnx("test.onnx")?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn from_onnx<P>(path: P) -> Result<Self, Error>
         where P: AsRef<path::Path>
     {
@@ -23,6 +32,19 @@ impl ModelData {
         Ok(Self { handle })
     }
 
+    /// Remove unused data using a `VariableProfileTable`.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let mut model_data = menoh::ModelData::from_onnx("test.onnx")?;
+    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// # vpt_builder.add_input::<f32>("139830916504208", &[2, 3])?;
+    /// # vpt_builder.add_output::<f32>("139830916504880")?;
+    /// # let vpt = vpt_builder.build(&model_data)?;
+    /// model_data.optimize(&vpt)?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn optimize(&mut self, variable_profile_table: &VariableProfileTable) -> Result<(), Error> {
         unsafe {
             check(menoh_sys::menoh_model_data_optimize(self.handle,

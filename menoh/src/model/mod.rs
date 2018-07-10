@@ -15,6 +15,19 @@ pub struct Model {
 }
 
 impl Model {
+    /// Fetch the shape of a variable.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let model = menoh::Builder::from_onnx("test.onnx")?
+    /// #                     .add_input::<f32>("139830916504208", &[2, 3])?
+    /// #                     .add_output::<f32>("139830916504880")?
+    /// #                     .build("mkldnn", "")?;
+    /// let dims = model.get_variable_dims("139830916504880")?;
+    /// # assert_eq!(dims, &[2, 5]);
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn get_variable_dims(&self, name: &str) -> Result<Vec<usize>, Error> {
         let name = ffi::CString::new(name)?;
         unsafe {
@@ -46,6 +59,19 @@ impl Model {
         }
     }
 
+    /// Fetch the shape and read-only view of a variable.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let model = menoh::Builder::from_onnx("test.onnx")?
+    /// #                     .add_input::<f32>("139830916504208", &[2, 3])?
+    /// #                     .add_output::<f32>("139830916504880")?
+    /// #                     .build("mkldnn", "")?;
+    /// let (dims, buf) = model.get_variable::<f32>("139830916504880")?;
+    /// # assert_eq!(dims, &[2, 5]);
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn get_variable<T>(&self, name: &str) -> Result<(Vec<usize>, &[T]), Error>
         where T: Dtype
     {
@@ -63,6 +89,19 @@ impl Model {
         }
     }
 
+    /// Fetch the shape and read/write view of a variable.
+    ///
+    /// ```
+    /// # fn main() -> Result<(), menoh::Error> {
+    /// # let mut model = menoh::Builder::from_onnx("test.onnx")?
+    /// #                     .add_input::<f32>("139830916504208", &[2, 3])?
+    /// #                     .add_output::<f32>("139830916504880")?
+    /// #                     .build("mkldnn", "")?;
+    /// let (dims, buf) = model.get_variable_mut::<f32>("139830916504880")?;
+    /// # assert_eq!(dims, &[2, 5]);
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn get_variable_mut<T>(&mut self, name: &str) -> Result<(Vec<usize>, &mut [T]), Error>
         where T: Dtype
     {
