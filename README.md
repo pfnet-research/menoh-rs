@@ -1,13 +1,12 @@
 # menoh-rs
 
-[![Build Status](https://travis-ci.org/Hakuyume/menoh-rs.svg?branch=master)](https://travis-ci.org/Hakuyume/menoh-rs)  
+Linux/macOS [![Build Status](https://travis-ci.org/Hakuyume/menoh-rs.svg?branch=master)](https://travis-ci.org/Hakuyume/menoh-rs)  
 [Documentation](https://hakuyume.github.io/menoh-rs/menoh/)
 
 A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 
 ## Requirements
-- Rust 1.27
-- Cargo
+- Rust 1.27+
 - pkg-config (for [pkg-config](https://crates.io/crates/pkg-config))
 - libclang (for [bindgen](https://crates.io/crates/bindgen))
 - [Menoh](https://github.com/pfnet-research/menoh) 1.0+
