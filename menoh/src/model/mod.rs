@@ -4,7 +4,7 @@ use std::mem;
 use std::ptr;
 use std::slice;
 
-use dtype::Dtype;
+use Dtype;
 use handler::Handler;
 use Error;
 use error::check;

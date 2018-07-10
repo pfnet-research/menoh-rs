@@ -2,7 +2,7 @@ use menoh_sys;
 use std::ffi;
 use std::mem;
 
-use dtype::Dtype;
+use Dtype;
 use Error;
 use error::check;
 use handler::Handler;

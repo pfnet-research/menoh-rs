@@ -1,6 +1,6 @@
 use std::path;
 
-use dtype::Dtype;
+use Dtype;
 use Error;
 use Model;
 use ModelBuilder;
