@@ -13,6 +13,7 @@ addons:
       - gcc-7
       - libprotobuf-dev
       - protobuf-compiler
+      - python3-numpy
       - python3-pip
 cache:
   cargo: true
