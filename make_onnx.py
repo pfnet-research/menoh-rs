@@ -17,6 +17,14 @@ class MLP(chainer.Chain):
             self.fc1 = L.Linear(3, 4)
             self.fc2 = L.Linear(4, 5)
 
+        self.fc1.W.array[:] = \
+            np.arange(0, 12, dtype=np.float32).reshape((4, 3))
+        self.fc1.b.array[:] = np.arange(12, 16, dtype=np.float32)
+
+        self.fc2.W.array[:] = \
+            np.arange(16, 36, dtype=np.float32).reshape((5, 4))
+        self.fc2.b.array[:] = np.arange(36, 41, dtype=np.float32)
+
     def __call__(self, x):
         x.node._onnx_name = 'input'
         h = F.relu(self.fc1(x))
