@@ -7,18 +7,7 @@ use ModelBuilder;
 use ModelData;
 use VariableProfileTableBuilder;
 
-/// Helper to build a model.
-///
-/// ```
-/// # use menoh::Builder;
-/// # fn main() -> Result<(), menoh::Error> {
-/// let model = Builder::from_onnx("test.onnx")?
-///                 .add_input::<f32>("139830916504208", &[2, 3])?
-///                 .add_output::<f32>("139830916504880")?
-///                 .build("mkldnn", "")?;
-/// # Ok(())
-/// # }
-/// ```
+/// Helper to build `Model`.
 pub struct Builder {
     model_data: ModelData,
     vpt_builder: VariableProfileTableBuilder,

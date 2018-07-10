@@ -7,6 +7,7 @@ use Error;
 use error::check;
 use handler::Handler;
 
+/// Container of variable profiles (type, shape and mark of input/output).
 pub struct VariableProfileTable {
     handle: menoh_sys::menoh_variable_profile_table_handle,
 }

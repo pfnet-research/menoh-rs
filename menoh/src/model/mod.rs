@@ -9,6 +9,7 @@ use handler::Handler;
 use Error;
 use error::check;
 
+/// Model, which executes computation.
 pub struct Model {
     handle: menoh_sys::menoh_model_handle,
 }

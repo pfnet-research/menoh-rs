@@ -9,6 +9,7 @@ use Model;
 use ModelData;
 use VariableProfileTable;
 
+/// Builder for `Model`.
 pub struct ModelBuilder {
     handle: menoh_sys::menoh_model_builder_handle,
 }

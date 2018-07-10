@@ -8,6 +8,7 @@ use handler::Handler;
 use error::check;
 use VariableProfileTable;
 
+/// Container of operators and values of constant variables.
 pub struct ModelData {
     handle: menoh_sys::menoh_model_data_handle,
 }
