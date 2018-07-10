@@ -24,15 +24,15 @@ pub enum Error {
     SameNamedVariableAlreadyExist(String),
 
     InvalidDimsSize {
-        /// name of variable
+        /// Name of variable.
         name: String,
-        /// size of specified dims
+        /// Size of specified dims.
         size: usize,
     },
     DtypeMismatch {
-        /// actual dtype
+        /// Actual dtype.
         actual: menoh_sys::menoh_dtype,
-        /// requested dtype
+        /// Requested dtype.
         expected: menoh_sys::menoh_dtype,
     },
     NulError(ffi::NulError),

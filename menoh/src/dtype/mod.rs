@@ -2,7 +2,7 @@ use menoh_sys;
 
 use Error;
 
-/// Trait representing scalar types supported by Menoh
+/// Trait representing scalar types supported by Menoh.
 pub unsafe trait Dtype {
     const ID: menoh_sys::menoh_dtype;
 
