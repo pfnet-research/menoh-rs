@@ -1,4 +1,7 @@
 language: rust
+os:
+  - linux
+  - osx
 env:
   global:
     - MKL_DNN_VERSION=0.14
