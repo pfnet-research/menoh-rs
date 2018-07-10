@@ -51,7 +51,7 @@ install:
         make && make install
     fi
   # python
-  - pip install chainer onnx-chainer
+  - pip3 install --user chainer onnx-chainer
 before_script:
   - |
     cd $TRAVIS_BUILD_DIR
