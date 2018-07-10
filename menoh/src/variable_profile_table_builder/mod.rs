@@ -35,7 +35,7 @@ impl VariableProfileTableBuilder {
                     self.handle, c_name.as_ptr(), T::ID,
                     dims[0] as _, dims[1] as _, dims[2] as _, dims[3] as _))
             },
-            _ => Err(Error::InvalidDimsSize(name.to_owned(), dims.len())),
+            _ => Err(Error::InvalidDimsSize{name: name.to_owned(), size: dims.len()}),
         }
     }
 

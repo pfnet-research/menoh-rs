@@ -9,7 +9,7 @@ pub trait Dtype {
         if dtype == Self::ID {
             Ok(())
         } else {
-            Err(Error::DtypeMismatch(dtype, Self::ID))
+            Err(Error::DtypeMismatch{actual:dtype, expected: Self::ID})
         }
     }
 }

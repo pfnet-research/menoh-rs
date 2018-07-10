@@ -23,8 +23,18 @@ pub enum Error {
     BackendError(String),
     SameNamedVariableAlreadyExist(String),
 
-    InvalidDimsSize(String, usize),
-    DtypeMismatch(menoh_sys::menoh_dtype, menoh_sys::menoh_dtype),
+    InvalidDimsSize {
+        /// name of variable
+        name: String,
+        /// size of specified dims
+        size: usize,
+    },
+    DtypeMismatch {
+        /// actual dtype
+        actual: menoh_sys::menoh_dtype,
+        /// requested dtype
+        expected: menoh_sys::menoh_dtype,
+    },
     NulError(ffi::NulError),
 }
 
@@ -48,13 +58,13 @@ impl fmt::Display for Error {
             Error::FailedToConfigureOperator(message) => write!(f, "{}", message),
             Error::BackendError(message) => write!(f, "{}", message),
             Error::SameNamedVariableAlreadyExist(message) => write!(f, "{}", message),
-            Error::InvalidDimsSize(name, size) => {
+            Error::InvalidDimsSize { name, size } => {
                 write!(f,
                        "menoh invalid dims size error (2 or 4 is valid): dims size of {} is specified {}",
                        name,
                        size)
             }
-            Error::DtypeMismatch(actural, expected) => {
+            Error::DtypeMismatch { actural, expected } => {
                 write!(f,
                        "menoh dtype mismatch error: actural {}, expected {}",
                        actural,
