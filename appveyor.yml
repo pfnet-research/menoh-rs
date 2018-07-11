@@ -11,17 +11,26 @@ environment:
     - channel: nightly
       target: gnu
 install:
-  - ps: |
-      Invoke-WebRequest -Uri https://win.rustup.rs/rustup-init.exe -OutFile rustup-init.exe
-      rustup-init -y --verbose --default-toolchain %channel% --default-host x86_64-pc-windows-%target%
-      $Env:PATH += ";%USERPROFILE%\.cargo\bin"
-      rustc --version
-      cargo --version
+  - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
+  - rustup-init -y --verbose --default-toolchain %channel% --default-host x86_64-pc-windows-%target%
+  - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
+  - rustc --version
+  - cargo --version
 
-  - if [%target%]==[msvc] curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.2/menoh_prebuild_win_v1.0.2.zip
-  - if [%target%]==[msvc] 7z x menoh_prebuild_win_v1.0.2.zip
-  - if [%target%]==[msvc] set PATH=c:\projects\menoh-rs\menoh_prebuild_win_v1.0.2\bin;%PATH%
-  - if [%target%]==[msvc] set LIB=c:\projects\menoh-rs\menoh_prebuild_win_v1.0.2\lib
+  - set SSL_CERT_FILE=C:\msys64\mingw64\ssl\cert.pem
+  - set SSL_CERT_DIR=C:\msys64\mingw64\ssl\certs
+  - if [%target%]==[mingw] set PATH=C:\msys64\mingw64\bin;C:\msys64\usr\bin;%PATH%
+  - if [%target%]==[msvc] set PATH=C:\msys64\mingw64\bin;%PATH%
+  - if [%target%]==[mingw] (
+      curl -omingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz -L https://preferredjp.box.com/shared/static/eb90vngoz8zngp6yy69x91q0swp11ha1.xz &&
+      pacman -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz &&
+      curl -omingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz -L https://preferredjp.box.com/shared/static/w2efdag567wpmn8hwxel7l3sf14svkrw.xz &&
+      pacman -U --noconfirm mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
+    ) else (
+      curl -omenoh_prebuild_win_v1.0.2.zip -L --insecure https://github.com/pfnet-research/menoh/releases/download/v1.0.2/menoh_prebuild_win_v1.0.2.zip &&
+      7z x menoh_prebuild_win_v1.0.2.zip
+    )
+  - if [%target%]==[msvc] set PATH=c:\projects\menoh-haskell\menoh_prebuild_win_v1.0.2\bin;%PATH%
 build: false
 test_script:
   - cargo test --verbose
