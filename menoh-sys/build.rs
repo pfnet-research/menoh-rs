@@ -1,8 +1,13 @@
 extern crate pkg_config;
 
 fn main() {
-    pkg_config::Config::new()
-        .atleast_version("1.0")
-        .probe("menoh")
-        .unwrap();
+    match pkg_config::Config::new()
+              .atleast_version("1.0")
+              .probe("menoh") {
+        Err(err) => {
+            println!("cargo:warning={}", err);
+            println!("cargo:rustc-link-lib=dylib=menoh");
+        }
+        _ => (),
+    }
 }
