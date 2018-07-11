@@ -6,7 +6,6 @@ repository = "https://github.com/Hakuyume/menoh-rs"
 license = "MIT"
 readme = "../README.md"
 description = "A binding for Menoh."
-exclude = ["**/*.py"]
 
 [dependencies]
 menoh-sys = { path = "../menoh-sys", version = "0.1" }
