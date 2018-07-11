@@ -16,7 +16,7 @@ install:
   - if [%target%]==[msvc] set PATH=C:\msys64\mingw64\bin;%PATH%
   - if [%target%]==[gnu] set PATH=C:\msys64\mingw64\bin;C:\msys64\usr\bin;%PATH%
 
-  - curl -LO https://win.rustup.rs/ -FileName rustup-init.exe
+  - curl -LO https://win.rustup.rs/rustup-init.exe
   - rustup-init -y --verbose --default-toolchain %channel% --default-host x86_64-pc-windows-%target%
   - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
   - rustc --version
