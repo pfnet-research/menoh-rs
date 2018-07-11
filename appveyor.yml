@@ -11,7 +11,7 @@ environment:
     - channel: nightly
       target: gnu
 install:
-  - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
+  - curl -LO https://win.rustup.rs/rustup-init.exe
   - rustup-init -y --verbose --default-toolchain %channel% --default-host x86_64-pc-windows-%target%
   - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
   - rustc --version
