@@ -5,7 +5,7 @@ fn main() {
               .atleast_version("1.0")
               .probe("menoh") {
         Err(err) => {
-            println!("cargo:warning={}", err);
+            println!("cargo:warning=pkg-config failed: {}", err);
             println!("cargo:rustc-link-lib=dylib=menoh");
         }
         _ => (),
