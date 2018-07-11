@@ -14,7 +14,7 @@ install:
   - ps: |
       Invoke-WebRequest -Uri https://win.rustup.rs/rustup-init.exe -OutFile rustup-init.exe
       rustup-init -y --verbose --default-toolchain %channel% --default-host x86_64-pc-windows-%target%
-      $Env:PATH += ;%USERPROFILE%\.cargo\bin
+      $Env:PATH += ";%USERPROFILE%\.cargo\bin"
       rustc --version
       cargo --version
 
