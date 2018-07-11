@@ -3,35 +3,36 @@
 //! ## Example
 //!
 //! ```
-//! # fn main() -> Result<(), menoh::Error> {
-//! let mut model = menoh::Builder::from_onnx("MLP.onnx")?
-//!     .add_input::<f32>("input", &[2, 3])?
-//!     .add_output::<f32>("fc2")?
-//!     .build("mkldnn", "")?;
+//! extern crate menoh;
 //!
-//! // This block limits the lifetime of `in_buf`.
-//! {
-//!     let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
-//!     in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
-//!     println!("in:");
-//!     # assert_eq!(in_dims, &[2, 3]);
-//!     println!("    dims: {:?}", in_dims);
-//!     println!("    buf: {:?}", in_buf);
+//! fn main() -> Result<(), menoh::Error> {
+//!     let mut model = menoh::Builder::from_onnx("MLP.onnx")?
+//!         .add_input::<f32>("input", &[2, 3])?
+//!         .add_output::<f32>("fc2")?
+//!         .build("mkldnn", "")?;
+//!
+//!     {
+//!         let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
+//!         in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
+//!         println!("in:");
+//!         # assert_eq!(in_dims, &[2, 3]);
+//!         println!("    dims: {:?}", in_dims);
+//!         println!("    buf: {:?}", in_buf);
+//!     }
+//!
+//!     model.run()?;
+//!
+//!     let (out_dims, out_buf) = model.get_variable::<f32>("fc2")?;
+//!     println!("out:");
+//!     # assert_eq!(out_dims, &[2, 5]);
+//!     println!("    dims: {:?}", out_dims);
+//!     println!("    buf: {:?}", out_buf);
+//!     # let expected = &[0., 0., 15., 96., 177., 0., 0., 51., 312., 573.];
+//!     # for i in 0..10 {
+//!     #     assert!((out_buf[i] - expected[i]).abs() < 1e-6);
+//!     # }
+//!     Ok(())
 //! }
-//!
-//! model.run()?;
-//!
-//! let (out_dims, out_buf) = model.get_variable::<f32>("fc2")?;
-//! println!("out:");
-//! # assert_eq!(out_dims, &[2, 5]);
-//! println!("    dims: {:?}", out_dims);
-//! println!("    buf: {:?}", out_buf);
-//! # let expected = &[0., 0., 15., 96., 177., 0., 0., 51., 312., 573.];
-//! # for i in 0..10 {
-//! #     assert!((out_buf[i] - expected[i]).abs() < 1e-6);
-//! # }
-//! # Ok(())
-//! # }
 //! ```
 //!
 //! ## Usage
