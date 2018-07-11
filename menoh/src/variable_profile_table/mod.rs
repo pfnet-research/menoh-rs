@@ -14,9 +14,10 @@ impl VariableProfileTable {
     /// Fetch the shape of variable.
     ///
     /// ```
-    /// # fn main() -> Result<(), menoh::Error> {
-    /// # let mut model_data = menoh::ModelData::from_onnx("MLP.onnx")?;
-    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// # let mut model_data = ModelData::from_onnx("MLP.onnx")?;
+    /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
     /// # vpt_builder.add_output::<f32>("fc2")?;
     /// # let vpt = vpt_builder.build(&model_data)?;

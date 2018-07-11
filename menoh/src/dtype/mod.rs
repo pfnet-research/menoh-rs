@@ -9,7 +9,7 @@ pub unsafe trait Dtype {
     /// ```
     /// # extern crate menoh;
     /// # extern crate menoh_sys;
-    /// # use menoh::Dtype;
+    /// # use menoh::*;
     /// assert_eq!(f32::ID, menoh_sys::menoh_dtype_float as menoh_sys::menoh_dtype);
     /// ```
     const ID: menoh_sys::menoh_dtype;
@@ -17,7 +17,7 @@ pub unsafe trait Dtype {
     /// Verify a scalar type.
     ///
     /// ```
-    /// # use menoh::Dtype;
+    /// # use menoh::*;
     /// assert!(f32::check(f32::ID).is_ok());
     /// assert!(f32::check(f32::ID + 1).is_err());
     /// ```

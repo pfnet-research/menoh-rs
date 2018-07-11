@@ -18,8 +18,9 @@ impl VariableProfileTableBuilder {
     /// Create a builder.
     ///
     /// ```
-    /// # fn main() -> Result<(), menoh::Error> {
-    /// let vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// let vpt_builder = VariableProfileTableBuilder::new()?;
     /// # Ok(())
     /// # }
     /// ```
@@ -32,8 +33,9 @@ impl VariableProfileTableBuilder {
     /// Register a variable as input.
     ///
     /// ```
-    /// # fn main() -> Result<(), menoh::Error> {
-    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// vpt_builder.add_input::<f32>("input", &[2, 3])?;
     /// # Ok(())
     /// # }
@@ -65,8 +67,9 @@ impl VariableProfileTableBuilder {
     /// Register a variable as output.
     ///
     /// ```
-    /// # fn main() -> Result<(), menoh::Error> {
-    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
     /// vpt_builder.add_output::<f32>("fc2")?;
     /// # Ok(())
@@ -85,9 +88,10 @@ impl VariableProfileTableBuilder {
     /// Build a `VariableProfileTable` using a `ModelData`.
     ///
     /// ```
-    /// # fn main() -> Result<(), menoh::Error> {
-    /// # let mut model_data = menoh::ModelData::from_onnx("MLP.onnx")?;
-    /// # let mut vpt_builder = menoh:: VariableProfileTableBuilder::new()?;
+    /// use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// # let mut model_data = ModelData::from_onnx("MLP.onnx")?;
+    /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
     /// # vpt_builder.add_output::<f32>("fc2")?;
     /// let vpt = vpt_builder.build(&model_data)?;

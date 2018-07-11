@@ -17,8 +17,8 @@ impl Builder {
     /// Create a builder from a ONNX file.
     ///
     /// ```
-    /// # use menoh::Builder;
-    /// # fn main() -> Result<(), menoh::Error> {
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
     /// let builder = Builder::from_onnx("MLP.onnx")?;
     /// # Ok(())
     /// # }
@@ -35,8 +35,8 @@ impl Builder {
     /// Register a variable as input.
     ///
     /// ```
-    /// # use menoh::Builder;
-    /// # fn main() -> Result<(), menoh::Error> {
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
     /// # let builder = Builder::from_onnx("MLP.onnx")?;
     /// let builder = builder.add_input::<f32>("input", &[2, 3])?;
     /// # Ok(())
@@ -52,8 +52,8 @@ impl Builder {
     /// Register a variable as output.
     ///
     /// ```
-    /// # use menoh::Builder;
-    /// # fn main() -> Result<(), menoh::Error> {
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
     /// # let builder = Builder::from_onnx("MLP.onnx")?;
     /// let builder = builder.add_output::<f32>("fc2")?;
     /// # Ok(())
@@ -69,11 +69,11 @@ impl Builder {
     /// Build a `Model`.
     ///
     /// ```
-    /// # use menoh::Builder;
-    /// # fn main() -> Result<(), menoh::Error> {
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
     /// # let builder = Builder::from_onnx("MLP.onnx")?
-    /// #                   .add_input::<f32>("input", &[2, 3])?
-    /// #                   .add_output::<f32>("fc2")?;
+    /// #     .add_input::<f32>("input", &[2, 3])?
+    /// #     .add_output::<f32>("fc2")?;
     /// let model = builder.build("mkldnn", "")?;
     /// # Ok(())
     /// # }

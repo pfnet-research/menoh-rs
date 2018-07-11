@@ -18,11 +18,12 @@ impl Model {
     /// Fetch the shape of a variable.
     ///
     /// ```
-    /// # fn main() -> Result<(), menoh::Error> {
-    /// # let model = menoh::Builder::from_onnx("MLP.onnx")?
-    /// #                     .add_input::<f32>("input", &[2, 3])?
-    /// #                     .add_output::<f32>("fc2")?
-    /// #                     .build("mkldnn", "")?;
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// # let model = Builder::from_onnx("MLP.onnx")?
+    /// #     .add_input::<f32>("input", &[2, 3])?
+    /// #     .add_output::<f32>("fc2")?
+    /// #     .build("mkldnn", "")?;
     /// let dims = model.get_variable_dims("fc2")?;
     /// # assert_eq!(dims, &[2, 5]);
     /// # Ok(())
@@ -62,11 +63,12 @@ impl Model {
     /// Fetch the shape and read-only view of a variable.
     ///
     /// ```
-    /// # fn main() -> Result<(), menoh::Error> {
-    /// # let model = menoh::Builder::from_onnx("MLP.onnx")?
-    /// #                     .add_input::<f32>("input", &[2, 3])?
-    /// #                     .add_output::<f32>("fc2")?
-    /// #                     .build("mkldnn", "")?;
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// # let model = Builder::from_onnx("MLP.onnx")?
+    /// #     .add_input::<f32>("input", &[2, 3])?
+    /// #     .add_output::<f32>("fc2")?
+    /// #     .build("mkldnn", "")?;
     /// let (dims, buf) = model.get_variable::<f32>("fc2")?;
     /// # assert_eq!(dims, &[2, 5]);
     /// # Ok(())
@@ -92,11 +94,12 @@ impl Model {
     /// Fetch the shape and read/write view of a variable.
     ///
     /// ```
-    /// # fn main() -> Result<(), menoh::Error> {
-    /// # let mut model = menoh::Builder::from_onnx("MLP.onnx")?
-    /// #                     .add_input::<f32>("input", &[2, 3])?
-    /// #                     .add_output::<f32>("fc2")?
-    /// #                     .build("mkldnn", "")?;
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// # let mut model = Builder::from_onnx("MLP.onnx")?
+    /// #     .add_input::<f32>("input", &[2, 3])?
+    /// #     .add_output::<f32>("fc2")?
+    /// #     .build("mkldnn", "")?;
     /// let (dims, buf) = model.get_variable_mut::<f32>("fc2")?;
     /// # assert_eq!(dims, &[2, 5]);
     /// # Ok(())
