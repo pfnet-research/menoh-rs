@@ -17,7 +17,7 @@ install:
   - rustc --version
   - cargo --version
 
-  - if [%target%]==[msvc] curl -LO --insecure https://github.com/pfnet-research/menoh/releases/download/v1.0.2/menoh_prebuild_win_v1.0.2.zip
+  - if [%target%]==[msvc] appveyor DownloadFile https://github.com/pfnet-research/menoh/releases/download/v1.0.2/ -FileName menoh_prebuild_win_v1.0.2.zip
   - if [%target%]==[msvc] 7z x menoh_prebuild_win_v1.0.2.zip
   - if [%target%]==[msvc] set PATH=c:\projects\menoh-rs\menoh_prebuild_win_v1.0.2\bin;%PATH%
   - if [%target%]==[msvc] set LIB=c:\projects\menoh-rs\menoh_prebuild_win_v1.0.2\lib
