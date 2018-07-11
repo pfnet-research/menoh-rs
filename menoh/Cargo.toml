@@ -8,7 +8,7 @@ readme = "../README.md"
 description = "A binding for Menoh."
 
 [dependencies]
-menoh-sys = { path = "../menoh-sys" }
+menoh-sys = "0.1"
 
 [dev-dependencies]
 docopt = "1.0"
