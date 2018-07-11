@@ -31,6 +31,7 @@ install:
       7z x menoh_prebuild_win_v1.0.2.zip
     )
   - if [%target%]==[msvc] set PATH=c:\projects\menoh-haskell\menoh_prebuild_win_v1.0.2\bin;%PATH%
+  - if [%target%]==[msvc] set LIB=c:\projects\menoh-haskell\menoh_prebuild_win_v1.0.2\lib
 build: false
 test_script:
   - cargo test --verbose
