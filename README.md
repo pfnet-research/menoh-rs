@@ -10,7 +10,7 @@ A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 ## Requirements
 - Rust 1.27+
 - [Menoh](https://github.com/pfnet-research/menoh) 1.0+
-  (please make sure `pkg-config` can find Menoh)
+  (please make sure that `pkg-config` can find `menoh`)
 
 ## Demo
 
