@@ -1,6 +1,11 @@
 [package]
 name = "menoh"
 version = "0.1.0"
+authors = ["Toru Ogawa <ogawa@preferred.jp>"]
+repository = "https://github.com/Hakuyume/menoh-rs"
+license-file = "../LICENSE"
+readme = "../README.md"
+description = "A binding for Menoh."
 
 [dependencies]
 menoh-sys = { path = "../menoh-sys" }
