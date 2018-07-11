@@ -33,9 +33,9 @@ extern crate menoh;
 
 fn main() -> Result<(), menoh::Error> {
     let mut model = menoh::Builder::from_onnx("MLP.onnx")?
-                        .add_input::<f32>("input", &[2, 3])?
-                        .add_output::<f32>("fc2")?
-                        .build("mkldnn", "")?;
+        .add_input::<f32>("input", &[2, 3])?
+        .add_output::<f32>("fc2")?
+        .build("mkldnn", "")?;
 
     {
         let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
