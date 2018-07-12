@@ -3,6 +3,7 @@
 [![crates.io](https://img.shields.io/crates/v/menoh.svg)](https://crates.io/crates/menoh)
 [![docs.rs](https://docs.rs/menoh/badge.svg)](https://docs.rs/menoh)
 [![Travis CI](https://travis-ci.org/Hakuyume/menoh-rs.svg?branch=master)](https://travis-ci.org/pfnet-research/menoh-rs)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/3btlg4uqa5pm6mfb/branch/master?svg=true)](https://ci.appveyor.com/project/Hakuyume/menoh-rs/branch/master)
 
 Rust binding for [Menoh](https://github.com/pfnet-research/menoh)  
 [Documentation](https://docs.rs/menoh)
