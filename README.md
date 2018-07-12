@@ -4,7 +4,7 @@
 [![docs.rs](https://docs.rs/menoh/badge.svg)](https://docs.rs/menoh)
 [![Travis CI](https://travis-ci.org/Hakuyume/menoh-rs.svg?branch=master)](https://travis-ci.org/Hakuyume/menoh-rs)
 
-A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)  
+Rust binding for [Menoh](https://github.com/pfnet-research/menoh)  
 [Documentation](https://docs.rs/menoh)
 
 ## Requirements
