@@ -2,10 +2,10 @@
 name = "menoh-sys"
 version = "0.1.1"
 authors = ["Toru Ogawa <ogawa@preferred.jp>"]
-repository = "https://github.com/Hakuyume/menoh-rs"
+repository = "https://github.com/pfnet-research/menoh-rs"
 license = "MIT"
 readme = "../README.md"
-description = "A low-level binding for Menoh."
+description = "Low-level binding for Menoh."
 build = "build.rs"
 exclude = ["**/*.bash"]
 

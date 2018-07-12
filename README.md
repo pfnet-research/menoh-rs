@@ -15,7 +15,7 @@ A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 ## Demo
 
 ```
-$ git clone https://github.com/Hakuyume/menoh-rs.git
+$ git clone https://github.com/pfnet-research/menoh-rs.git
 $ cd menoh-rs/menoh
 
 $ curl -L https://www.dropbox.com/s/bjfn9kehukpbmcm/VGG16.onnx?dl=1 -o VGG16.onnx

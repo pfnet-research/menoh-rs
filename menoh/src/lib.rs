@@ -1,4 +1,4 @@
-//! A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
+//! Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 //!
 //! ## Example
 //!
