@@ -32,7 +32,7 @@ install:
     )
   - if [%target%]==[msvc] set PATH=c:\projects\menoh-haskell\menoh_prebuild_win_v1.0.2\bin;%PATH%
   - if [%target%]==[msvc] set LIB=c:\projects\menoh-haskell\menoh_prebuild_win_v1.0.2\lib
-  - curl -kL https://github.com/Hakuyume/menoh-rs/releases/download/assets/MLP.onnx -o menoh/MLP.onnx
+  - curl -kL https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx -o menoh/MLP.onnx
 build: false
 test_script:
   - cargo test --verbose
