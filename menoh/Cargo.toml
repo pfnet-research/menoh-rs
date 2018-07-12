@@ -2,10 +2,10 @@
 name = "menoh"
 version = "0.1.1"
 authors = ["Toru Ogawa <ogawa@preferred.jp>"]
-repository = "https://github.com/Hakuyume/menoh-rs"
+repository = "https://github.com/pfnet-research/menoh-rs"
 license = "MIT"
 readme = "../README.md"
-description = "A binding for Menoh."
+description = "Binding for Menoh."
 
 [dependencies]
 menoh-sys = { path = "../menoh-sys", version = "0.1" }

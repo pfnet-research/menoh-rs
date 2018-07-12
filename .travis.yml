@@ -72,4 +72,4 @@ before_script:
     cd $TRAVIS_BUILD_DIR
     export LD_LIBRARY_PATH=$HOME/.local/lib
     export PKG_CONFIG_PATH=$HOME/.local/share/pkgconfig
-  - curl -L https://github.com/Hakuyume/menoh-rs/releases/download/assets/MLP.onnx -o menoh/MLP.onnx
+  - curl -L https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx -o menoh/MLP.onnx
