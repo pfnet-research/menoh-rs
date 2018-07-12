@@ -2,9 +2,9 @@
 
 [![crates.io](https://img.shields.io/crates/v/menoh.svg)](https://crates.io/crates/menoh)
 [![docs.rs](https://docs.rs/menoh/badge.svg)](https://docs.rs/menoh)
-[![Travis CI](https://travis-ci.org/Hakuyume/menoh-rs.svg?branch=master)](https://travis-ci.org/Hakuyume/menoh-rs)
+[![Travis CI](https://travis-ci.org/Hakuyume/menoh-rs.svg?branch=master)](https://travis-ci.org/pfnet-research/menoh-rs)
 
-A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)  
+Rust binding for [Menoh](https://github.com/pfnet-research/menoh)  
 [Documentation](https://docs.rs/menoh)
 
 ## Requirements
@@ -15,7 +15,7 @@ A Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 ## Demo
 
 ```
-$ git clone https://github.com/Hakuyume/menoh-rs.git
+$ git clone https://github.com/pfnet-research/menoh-rs.git
 $ cd menoh-rs/menoh
 
 $ curl -L https://www.dropbox.com/s/bjfn9kehukpbmcm/VGG16.onnx?dl=1 -o VGG16.onnx
