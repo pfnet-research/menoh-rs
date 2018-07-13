@@ -10,6 +10,9 @@ environment:
       TARGET: gnu
     - CHANNEL: nightly
       TARGET: gnu
+cache:
+  - '%USERPROFILE%\.cargo'
+  - target
 install:
   - ps: |
        [Net.ServicePointManager]::SecurityProtocol = `
