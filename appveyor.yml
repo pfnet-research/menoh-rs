@@ -18,7 +18,6 @@ install:
        $env:PATH += ";$env:USERPROFILE\.cargo\bin"
        rustc.exe --version
        cargo.exe --version
-
   - ps: |
       if ($env:TARGET -eq "msvc") {
           Invoke-WebRequest -Uri https://github.com/pfnet-research/menoh/releases/download/v1.0.2/menoh_prebuild_win_v1.0.2.zip -OutFile menoh_prebuild_win_v1.0.2.zip
@@ -35,11 +34,9 @@ install:
       pacman -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz &&
       curl -omingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz -L https://preferredjp.box.com/shared/static/w2efdag567wpmn8hwxel7l3sf14svkrw.xz &&
       pacman -U --noconfirm mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
-    ) else (
-      curl -omenoh_prebuild_win_v1.0.2.zip -L --insecure https://github.com/pfnet-research/menoh/releases/download/v1.0.2/menoh_prebuild_win_v1.0.2.zip &&
-      7z x menoh_prebuild_win_v1.0.2.zip
     )
-  - curl -kL https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx -o menoh/MLP.onnx
+  - ps: |
+      Invoke-WebRequest -Uri https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx -OutFile menoh\MLP.onnx
 build: false
 test_script:
   - cargo test --verbose
