@@ -25,18 +25,16 @@ install:
           $env:PATH += ";$PWD\menoh_prebuild_win_v1.0.2\bin"
           $env:LIB = "$PWD\menoh_prebuild_win_v1.0.2\lib"
       }
-  - set SSL_CERT_FILE=C:\msys64\mingw64\ssl\cert.pem
-  - set SSL_CERT_DIR=C:\msys64\mingw64\ssl\certs
-  - if [%target%]==[msvc] set PATH=C:\msys64\mingw64\bin;%PATH%
-  - if [%target%]==[gnu] set PATH=C:\msys64\mingw64\bin;C:\msys64\usr\bin;%PATH%
-  - if [%target%]==[gnu] (
-      curl -omingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz -L https://preferredjp.box.com/shared/static/eb90vngoz8zngp6yy69x91q0swp11ha1.xz &&
-      pacman -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz &&
-      curl -omingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz -L https://preferredjp.box.com/shared/static/w2efdag567wpmn8hwxel7l3sf14svkrw.xz &&
-      pacman -U --noconfirm mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
-    )
+  - ps: |
+      if ($env:TARGET -eq "gnu") {
+          $env:PATH += ";C:\msys64\mingw64\bin;C:\msys64\usr\bin"
+          Invoke-WebRequest -Uri https://preferredjp.box.com/shared/static/eb90vngoz8zngp6yy69x91q0swp11ha1.xz -OutFile menoh_prebuild_win_v1.0.2.zip -OutFile mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
+          pacman.exe -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
+          Invoke-WebRequest -Uri https://preferredjp.box.com/shared/static/w2efdag567wpmn8hwxel7l3sf14svkrw.xz -OutFile menoh_prebuild_win_v1.0.2.zip -OutFile mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
+          pacman.exe -U --noconfirm mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
+      }
   - ps: |
       Invoke-WebRequest -Uri https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx -OutFile menoh\MLP.onnx
 build: false
 test_script:
-  - cargo test --verbose
+  - cargo.exe test --verbose
