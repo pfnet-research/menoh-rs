@@ -14,7 +14,7 @@ install:
   - ps: |
        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
        Invoke-WebRequest -Uri https://win.rustup.rs/x86_64 -OutFile rustup-init.exe
-       rustup-init.exe -y --verbose --default-toolchain $env:CHANNEL --default-host "x86_64-pc-windows-$env:TARGET"
+       .\rustup-init.exe -y --verbose --default-toolchain $env:CHANNEL --default-host "x86_64-pc-windows-$env:TARGET"
        $env:PATH += ";$env:USERPROFILE\.cargo\bin"
        rustc.exe --version
        cargo.exe --version
