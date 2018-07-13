@@ -21,7 +21,7 @@ install:
   - ps: |
       if ($env:TARGET -eq "msvc") {
           Invoke-WebRequest -Uri https://github.com/pfnet-research/menoh/releases/download/v1.0.2/menoh_prebuild_win_v1.0.2.zip -OutFile menoh_prebuild_win_v1.0.2.zip
-          Expand-Archive -Path menoh_prebuild_win_v1.0.2.zip
+          Expand-Archive -Path menoh_prebuild_win_v1.0.2.zip -DestinationPath .
           $env:PATH += ";$PWD\menoh_prebuild_win_v1.0.2\bin"
           $env:LIB = "$PWD\menoh_prebuild_win_v1.0.2\lib"
       }
