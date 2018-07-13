@@ -35,7 +35,7 @@ install:
   # mkl-dnn
   - |
     cd
-    if [[ ! -f $HOME/.local/lib/libmkldnn.so ]]; then
+    if [[ ! -f $HOME/.local/lib/libmkldnn.so ]] && [[ ! -f $HOME/.local/lib/libmkldnn.dylib ]]; then
         git clone https://github.com/intel/mkl-dnn.git --branch v$MKL_DNN_VERSION --depth=1
         cd mkl-dnn
         cd scripts && ./prepare_mkl.sh && cd ..
@@ -50,7 +50,7 @@ install:
   # menoh
   - |
     cd
-    if [[ ! -f $HOME/.local/lib/libmenoh.so ]]; then
+    if [[ ! -f $HOME/.local/lib/libmenoh.so ]] && [[ ! -f $HOME/.local/lib/libmenoh.dylib ]]; then
         git clone https://github.com/pfnet-research/menoh.git --branch v$MENOH_VERSION --depth=1
         cd menoh
         mkdir -p build
