@@ -12,15 +12,20 @@ environment:
       TARGET: gnu
 install:
   - ps: |
-       [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+       [Net.ServicePointManager]::SecurityProtocol = `
+           [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
        Invoke-WebRequest -Uri https://win.rustup.rs/x86_64 -OutFile rustup-init.exe
-       .\rustup-init.exe -y --verbose --default-toolchain $env:CHANNEL --default-host "x86_64-pc-windows-$env:TARGET"
+       .\rustup-init.exe -y --verbose `
+           --default-toolchain $env:CHANNEL `
+           --default-host "x86_64-pc-windows-$env:TARGET"
        $env:PATH += ";$env:USERPROFILE\.cargo\bin"
        rustc.exe --version
        cargo.exe --version
   - ps: |
       if ($env:TARGET -eq "msvc") {
-          Invoke-WebRequest -Uri https://github.com/pfnet-research/menoh/releases/download/v1.0.2/menoh_prebuild_win_v1.0.2.zip -OutFile menoh_prebuild_win_v1.0.2.zip
+          Invoke-WebRequest `
+              -Uri https://github.com/pfnet-research/menoh/releases/download/v1.0.2/menoh_prebuild_win_v1.0.2.zip `
+              -OutFile menoh_prebuild_win_v1.0.2.zip
           Expand-Archive -Path menoh_prebuild_win_v1.0.2.zip -DestinationPath .
           $env:PATH += ";$PWD\menoh_prebuild_win_v1.0.2\bin"
           $env:LIB = "$PWD\menoh_prebuild_win_v1.0.2\lib"
@@ -28,13 +33,19 @@ install:
   - ps: |
       if ($env:TARGET -eq "gnu") {
           $env:PATH += ";C:\msys64\mingw64\bin;C:\msys64\usr\bin"
-          Invoke-WebRequest -Uri https://preferredjp.box.com/shared/static/eb90vngoz8zngp6yy69x91q0swp11ha1.xz -OutFile mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
+          Invoke-WebRequest `
+              -Uri https://preferredjp.box.com/shared/static/eb90vngoz8zngp6yy69x91q0swp11ha1.xz `
+              -OutFile mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
           pacman.exe -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
-          Invoke-WebRequest -Uri https://preferredjp.box.com/shared/static/w2efdag567wpmn8hwxel7l3sf14svkrw.xz -OutFile mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
+          Invoke-WebRequest `
+              -Uri https://preferredjp.box.com/shared/static/w2efdag567wpmn8hwxel7l3sf14svkrw.xz `
+              -OutFile mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
           pacman.exe -U --noconfirm mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
       }
   - ps: |
-      Invoke-WebRequest -Uri https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx -OutFile menoh\MLP.onnx
+      Invoke-WebRequest `
+          -Uri https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx `
+          -OutFile menoh\MLP.onnx
 build: false
 test_script:
   - cargo.exe test --verbose
