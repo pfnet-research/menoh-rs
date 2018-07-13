@@ -11,7 +11,9 @@ environment:
     - channel: nightly
       target: gnu
 install:
-  - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
+  - ps: |
+       [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+       Invoke-WebRequest -Uri https://win.rustup.rs/x86_64 -OutFile rustup-init.exe
   - rustup-init -y --verbose --default-toolchain %channel% --default-host x86_64-pc-windows-%target%
   - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
   - rustc --version
