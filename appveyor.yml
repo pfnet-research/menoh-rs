@@ -28,9 +28,9 @@ install:
   - ps: |
       if ($env:TARGET -eq "gnu") {
           $env:PATH += ";C:\msys64\mingw64\bin;C:\msys64\usr\bin"
-          Invoke-WebRequest -Uri https://preferredjp.box.com/shared/static/eb90vngoz8zngp6yy69x91q0swp11ha1.xz -OutFile menoh_prebuild_win_v1.0.2.zip -OutFile mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
+          Invoke-WebRequest -Uri https://preferredjp.box.com/shared/static/eb90vngoz8zngp6yy69x91q0swp11ha1.xz -OutFile mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
           pacman.exe -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
-          Invoke-WebRequest -Uri https://preferredjp.box.com/shared/static/w2efdag567wpmn8hwxel7l3sf14svkrw.xz -OutFile menoh_prebuild_win_v1.0.2.zip -OutFile mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
+          Invoke-WebRequest -Uri https://preferredjp.box.com/shared/static/w2efdag567wpmn8hwxel7l3sf14svkrw.xz -OutFile mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
           pacman.exe -U --noconfirm mingw-w64-x86_64-menoh-1.0.2-1-any.pkg.tar.xz
       }
   - ps: |
