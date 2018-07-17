@@ -28,7 +28,7 @@
 //!     println!("    dims: {:?}", out_dims);
 //!     println!("    buf: {:?}", out_buf);
 //!     # let expected = &[0., 0., 15., 96., 177., 0., 0., 51., 312., 573.];
-//!     # for i in 0..10 {
+//!     # for i in 0..expected.len() {
 //!     #     assert!((out_buf[i] - expected[i]).abs() < 1e-6);
 //!     # }
 //!     Ok(())
