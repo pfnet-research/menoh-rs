@@ -23,6 +23,7 @@ addons:
       - gcc-7
       - libprotobuf-dev
       - protobuf-compiler
+      - python3-pip
 before_install:
   - |
     if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
@@ -67,9 +68,11 @@ install:
               -DENABLE_TOOL=OFF
         make && make install
     fi
+  # python
+  - pip3 install --user chainer==4.2 onnx-chainer==1.1.1a2
 before_script:
   - |
     cd $TRAVIS_BUILD_DIR
     export LD_LIBRARY_PATH=$HOME/.local/lib
     export PKG_CONFIG_PATH=$HOME/.local/share/pkgconfig
-  - curl -L https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx -o menoh/MLP.onnx
+  - python3 menoh/make_onnx.py menoh/MLP.onnx
