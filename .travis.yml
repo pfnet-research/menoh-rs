@@ -7,8 +7,8 @@ rust:
   - nightly
 env:
   global:
-    - MKL_DNN_VERSION=0.14
-    - MENOH_VERSION=1.0.2
+    - MKL_DNN_VERSION=0.16
+    - MENOH_VERSION=1.0.3
 cache:
   cargo: true
   directories:
