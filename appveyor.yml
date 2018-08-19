@@ -48,7 +48,7 @@ install:
       if ($env:TARGET -eq "gnu") {
           $env:PATH += ";C:\msys64\mingw64\bin;C:\msys64\usr\bin"
           Invoke-WebRequest `
-              -Uri https://github.com/pfnet-research/menoh/releases/download/v1.0.3/mingw-w64-x86_64-mkl-dnn-$env:MKL_DNN_VERSION-$env:MKL_DNN_REL-x86_64.pkg.tar.xz `
+              -Uri https://github.com/pfnet-research/menoh/releases/download/v$env:MENOH_VERSION/mingw-w64-x86_64-mkl-dnn-$env:MKL_DNN_VERSION-$env:MKL_DNN_REL-x86_64.pkg.tar.xz `
               -OutFile mingw-w64-x86_64-mkl-dnn-$env:MKL_DNN_VERSION-$env:MKL_DNN_REL-x86_64.pkg.tar.xz
           pacman.exe -U --noconfirm mingw-w64-x86_64-mkl-dnn-$env:MKL_DNN_VERSION-$env:MKL_DNN_REL-x86_64.pkg.tar.xz
           Invoke-WebRequest `
