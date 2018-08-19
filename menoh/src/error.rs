@@ -58,18 +58,16 @@ impl fmt::Display for Error {
             Error::FailedToConfigureOperator(message) => write!(f, "{}", message),
             Error::BackendError(message) => write!(f, "{}", message),
             Error::SameNamedVariableAlreadyExist(message) => write!(f, "{}", message),
-            Error::InvalidDimsSize { name, size } => {
-                write!(f,
-                       "menoh invalid dims size error (2 or 4 is valid): dims size of {} is specified {}",
-                       name,
-                       size)
-            }
-            Error::DtypeMismatch { actual, expected } => {
-                write!(f,
-                       "menoh dtype mismatch error: actural {}, expected {}",
-                       actual,
-                       expected)
-            }
+            Error::InvalidDimsSize { name, size } => write!(
+                f,
+                "menoh invalid dims size error (2 or 4 is valid): dims size of {} is specified {}",
+                name, size
+            ),
+            Error::DtypeMismatch { actual, expected } => write!(
+                f,
+                "menoh dtype mismatch error: actural {}, expected {}",
+                actual, expected
+            ),
             Error::NulError(err) => err.fmt(f),
         }
     }

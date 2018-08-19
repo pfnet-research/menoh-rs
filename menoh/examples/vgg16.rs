@@ -30,7 +30,7 @@ struct Args {
     flag_s: path::PathBuf,
 }
 
-fn main() -> Result<(), Box<dyn(error::Error)>> {
+fn main() -> Result<(), Box<dyn error::Error>> {
     let args: Args = docopt::Docopt::new(USAGE)
         .and_then(|d| d.deserialize())
         .unwrap_or_else(|e| e.exit());
@@ -59,10 +59,10 @@ fn main() -> Result<(), Box<dyn(error::Error)>> {
     let (softmax_dims, softmax_buf) = model.get_variable::<f32>(SOFTMAX_OUT_NAME)?;
     let mut indices: Vec<_> = (0..softmax_dims[1]).collect();
     indices.sort_unstable_by(|&i, &j| {
-                                 softmax_buf[j]
-                                     .partial_cmp(&softmax_buf[i])
-                                     .unwrap_or(cmp::Ordering::Equal)
-                             });
+        softmax_buf[j]
+            .partial_cmp(&softmax_buf[i])
+            .unwrap_or(cmp::Ordering::Equal)
+    });
     let categories = load_category_list(args.flag_s)?;
     for &i in &indices[..5] {
         println!("{} {} {}", i, softmax_buf[i], categories[i]);
@@ -79,7 +79,8 @@ fn crop_and_resize(mut img: image::DynamicImage, size: usize) -> image::DynamicI
 }
 
 fn set_image<T>(buf: &mut [T], img: &image::DynamicImage)
-    where T: From<u8>
+where
+    T: From<u8>,
 {
     let (h, w) = (img.height() as usize, img.width() as usize);
     assert_eq!(buf.len(), 3 * h * w);
@@ -95,7 +96,8 @@ fn set_image<T>(buf: &mut [T], img: &image::DynamicImage)
 }
 
 fn load_category_list<P>(path: P) -> io::Result<Vec<String>>
-    where P: AsRef<path::Path>
+where
+    P: AsRef<path::Path>,
 {
     let mut categories = Vec::new();
     for line in io::BufReader::new(fs::File::open(path)?).lines() {

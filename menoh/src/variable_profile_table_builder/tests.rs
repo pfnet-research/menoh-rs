@@ -14,16 +14,14 @@ fn add_input() {
 }
 
 #[test]
-#[should_panic(expected="InvalidDimsSize")]
+#[should_panic(expected = "InvalidDimsSize")]
 fn add_input_invalid_dims() {
     let mut vpt_builder = VariableProfileTableBuilder::new().unwrap();
-    vpt_builder
-        .add_input::<f32>("input", &[1, 3, 224])
-        .unwrap();
+    vpt_builder.add_input::<f32>("input", &[1, 3, 224]).unwrap();
 }
 
 #[test]
-#[should_panic(expected="NulError")]
+#[should_panic(expected = "NulError")]
 fn add_input_invalid_name() {
     let mut vpt_builder = VariableProfileTableBuilder::new().unwrap();
     vpt_builder
@@ -38,7 +36,7 @@ fn add_output() {
 }
 
 #[test]
-#[should_panic(expected="NulError")]
+#[should_panic(expected = "NulError")]
 fn add_output_invalid_name() {
     let mut vpt_builder = VariableProfileTableBuilder::new().unwrap();
     vpt_builder.add_output::<f32>("out\0put").unwrap();

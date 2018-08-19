@@ -3,9 +3,9 @@ use std::ffi;
 use std::path;
 use std::ptr;
 
-use Error;
-use handler::Handler;
 use error::check;
+use handler::Handler;
+use Error;
 use VariableProfileTable;
 
 /// Container of operators and values of constant variables.
@@ -24,11 +24,17 @@ impl ModelData {
     /// # }
     /// ```
     pub fn from_onnx<P>(path: P) -> Result<Self, Error>
-        where P: AsRef<path::Path>
+    where
+        P: AsRef<path::Path>,
     {
         let path = ffi::CString::new::<&str>(&path.as_ref().to_string_lossy())?;
         let mut handle = ptr::null_mut();
-        unsafe { check(menoh_sys::menoh_make_model_data_from_onnx(path.as_ptr(), &mut handle))? };
+        unsafe {
+            check(menoh_sys::menoh_make_model_data_from_onnx(
+                path.as_ptr(),
+                &mut handle,
+            ))?
+        };
         Ok(Self { handle })
     }
 
@@ -48,8 +54,10 @@ impl ModelData {
     /// ```
     pub fn optimize(&mut self, variable_profile_table: &VariableProfileTable) -> Result<(), Error> {
         unsafe {
-            check(menoh_sys::menoh_model_data_optimize(self.handle,
-                                                       variable_profile_table.handle()))
+            check(menoh_sys::menoh_model_data_optimize(
+                self.handle,
+                variable_profile_table.handle(),
+            ))
         }
     }
 }

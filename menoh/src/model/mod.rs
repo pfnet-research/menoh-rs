@@ -4,10 +4,10 @@ use std::mem;
 use std::ptr;
 use std::slice;
 
-use Dtype;
-use handler::Handler;
-use Error;
 use error::check;
+use handler::Handler;
+use Dtype;
+use Error;
 
 /// Model, which executes computation.
 pub struct Model {
@@ -33,16 +33,20 @@ impl Model {
         let name = ffi::CString::new(name)?;
         unsafe {
             let mut size = 0;
-            check(menoh_sys::menoh_model_get_variable_dims_size(self.handle,
-                                                                name.as_ptr(),
-                                                                &mut size))?;
+            check(menoh_sys::menoh_model_get_variable_dims_size(
+                self.handle,
+                name.as_ptr(),
+                &mut size,
+            ))?;
             let mut dims = Vec::with_capacity(size as _);
             for index in 0..size {
                 let mut dim = 0;
-                check(menoh_sys::menoh_model_get_variable_dims_at(self.handle,
-                                                                  name.as_ptr(),
-                                                                  index,
-                                                                  &mut dim))?;
+                check(menoh_sys::menoh_model_get_variable_dims_at(
+                    self.handle,
+                    name.as_ptr(),
+                    index,
+                    &mut dim,
+                ))?;
                 dims.push(dim as _);
             }
             Ok(dims)
@@ -53,9 +57,11 @@ impl Model {
         let name = ffi::CString::new(name)?;
         unsafe {
             let mut dtype = mem::uninitialized();
-            check(menoh_sys::menoh_model_get_variable_dtype(self.handle,
-                                                            name.as_ptr(),
-                                                            &mut dtype))?;
+            check(menoh_sys::menoh_model_get_variable_dtype(
+                self.handle,
+                name.as_ptr(),
+                &mut dtype,
+            ))?;
             Ok(dtype)
         }
     }
@@ -75,7 +81,8 @@ impl Model {
     /// # }
     /// ```
     pub fn get_variable<T>(&self, name: &str) -> Result<(Vec<usize>, &[T]), Error>
-        where T: Dtype
+    where
+        T: Dtype,
     {
         T::check(self.get_variable_dtype(name)?)?;
         let dims = self.get_variable_dims(name)?;
@@ -83,9 +90,11 @@ impl Model {
         let name = ffi::CString::new(name)?;
         let mut buffer = ptr::null_mut();
         unsafe {
-            check(menoh_sys::menoh_model_get_variable_buffer_handle(self.handle,
-                                                                    name.as_ptr(),
-                                                                    &mut buffer))?;
+            check(menoh_sys::menoh_model_get_variable_buffer_handle(
+                self.handle,
+                name.as_ptr(),
+                &mut buffer,
+            ))?;
             let buffer = slice::from_raw_parts(buffer as _, dims.iter().product());
             Ok((dims, buffer))
         }
@@ -106,7 +115,8 @@ impl Model {
     /// # }
     /// ```
     pub fn get_variable_mut<T>(&mut self, name: &str) -> Result<(Vec<usize>, &mut [T]), Error>
-        where T: Dtype
+    where
+        T: Dtype,
     {
         T::check(self.get_variable_dtype(name)?)?;
         let dims = self.get_variable_dims(name)?;
@@ -114,9 +124,11 @@ impl Model {
         let name = ffi::CString::new(name)?;
         let mut buffer = ptr::null_mut();
         unsafe {
-            check(menoh_sys::menoh_model_get_variable_buffer_handle(self.handle,
-                                                                    name.as_ptr(),
-                                                                    &mut buffer))?;
+            check(menoh_sys::menoh_model_get_variable_buffer_handle(
+                self.handle,
+                name.as_ptr(),
+                &mut buffer,
+            ))?;
             let buffer = slice::from_raw_parts_mut(buffer as _, dims.iter().product());
             Ok((dims, buffer))
         }

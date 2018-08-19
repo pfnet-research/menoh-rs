@@ -12,7 +12,6 @@ EOD
 
 cd $(mktemp -d)
 echo '#include <menoh/menoh.h>' > wrapper.h
-echo 'max_width=1024' > rustfmt.toml
 bindgen wrapper.h \
         --no-derive-copy \
         --no-derive-debug \

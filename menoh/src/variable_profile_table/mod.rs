@@ -1,9 +1,9 @@
 use menoh_sys;
 use std::ffi;
 
-use Error;
 use error::check;
 use handler::Handler;
+use Error;
 
 /// Container of variable profiles (type, shape and flag of input/output).
 pub struct VariableProfileTable {
@@ -30,16 +30,20 @@ impl VariableProfileTable {
         let name = ffi::CString::new(name)?;
         unsafe {
             let mut size = 0;
-            check(menoh_sys::menoh_variable_profile_table_get_dims_size(self.handle,
-                                                                        name.as_ptr(),
-                                                                        &mut size))?;
+            check(menoh_sys::menoh_variable_profile_table_get_dims_size(
+                self.handle,
+                name.as_ptr(),
+                &mut size,
+            ))?;
             let mut dims = Vec::with_capacity(size as _);
             for index in 0..size {
                 let mut dim = 0;
-                check(menoh_sys::menoh_variable_profile_table_get_dims_at(self.handle,
-                                                                          name.as_ptr(),
-                                                                          index,
-                                                                          &mut dim))?;
+                check(menoh_sys::menoh_variable_profile_table_get_dims_at(
+                    self.handle,
+                    name.as_ptr(),
+                    index,
+                    &mut dim,
+                ))?;
                 dims.push(dim as _);
             }
             Ok(dims)

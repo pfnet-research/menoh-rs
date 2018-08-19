@@ -26,9 +26,9 @@ pub unsafe trait Dtype {
             Ok(())
         } else {
             Err(Error::DtypeMismatch {
-                    actual: dtype,
-                    expected: Self::ID,
-                })
+                actual: dtype,
+                expected: Self::ID,
+            })
         }
     }
 }
