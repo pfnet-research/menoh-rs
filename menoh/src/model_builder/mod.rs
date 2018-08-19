@@ -2,9 +2,9 @@ use menoh_sys;
 use std::ffi;
 use std::ptr;
 
-use Error;
 use error::check;
 use handler::Handler;
+use Error;
 use Model;
 use ModelData;
 use VariableProfileTable;
@@ -32,8 +32,10 @@ impl ModelBuilder {
     pub fn new(variable_profile_table: &VariableProfileTable) -> Result<Self, Error> {
         let mut handle = ptr::null_mut();
         unsafe {
-            check(menoh_sys::menoh_make_model_builder(variable_profile_table.handle(),
-                                                      &mut handle))?;
+            check(menoh_sys::menoh_make_model_builder(
+                variable_profile_table.handle(),
+                &mut handle,
+            ))?;
         }
         Ok(Self { handle })
     }
@@ -54,20 +56,23 @@ impl ModelBuilder {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn build(self,
-                 model_data: ModelData,
-                 backend_name: &str,
-                 backend_config: &str)
-                 -> Result<Model, Error> {
+    pub fn build(
+        self,
+        model_data: ModelData,
+        backend_name: &str,
+        backend_config: &str,
+    ) -> Result<Model, Error> {
         let backend_name = ffi::CString::new(backend_name)?;
         let backend_config = ffi::CString::new(backend_config)?;
         let mut handle = ptr::null_mut();
         unsafe {
-            check(menoh_sys::menoh_build_model(self.handle,
-                                               model_data.handle(),
-                                               backend_name.as_ptr(),
-                                               backend_config.as_ptr(),
-                                               &mut handle))?;
+            check(menoh_sys::menoh_build_model(
+                self.handle,
+                model_data.handle(),
+                backend_name.as_ptr(),
+                backend_config.as_ptr(),
+                &mut handle,
+            ))?;
             Ok(Model::from_handle(handle))
         }
     }

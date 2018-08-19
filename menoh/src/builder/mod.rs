@@ -24,12 +24,13 @@ impl Builder {
     /// # }
     /// ```
     pub fn from_onnx<P>(path: P) -> Result<Self, Error>
-        where P: AsRef<path::Path>
+    where
+        P: AsRef<path::Path>,
     {
         Ok(Self {
-               model_data: ModelData::from_onnx(path)?,
-               vpt_builder: VariableProfileTableBuilder::new()?,
-           })
+            model_data: ModelData::from_onnx(path)?,
+            vpt_builder: VariableProfileTableBuilder::new()?,
+        })
     }
 
     /// Register a variable as input.
@@ -43,7 +44,8 @@ impl Builder {
     /// # }
     /// ```
     pub fn add_input<T>(mut self, name: &str, dims: &[usize]) -> Result<Self, Error>
-        where T: Dtype
+    where
+        T: Dtype,
     {
         self.vpt_builder.add_input::<T>(name, dims)?;
         Ok(self)
@@ -60,7 +62,8 @@ impl Builder {
     /// # }
     /// ```
     pub fn add_output<T>(mut self, name: &str) -> Result<Self, Error>
-        where T: Dtype
+    where
+        T: Dtype,
     {
         self.vpt_builder.add_output::<T>(name)?;
         Ok(self)
@@ -82,7 +85,6 @@ impl Builder {
         let vpt = self.vpt_builder.build(&self.model_data)?;
         self.model_data.optimize(&vpt)?;
         let model_builder = ModelBuilder::new(&vpt)?;
-        Ok(model_builder
-               .build(self.model_data, backend, backend_config)?)
+        Ok(model_builder.build(self.model_data, backend, backend_config)?)
     }
 }
