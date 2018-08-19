@@ -40,7 +40,7 @@ install:
           Invoke-WebRequest `
               -Uri https://github.com/pfnet-research/menoh/releases/download/v$env:MENOH_VERSION/menoh_prebuild_win_v$env:MENOH_VERSION.zip `
               -OutFile menoh_prebuild_win_v$env:MENOH_VERSION.zip
-          Expand-Archive -Pat menoh_prebuild_win_v$env:MENOH_VERSION.zip -DestinationPath .
+          Expand-Archive -Path menoh_prebuild_win_v$env:MENOH_VERSION.zip -DestinationPath .
           $env:PATH += ";$PWD\menoh_prebuild_win_v$env:MENOH_VERSION\bin"
           $env:LIB += ";$PWD\menoh_prebuild_win_v$env:MENOH_VERSION\lib"
       }
