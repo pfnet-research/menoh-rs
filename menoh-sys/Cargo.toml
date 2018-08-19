@@ -1,6 +1,6 @@
 [package]
 name = "menoh-sys"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["Toru Ogawa <ogawa@preferred.jp>"]
 repository = "https://github.com/pfnet-research/menoh-rs"
 license = "MIT"
