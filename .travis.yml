@@ -5,74 +5,31 @@ os:
 rust:
   - stable
   - nightly
-env:
-  global:
-    - MKL_DNN_VERSION=0.16
-    - MENOH_VERSION=1.0.3
-cache:
-  cargo: true
-  directories:
-    - $HOME/.local
+cache: cargo
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
       - sourceline: 'ppa:maarten-fonville/protobuf'
     packages:
-      - g++-7
-      - gcc-7
-      - libprotobuf-dev
-      - protobuf-compiler
-      - python3-pip
-before_install:
+      - libprotobuf15
+      - libstdc++6
+install:
+  - |
+    if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_mkl-dnn_0.16-1_amd64.deb
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_menoh_1.0.3-1_amd64.deb
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_menoh-dev_1.0.3-1_amd64.deb
+        sudo dpkg -i *.deb
+    fi
   - |
     if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
-        brew update
-        brew upgrade python
-        export PATH=/usr/local/opt/python/libexec/bin:$PATH
-        brew install protobuf
+        brew tap pfnet-research/menoh
+        brew install opencv menoh
     fi
-install:
-  # mkl-dnn
-  - |
-    cd
-    if [[ ! -f $HOME/.local/lib/libmkldnn.so ]] && [[ ! -f $HOME/.local/lib/libmkldnn.dylib ]]; then
-        git clone https://github.com/intel/mkl-dnn.git --branch v$MKL_DNN_VERSION --depth=1
-        cd mkl-dnn
-        cd scripts && ./prepare_mkl.sh && cd ..
-        mkdir -p build
-        cd build
-        cmake .. \
-              -DCMAKE_INSTALL_PREFIX=$HOME/.local \
-              -DWITH_EXAMPLE=OFF \
-              -DWITH_TEST=OFF
-        make && make install
-    fi
-  # menoh
-  - |
-    cd
-    if [[ ! -f $HOME/.local/lib/libmenoh.so ]] && [[ ! -f $HOME/.local/lib/libmenoh.dylib ]]; then
-        git clone https://github.com/pfnet-research/menoh.git --branch v$MENOH_VERSION --depth=1
-        cd menoh
-        mkdir -p build
-        cd build
-        if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
-            export CC=gcc-7
-            export CXX=g++-7
-        fi
-        cmake .. \
-              -DCMAKE_INSTALL_PREFIX=$HOME/.local \
-              -DENABLE_TEST=OFF \
-              -DENABLE_BENCHMARK=OFF \
-              -DENABLE_EXAMPLE=OFF \
-              -DENABLE_TOOL=OFF
-        make && make install
-    fi
-  # python
-  - pip3 install --user chainer==4.2 onnx-chainer==1.1.1a2
 before_script:
   - |
     cd $TRAVIS_BUILD_DIR
     export LD_LIBRARY_PATH=$HOME/.local/lib
     export PKG_CONFIG_PATH=$HOME/.local/share/pkgconfig
-  - python3 menoh/make_onnx.py menoh/MLP.onnx
+  - curl -L https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx -o menoh/MLP.onnx
