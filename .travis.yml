@@ -26,10 +26,8 @@ addons:
 before_install:
   - |
     if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
-        # mkl-dnn
-        curl -LO https://preferredjp.box.com/shared/static/pg7ddekbig3jxqpimimhzvij0lpaspl6.deb
-        # mkl-dnn-dev
-        curl -LO https://preferredjp.box.com/shared/static/5eyehlqc12rrhkk0h4rfutvnrncdypj8.deb
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_mkl-dnn_0.16-1_amd64.deb
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_mkl-dnn-dev_0.16-1_amd64.deb
         sudo dpkg -i *.deb
     fi
   - |
