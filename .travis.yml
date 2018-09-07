@@ -13,7 +13,8 @@ addons:
       - sourceline: 'ppa:maarten-fonville/protobuf'
     packages:
       - libstdc++6
-      - libprotobuf15
+      - libprotobuf-dev
+      - protobuf-compiler
       - python3-pip
 before_install:
   - |
