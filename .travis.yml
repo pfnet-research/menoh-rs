@@ -30,7 +30,7 @@ before_install:
         curl -LO https://preferredjp.box.com/shared/static/pg7ddekbig3jxqpimimhzvij0lpaspl6.deb
         # mkl-dnn-dev
         curl -LO https://preferredjp.box.com/shared/static/5eyehlqc12rrhkk0h4rfutvnrncdypj8.deb
-        dpkg -i *.deb
+        sudo dpkg -i *.deb
     fi
   - |
     if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
