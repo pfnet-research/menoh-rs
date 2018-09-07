@@ -11,6 +11,8 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
       - sourceline: 'ppa:maarten-fonville/protobuf'
+    packages:
+      - libstdc++6
 install:
   - |
     if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
