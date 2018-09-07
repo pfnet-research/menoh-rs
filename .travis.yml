@@ -17,17 +17,13 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
       - sourceline: 'ppa:maarten-fonville/protobuf'
-    packages:
-      - g++-7
-      - gcc-7
-      - libprotobuf-dev
-      - protobuf-compiler
       - python3-pip
 before_install:
   - |
     if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
         curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_mkl-dnn_0.16-1_amd64.deb
-        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_mkl-dnn-dev_0.16-1_amd64.deb
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_menoh_1.0.3-1_amd64.deb
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_menoh-dev_1.0.3-1_amd64.deb
         sudo dpkg -i *.deb
     fi
   - |
@@ -35,30 +31,9 @@ before_install:
         brew update
         brew upgrade python
         export PATH=/usr/local/opt/python/libexec/bin:$PATH
-        brew install mkl-dnn protobuf
+        brew install menoh
     fi
 install:
-  # menoh
-  - |
-    cd
-    if [[ ! -f $HOME/.local/lib/libmenoh.so ]] && [[ ! -f $HOME/.local/lib/libmenoh.dylib ]]; then
-        git clone https://github.com/pfnet-research/menoh.git --branch v$MENOH_VERSION --depth=1
-        cd menoh
-        mkdir -p build
-        cd build
-        if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
-            export CC=gcc-7
-            export CXX=g++-7
-        fi
-        cmake .. \
-              -DCMAKE_INSTALL_PREFIX=$HOME/.local \
-              -DENABLE_TEST=OFF \
-              -DENABLE_BENCHMARK=OFF \
-              -DENABLE_EXAMPLE=OFF \
-              -DENABLE_TOOL=OFF
-        make && make install
-    fi
-  # python
   - pip3 install --user chainer==4.2 onnx-chainer==1.1.1a2
 before_script:
   - |
