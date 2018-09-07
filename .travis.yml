@@ -8,10 +8,7 @@ rust:
 env:
   global:
     - MENOH_VERSION=1.0.3
-cache:
-  cargo: true
-  directories:
-    - $HOME/.local
+cache: cargo
 addons:
   apt:
     sources:
