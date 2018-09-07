@@ -12,6 +12,8 @@ addons:
       - ubuntu-toolchain-r-test
       - sourceline: 'ppa:maarten-fonville/protobuf'
     packages:
+      - libstdc++6
+      - libprotobuf15
       - python3-pip
 before_install:
   - |
