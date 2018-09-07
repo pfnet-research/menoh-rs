@@ -15,8 +15,7 @@ addons:
       - libstdc++6
       - libprotobuf-dev
       - protobuf-compiler
-      - python3-pip
-before_install:
+install:
   - |
     if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
         curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_mkl-dnn_0.16-1_amd64.deb
@@ -31,11 +30,9 @@ before_install:
         export PATH=/usr/local/opt/python/libexec/bin:$PATH
         brew install menoh
     fi
-install:
-  - pip3 install --user chainer==4.2 onnx-chainer==1.1.1a2
 before_script:
   - |
     cd $TRAVIS_BUILD_DIR
     export LD_LIBRARY_PATH=$HOME/.local/lib
     export PKG_CONFIG_PATH=$HOME/.local/share/pkgconfig
-  - python3 menoh/make_onnx.py menoh/MLP.onnx
+  - curl -L https://github.com/pfnet-research/menoh-rs/releases/download/assets/MLP.onnx -o menoh/MLP.onnx
