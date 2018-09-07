@@ -25,9 +25,7 @@ install:
     fi
   - |
     if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
-        brew update
-        brew upgrade python
-        export PATH=/usr/local/opt/python/libexec/bin:$PATH
+        brew tap pfnet-research/menoh
         brew install menoh
     fi
 before_script:
