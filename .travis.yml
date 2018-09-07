@@ -12,6 +12,7 @@ addons:
       - ubuntu-toolchain-r-test
       - sourceline: 'ppa:maarten-fonville/protobuf'
     packages:
+      - libprotobuf15
       - libstdc++6
 install:
   - |
