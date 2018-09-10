@@ -2,7 +2,7 @@ platform:
   - x64
 environment:
   global:
-    MKL_DNN_VERSION: 0.15
+    MKL_DNN_VERSION: 0.16
     MKL_DNN_REL: 1
     MENOH_VERSION: 1.0.3
     MENOH_REL: 1
