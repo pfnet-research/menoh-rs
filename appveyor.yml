@@ -16,7 +16,7 @@ environment:
     - CHANNEL: nightly
       TARGET: gnu
 cache:
-  - '%USERPROFILE%\.cargo'
+  - '%USERPROFILE%\.cargo\registry'
   - target
 install:
   - ps: |
