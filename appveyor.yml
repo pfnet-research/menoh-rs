@@ -26,7 +26,7 @@ install:
        .\rustup-init.exe -y `
            --default-toolchain $env:CHANNEL `
            --default-host "x86_64-pc-windows-$env:TARGET"
-       $env:PATH += "$env:USERPROFILE\.cargo\bin;"
+       $env:PATH += ";$env:USERPROFILE\.cargo\bin"
        rustup.exe show
        cargo.exe --version
   - ps: |
@@ -35,18 +35,18 @@ install:
               -Uri https://github.com/pfnet-research/menoh/releases/download/v$env:MENOH_VERSION/mkl-dnn-$env:MKL_DNN_VERSION-win64.zip `
               -OutFile mkl-dnn-$env:MKL_DNN_VERSION-win64.zip
           Expand-Archive -Path mkl-dnn-$env:MKL_DNN_VERSION-win64.zip -DestinationPath .
-          $env:PATH += "$PWD\mkl-dnn-$env:MKL_DNN_VERSION-win64\lib;"
-          $env:LIB += "$PWD\mkl-dnn-$env:MKL_DNN_VERSION-win64\lib;"
+          $env:PATH += ";$PWD\mkl-dnn-$env:MKL_DNN_VERSION-win64\lib"
+          $env:LIB += ";$PWD\mkl-dnn-$env:MKL_DNN_VERSION-win64\lib"
           Invoke-WebRequest `
               -Uri https://github.com/pfnet-research/menoh/releases/download/v$env:MENOH_VERSION/menoh_prebuild_win_v$env:MENOH_VERSION.zip `
               -OutFile menoh_prebuild_win_v$env:MENOH_VERSION.zip
           Expand-Archive -Path menoh_prebuild_win_v$env:MENOH_VERSION.zip -DestinationPath .
-          $env:PATH += "$PWD\menoh_prebuild_win_v$env:MENOH_VERSION\bin;"
-          $env:LIB += "$PWD\menoh_prebuild_win_v$env:MENOH_VERSION\lib;"
+          $env:PATH += ";$PWD\menoh_prebuild_win_v$env:MENOH_VERSION\bin"
+          $env:LIB += ";$PWD\menoh_prebuild_win_v$env:MENOH_VERSION\lib"
       }
   - ps: |
       if ($env:TARGET -eq "gnu") {
-          $env:PATH += "C:\msys64\mingw64\bin;C:\msys64\usr\bin;"
+          $env:PATH += ";C:\msys64\mingw64\bin;C:\msys64\usr\bin"
           Invoke-WebRequest `
               -Uri https://github.com/pfnet-research/menoh/releases/download/v$env:MENOH_VERSION/mingw-w64-x86_64-mkl-dnn-$env:MKL_DNN_VERSION-$env:MKL_DNN_REL-x86_64.pkg.tar.xz `
               -OutFile mingw-w64-x86_64-mkl-dnn-$env:MKL_DNN_VERSION-$env:MKL_DNN_REL-x86_64.pkg.tar.xz
