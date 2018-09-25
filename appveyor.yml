@@ -52,6 +52,10 @@ install:
               -OutFile mingw-w64-x86_64-mkl-dnn-$env:MKL_DNN_VERSION-$env:MKL_DNN_REL-x86_64.pkg.tar.xz
           pacman.exe -U --noconfirm mingw-w64-x86_64-mkl-dnn-$env:MKL_DNN_VERSION-$env:MKL_DNN_REL-x86_64.pkg.tar.xz
           Invoke-WebRequest `
+              -Uri http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-protobuf-3.5.2-1-any.pkg.tar.xz `
+              -OutFile mingw-w64-x86_64-protobuf-3.5.2-1-any.pkg.tar.xz
+          pacman.exe -U --noconfirm mingw-w64-x86_64-protobuf-3.5.2-1-any.pkg.tar.xz
+          Invoke-WebRequest `
               -Uri https://github.com/pfnet-research/menoh/releases/download/v$env:MENOH_VERSION/mingw-w64-x86_64-menoh-$env:MENOH_VERSION-$env:MENOH_REL-x86_64.pkg.tar.xz `
               -OutFile mingw-w64-x86_64-menoh-$env:MENOH_VERSION-$env:MENOH_REL-x86_64.pkg.tar.xz
           pacman.exe -U --noconfirm mingw-w64-x86_64-menoh-$env:MENOH_VERSION-$env:MENOH_REL-x86_64.pkg.tar.xz
