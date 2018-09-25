@@ -49,7 +49,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     let img = image::open(args.flag_i)?;
     {
         let (_, conv1_1_buf) = model.get_variable_mut::<f32>(CONV1_1_IN_NAME)?;
-        set_image(conv1_1_buf, &crop_and_resize(img, INSIZE));
+        set_image(conv1_1_buf, &img, INSIZE);
     }
     model.run()?;
 
@@ -71,25 +71,19 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     Ok(())
 }
 
-fn crop_and_resize(mut img: image::DynamicImage, size: usize) -> image::DynamicImage {
-    let (h, w) = (img.height(), img.width());
-    let min = cmp::min(w, h);
-    img.crop((w - min) / 2, (h - min) / 2, min, min)
-        .resize_exact(size as _, size as _, image::FilterType::Nearest)
-}
-
-fn set_image<T>(buf: &mut [T], img: &image::DynamicImage)
+fn set_image<T>(buf: &mut [T], img: &image::DynamicImage, size: usize)
 where
     T: From<u8>,
 {
-    let (h, w) = (img.height() as usize, img.width() as usize);
-    assert_eq!(buf.len(), 3 * h * w);
+    let img = img.resize_exact(size as _, size as _, image::FilterType::Nearest);
 
+    assert!(buf.len() <= 3 * size * size);
     for c in 0..3 {
-        for y in 0..h {
-            for x in 0..w {
+        for y in 0..size {
+            for x in 0..size {
                 // 3 - (c + 1): RGB -> BGR
-                buf[(c * h + y) * w + x] = img.get_pixel(x as _, y as _).data[3 - (c + 1)].into();
+                buf[(c * size + y) * size + x] =
+                    img.get_pixel(x as _, y as _).data[3 - (c + 1)].into();
             }
         }
     }
