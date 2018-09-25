@@ -71,19 +71,17 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     Ok(())
 }
 
-fn set_image<T>(buf: &mut [T], img: &image::DynamicImage, size: usize)
-where
-    T: From<u8>,
-{
+fn set_image(buf: &mut [f32], img: &image::DynamicImage, size: usize) {
+    assert!(buf.len() <= 3 * size * size);
     let img = img.resize_exact(size as _, size as _, image::FilterType::Nearest);
 
-    assert!(buf.len() <= 3 * size * size);
+    const MEAN: [f32; 3] = [103.939, 116.779, 123.68];
     for c in 0..3 {
         for y in 0..size {
             for x in 0..size {
                 // 3 - (c + 1): RGB -> BGR
                 buf[(c * size + y) * size + x] =
-                    img.get_pixel(x as _, y as _).data[3 - (c + 1)].into();
+                    img.get_pixel(x as _, y as _).data[3 - (c + 1)] as f32 - MEAN[c];
             }
         }
     }
