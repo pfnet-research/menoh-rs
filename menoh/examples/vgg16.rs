@@ -4,7 +4,7 @@ extern crate menoh;
 #[macro_use]
 extern crate serde_derive;
 
-use image::GenericImage;
+use image::GenericImageView;
 use std::cmp;
 use std::error;
 use std::fs;
