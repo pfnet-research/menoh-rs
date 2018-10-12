@@ -29,12 +29,6 @@ pub enum Error {
     InputNotFoundError(String),
     OutputNotFoundError(String),
 
-    InvalidDimsSize {
-        /// Name of the variable.
-        name: String,
-        /// Size of the specified dims.
-        size: usize,
-    },
     DtypeMismatch {
         /// Actual dtype.
         actual: menoh_sys::menoh_dtype,
@@ -70,11 +64,7 @@ impl fmt::Display for Error {
             Error::InvalidBackendConfigError(message) => write!(f, "{}", message),
             Error::InputNotFoundError(message) => write!(f, "{}", message),
             Error::OutputNotFoundError(message) => write!(f, "{}", message),
-            Error::InvalidDimsSize { name, size } => write!(
-                f,
-                "menoh invalid dims size error (2 or 4 is valid): dims size of {} is specified {}",
-                name, size
-            ),
+
             Error::DtypeMismatch { actual, expected } => write!(
                 f,
                 "menoh dtype mismatch error: actural {}, expected {}",
