@@ -23,7 +23,7 @@ impl ModelBuilder {
     /// # let mut model_data = ModelData::from_onnx("MLP.onnx")?;
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
-    /// # vpt_builder.add_output::<f32>("fc2")?;
+    /// # vpt_builder.add_output("fc2")?;
     /// # let vpt = vpt_builder.build(&model_data)?;
     /// let model_builder = ModelBuilder::new(&vpt)?;
     /// # Ok(())
@@ -48,7 +48,7 @@ impl ModelBuilder {
     /// # let mut model_data = ModelData::from_onnx("MLP.onnx")?;
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
-    /// # vpt_builder.add_output::<f32>("fc2")?;
+    /// # vpt_builder.add_output("fc2")?;
     /// # let vpt = vpt_builder.build(&model_data)?;
     /// # model_data.optimize(&vpt)?;
     /// # let model_builder = ModelBuilder::new(&vpt)?;

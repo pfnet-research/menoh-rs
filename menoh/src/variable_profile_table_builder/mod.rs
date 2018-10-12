@@ -49,35 +49,17 @@ impl VariableProfileTableBuilder {
         T: Dtype,
     {
         let c_name = ffi::CString::new(name)?;
-        match dims.len() {
-            2 => unsafe {
-                check(
-                    menoh_sys::menoh_variable_profile_table_builder_add_input_profile_dims_2(
-                        self.handle,
-                        c_name.as_ptr(),
-                        T::ID,
-                        dims[0] as _,
-                        dims[1] as _,
-                    ),
-                )
-            },
-            4 => unsafe {
-                check(
-                    menoh_sys::menoh_variable_profile_table_builder_add_input_profile_dims_4(
-                        self.handle,
-                        c_name.as_ptr(),
-                        T::ID,
-                        dims[0] as _,
-                        dims[1] as _,
-                        dims[2] as _,
-                        dims[3] as _,
-                    ),
-                )
-            },
-            _ => Err(Error::InvalidDimsSize {
-                name: name.to_owned(),
-                size: dims.len(),
-            }),
+        let dims: Vec<_> = dims.iter().map(|&d| d as _).collect();
+        unsafe {
+            check(
+                menoh_sys::menoh_variable_profile_table_builder_add_input_profile(
+                    self.handle,
+                    c_name.as_ptr(),
+                    T::ID,
+                    dims.len() as _,
+                    dims.as_ptr(),
+                ),
+            )
         }
     }
 
@@ -88,21 +70,17 @@ impl VariableProfileTableBuilder {
     /// # fn main() -> Result<(), Error> {
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
-    /// vpt_builder.add_output::<f32>("fc2")?;
+    /// vpt_builder.add_output("fc2")?;
     /// # Ok(())
     /// # }
     /// ```
-    pub fn add_output<T>(&mut self, name: &str) -> Result<(), Error>
-    where
-        T: Dtype,
-    {
+    pub fn add_output(&mut self, name: &str) -> Result<(), Error> {
         let name = ffi::CString::new(name)?;
         unsafe {
             check(
-                menoh_sys::menoh_variable_profile_table_builder_add_output_profile(
+                menoh_sys::menoh_variable_profile_table_builder_add_output_name(
                     self.handle,
                     name.as_ptr(),
-                    T::ID,
                 ),
             )
         }
@@ -116,7 +94,7 @@ impl VariableProfileTableBuilder {
     /// # let mut model_data = ModelData::from_onnx("MLP.onnx")?;
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
-    /// # vpt_builder.add_output::<f32>("fc2")?;
+    /// # vpt_builder.add_output("fc2")?;
     /// let vpt = vpt_builder.build(&model_data)?;
     /// # Ok(())
     /// # }

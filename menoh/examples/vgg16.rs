@@ -42,8 +42,8 @@ fn main() -> Result<(), Box<dyn error::Error>> {
 
     let mut model = menoh::Builder::from_onnx(args.flag_m)?
         .add_input::<f32>(CONV1_1_IN_NAME, &[1, 3, INSIZE, INSIZE])?
-        .add_output::<f32>(FC6_OUT_NAME)?
-        .add_output::<f32>(SOFTMAX_OUT_NAME)?
+        .add_output(FC6_OUT_NAME)?
+        .add_output(SOFTMAX_OUT_NAME)?
         .build("mkldnn", "")?;
 
     let img = image::open(args.flag_i)?;

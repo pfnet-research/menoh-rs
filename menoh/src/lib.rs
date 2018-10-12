@@ -8,7 +8,7 @@
 //! fn main() -> Result<(), menoh::Error> {
 //!     let mut model = menoh::Builder::from_onnx("MLP.onnx")?
 //!         .add_input::<f32>("input", &[2, 3])?
-//!         .add_output::<f32>("fc2")?
+//!         .add_output("fc2")?
 //!         .build("mkldnn", "")?;
 //!
 //!     {
@@ -47,7 +47,7 @@
 //!     .add_input::<f32>("input", &[2, 3])?
 //! // register `"fc2"` as output
 //! // and specify its type (`f32`).
-//!     .add_output::<f32>("fc2")?
+//!     .add_output("fc2")?
 //! // specify backend (`"mkldnn"`) and its configuration (`""`).
 //!     .build("mkldnn", "")?;
 //! # Ok(())
@@ -60,7 +60,7 @@
 //!
 //! let mut vpt_builder = menoh::VariableProfileTableBuilder::new()?;
 //! vpt_builder.add_input::<f32>("input", &[2, 3])?;
-//! vpt_builder.add_output::<f32>("fc2")?;
+//! vpt_builder.add_output("fc2")?;
 //! let vpt = vpt_builder.build(&model_data)?;
 //!
 //! model_data.optimize(&vpt)?;
@@ -76,7 +76,7 @@
 //! # fn main() -> Result<(), menoh::Error> {
 //! # let mut model = menoh::Builder::from_onnx("MLP.onnx")?
 //! #     .add_input::<f32>("input", &[2, 3])?
-//! #     .add_output::<f32>("fc2")?
+//! #     .add_output("fc2")?
 //! #     .build("mkldnn", "")?;
 //! // fetch a read/write view of a variable.
 //! let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
@@ -92,7 +92,7 @@
 //! # fn main() -> Result<(), menoh::Error> {
 //! # let mut model = menoh::Builder::from_onnx("MLP.onnx")?
 //! #     .add_input::<f32>("input", &[2, 3])?
-//! #     .add_output::<f32>("fc2")?
+//! #     .add_output("fc2")?
 //! #     .build("mkldnn", "")?;
 //! let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
 //! in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
@@ -105,7 +105,7 @@
 //! # fn main() -> Result<(), menoh::Error> {
 //! # let mut model = menoh::Builder::from_onnx("MLP.onnx")?
 //! #     .add_input::<f32>("input", &[2, 3])?
-//! #     .add_output::<f32>("fc2")?
+//! #     .add_output("fc2")?
 //! #     .build("mkldnn", "")?;
 //! {
 //!     let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
@@ -122,7 +122,7 @@
 //! # fn main() -> Result<(), menoh::Error> {
 //! # let mut model = menoh::Builder::from_onnx("MLP.onnx")?
 //! #     .add_input::<f32>("input", &[2, 3])?
-//! #     .add_output::<f32>("fc2")?
+//! #     .add_output("fc2")?
 //! #     .build("mkldnn", "")?;
 //! model.run()?;
 //! # Ok(())
@@ -135,7 +135,7 @@
 //! # fn main() -> Result<(), menoh::Error> {
 //! # let mut model = menoh::Builder::from_onnx("MLP.onnx")?
 //! #     .add_input::<f32>("input", &[2, 3])?
-//! #     .add_output::<f32>("fc2")?
+//! #     .add_output("fc2")?
 //! #     .build("mkldnn", "")?;
 //! // fetch a read-only view of a variable.
 //! let (out_dims, out_buf) = model.get_variable::<f32>("fc2")?;
