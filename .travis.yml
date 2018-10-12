@@ -15,9 +15,9 @@ install:
   - |
     if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
         sudo apt update
-        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_mkl-dnn_0.16-1_amd64.deb
-        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_menoh_1.0.3-1_amd64.deb
-        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.0.3/ubuntu1404_menoh-dev_1.0.3-1_amd64.deb
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.1.0/ubuntu1404_mkl-dnn_0.16-1_amd64.deb
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.1.0/ubuntu1404_menoh_1.1.0-1_amd64.deb
+        curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.1.0/ubuntu1404_menoh-dev_1.1.0-1_amd64.deb
         sudo dpkg -i --force-depends *.deb
         sudo apt install -f
     fi
