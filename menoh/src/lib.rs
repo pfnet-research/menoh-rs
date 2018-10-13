@@ -45,8 +45,7 @@
 //! // register `"input"` as input
 //! // and specify its type (`f32`) and shape (`&[2, 3]`).
 //!     .add_input::<f32>("input", &[2, 3])?
-//! // register `"fc2"` as output
-//! // and specify its type (`f32`).
+//! // register `"fc2"` as output.
 //!     .add_output("fc2")?
 //! // specify backend (`"mkldnn"`) and its configuration (`""`).
 //!     .build("mkldnn", "")?;
