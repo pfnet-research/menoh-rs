@@ -19,7 +19,7 @@ impl VariableProfileTable {
     /// # let mut model_data = ModelData::from_onnx("MLP.onnx")?;
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
-    /// # vpt_builder.add_output::<f32>("fc2")?;
+    /// # vpt_builder.add_output("fc2")?;
     /// # let vpt = vpt_builder.build(&model_data)?;
     /// let dims = vpt.get_variable_dims("fc2")?;
     /// # assert_eq!(dims, &[2, 5]);

@@ -33,6 +33,23 @@ impl Builder {
         })
     }
 
+    /// Create a builder from a ONNX data.
+    ///
+    /// ```
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// # let onnx_data = include_bytes!("../../MLP.onnx");
+    /// let builder = Builder::from_onnx_bytes(onnx_data)?;
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn from_onnx_bytes(data: &[u8]) -> Result<Self, Error> {
+        Ok(Self {
+            model_data: ModelData::from_onnx_bytes(data)?,
+            vpt_builder: VariableProfileTableBuilder::new()?,
+        })
+    }
+
     /// Register a variable as input.
     ///
     /// ```
@@ -57,15 +74,12 @@ impl Builder {
     /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// # let builder = Builder::from_onnx("MLP.onnx")?;
-    /// let builder = builder.add_output::<f32>("fc2")?;
+    /// let builder = builder.add_output("fc2")?;
     /// # Ok(())
     /// # }
     /// ```
-    pub fn add_output<T>(mut self, name: &str) -> Result<Self, Error>
-    where
-        T: Dtype,
-    {
-        self.vpt_builder.add_output::<T>(name)?;
+    pub fn add_output(mut self, name: &str) -> Result<Self, Error> {
+        self.vpt_builder.add_output(name)?;
         Ok(self)
     }
 
@@ -76,7 +90,7 @@ impl Builder {
     /// # fn main() -> Result<(), Error> {
     /// # let builder = Builder::from_onnx("MLP.onnx")?
     /// #     .add_input::<f32>("input", &[2, 3])?
-    /// #     .add_output::<f32>("fc2")?;
+    /// #     .add_output("fc2")?;
     /// let model = builder.build("mkldnn", "")?;
     /// # Ok(())
     /// # }

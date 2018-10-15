@@ -10,7 +10,7 @@ Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 
 ## Requirements
 - Rust 1.27+
-- [Menoh](https://github.com/pfnet-research/menoh) 1.0+
+- [Menoh](https://github.com/pfnet-research/menoh) 1.1+
 
 ## Demo
 
@@ -34,7 +34,7 @@ extern crate menoh;
 fn main() -> Result<(), menoh::Error> {
     let mut model = menoh::Builder::from_onnx("MLP.onnx")?
         .add_input::<f32>("input", &[2, 3])?
-        .add_output::<f32>("fc2")?
+        .add_output("fc2")?
         .build("mkldnn", "")?;
 
     {

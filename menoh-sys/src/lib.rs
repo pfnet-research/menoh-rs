@@ -25,6 +25,12 @@ pub const menoh_error_code_unsupported_operator: menoh_error_code_constant = 14;
 pub const menoh_error_code_failed_to_configure_operator: menoh_error_code_constant = 15;
 pub const menoh_error_code_backend_error: menoh_error_code_constant = 16;
 pub const menoh_error_code_same_named_variable_already_exist: menoh_error_code_constant = 17;
+pub const menoh_error_code_unsupported_input_dims: menoh_error_code_constant = 18;
+pub const menoh_error_code_same_named_parameter_already_exist: menoh_error_code_constant = 19;
+pub const menoh_error_code_same_named_attribute_already_exist: menoh_error_code_constant = 20;
+pub const menoh_error_code_invalid_backend_config_error: menoh_error_code_constant = 21;
+pub const menoh_error_code_input_not_found_error: menoh_error_code_constant = 22;
+pub const menoh_error_code_output_not_found_error: menoh_error_code_constant = 23;
 pub type menoh_error_code_constant = u32;
 pub type menoh_error_code = i32;
 extern "C" {
@@ -36,13 +42,81 @@ pub struct menoh_model_data {
 }
 pub type menoh_model_data_handle = *mut menoh_model_data;
 extern "C" {
+    pub fn menoh_delete_model_data(model_data: menoh_model_data_handle);
+}
+extern "C" {
     pub fn menoh_make_model_data_from_onnx(
         onnx_filename: *const ::std::os::raw::c_char,
         dst_handle: *mut menoh_model_data_handle,
     ) -> menoh_error_code;
 }
 extern "C" {
-    pub fn menoh_delete_model_data(model_data: menoh_model_data_handle);
+    pub fn menoh_make_model_data_from_onnx_data_on_memory(
+        onnx_data: *const u8,
+        size: i32,
+        dst_handle: *mut menoh_model_data_handle,
+    ) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_make_model_data(dst_handle: *mut menoh_model_data_handle) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_model_data_add_parameter(
+        model_data: menoh_model_data_handle,
+        parameter_name: *const ::std::os::raw::c_char,
+        dtype: menoh_dtype,
+        dims_size: i32,
+        dims: *const i32,
+        buffer_handle: *mut ::std::os::raw::c_void,
+    ) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_model_data_add_new_node(
+        model_data: menoh_model_data_handle,
+        op_type: *const ::std::os::raw::c_char,
+    ) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_model_data_add_input_name_to_current_node(
+        model_data: menoh_model_data_handle,
+        input_name: *const ::std::os::raw::c_char,
+    ) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_model_data_add_output_name_to_current_node(
+        model_data: menoh_model_data_handle,
+        output_name: *const ::std::os::raw::c_char,
+    ) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_model_data_add_attribute_int_to_current_node(
+        model_data: menoh_model_data_handle,
+        attribute_name: *const ::std::os::raw::c_char,
+        value: i32,
+    ) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_model_data_add_attribute_float_to_current_node(
+        model_data: menoh_model_data_handle,
+        attribute_name: *const ::std::os::raw::c_char,
+        value: f32,
+    ) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_model_data_add_attribute_ints_to_current_node(
+        model_data: menoh_model_data_handle,
+        attribute_name: *const ::std::os::raw::c_char,
+        size: i32,
+        value: *const i32,
+    ) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_model_data_add_attribute_floats_to_current_node(
+        model_data: menoh_model_data_handle,
+        attribute_name: *const ::std::os::raw::c_char,
+        size: i32,
+        value: *const f32,
+    ) -> menoh_error_code;
 }
 #[repr(C)]
 pub struct menoh_variable_profile_table_builder {
@@ -58,6 +132,15 @@ extern "C" {
     pub fn menoh_delete_variable_profile_table_builder(
         builder: menoh_variable_profile_table_builder_handle,
     );
+}
+extern "C" {
+    pub fn menoh_variable_profile_table_builder_add_input_profile(
+        builder: menoh_variable_profile_table_builder_handle,
+        name: *const ::std::os::raw::c_char,
+        dtype: menoh_dtype,
+        dims_size: i32,
+        dims: *const i32,
+    ) -> menoh_error_code;
 }
 extern "C" {
     pub fn menoh_variable_profile_table_builder_add_input_profile_dims_2(
@@ -77,6 +160,12 @@ extern "C" {
         channel: i32,
         height: i32,
         width: i32,
+    ) -> menoh_error_code;
+}
+extern "C" {
+    pub fn menoh_variable_profile_table_builder_add_output_name(
+        builder: menoh_variable_profile_table_builder_handle,
+        name: *const ::std::os::raw::c_char,
     ) -> menoh_error_code;
 }
 extern "C" {

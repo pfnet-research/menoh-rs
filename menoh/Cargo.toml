@@ -1,14 +1,15 @@
 [package]
 name = "menoh"
-version = "0.1.4"
+version = "0.2.0"
 authors = ["Toru Ogawa <ogawa@preferred.jp>"]
 repository = "https://github.com/pfnet-research/menoh-rs"
 license = "MIT"
 readme = "../README.md"
 description = "Binding for Menoh."
+exclude = ["**/*.py"]
 
 [dependencies]
-menoh-sys = { path = "../menoh-sys", version = "0.1" }
+menoh-sys = { path = "../menoh-sys", version = "0.2" }
 
 [dev-dependencies]
 docopt = "1.0"

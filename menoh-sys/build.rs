@@ -2,7 +2,7 @@ extern crate pkg_config;
 
 fn main() {
     match pkg_config::Config::new()
-        .atleast_version("1.0")
+        .atleast_version("1.1")
         .probe("menoh")
     {
         Ok(_) => (),

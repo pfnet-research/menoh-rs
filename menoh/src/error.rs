@@ -22,13 +22,13 @@ pub enum Error {
     FailedToConfigureOperator(String),
     BackendError(String),
     SameNamedVariableAlreadyExist(String),
+    UnsupportedInputDims(String),
+    SameNamedParameterAlreadyExist(String),
+    SameNamedAttributeAlreadyExist(String),
+    InvalidBackendConfigError(String),
+    InputNotFoundError(String),
+    OutputNotFoundError(String),
 
-    InvalidDimsSize {
-        /// Name of the variable.
-        name: String,
-        /// Size of the specified dims.
-        size: usize,
-    },
     DtypeMismatch {
         /// Actual dtype.
         actual: menoh_sys::menoh_dtype,
@@ -58,11 +58,13 @@ impl fmt::Display for Error {
             Error::FailedToConfigureOperator(message) => write!(f, "{}", message),
             Error::BackendError(message) => write!(f, "{}", message),
             Error::SameNamedVariableAlreadyExist(message) => write!(f, "{}", message),
-            Error::InvalidDimsSize { name, size } => write!(
-                f,
-                "menoh invalid dims size error (2 or 4 is valid): dims size of {} is specified {}",
-                name, size
-            ),
+            Error::UnsupportedInputDims(message) => write!(f, "{}", message),
+            Error::SameNamedParameterAlreadyExist(message) => write!(f, "{}", message),
+            Error::SameNamedAttributeAlreadyExist(message) => write!(f, "{}", message),
+            Error::InvalidBackendConfigError(message) => write!(f, "{}", message),
+            Error::InputNotFoundError(message) => write!(f, "{}", message),
+            Error::OutputNotFoundError(message) => write!(f, "{}", message),
+
             Error::DtypeMismatch { actual, expected } => write!(
                 f,
                 "menoh dtype mismatch error: actural {}, expected {}",
@@ -120,6 +122,24 @@ pub fn check(code: menoh_sys::menoh_error_code) -> Result<(), Error> {
             menoh_sys::menoh_error_code_backend_error => Err(Error::BackendError(message)),
             menoh_sys::menoh_error_code_same_named_variable_already_exist => {
                 Err(Error::SameNamedVariableAlreadyExist(message))
+            }
+            menoh_sys::menoh_error_code_unsupported_input_dims => {
+                Err(Error::UnsupportedInputDims(message))
+            }
+            menoh_sys::menoh_error_code_same_named_parameter_already_exist => {
+                Err(Error::SameNamedParameterAlreadyExist(message))
+            }
+            menoh_sys::menoh_error_code_same_named_attribute_already_exist => {
+                Err(Error::SameNamedAttributeAlreadyExist(message))
+            }
+            menoh_sys::menoh_error_code_invalid_backend_config_error => {
+                Err(Error::InvalidBackendConfigError(message))
+            }
+            menoh_sys::menoh_error_code_input_not_found_error => {
+                Err(Error::InputNotFoundError(message))
+            }
+            menoh_sys::menoh_error_code_output_not_found_error => {
+                Err(Error::OutputNotFoundError(message))
             }
             _ => unreachable!(),
         }
