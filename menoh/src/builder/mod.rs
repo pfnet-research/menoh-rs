@@ -33,6 +33,23 @@ impl Builder {
         })
     }
 
+    /// Create a builder from a slice of ONNX data.
+    ///
+    /// ```
+    /// # use menoh::*;
+    /// # fn main() -> Result<(), Error> {
+    /// # let onnx_data = include_bytes!("../../MLP.onnx");
+    /// let builder = Builder::from_onnx_slice(onnx_data)?;
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn from_onnx_slice(data: &[u8]) -> Result<Self, Error> {
+        Ok(Self {
+            model_data: ModelData::from_onnx_slice(data)?,
+            vpt_builder: VariableProfileTableBuilder::new()?,
+        })
+    }
+
     /// Register a variable as input.
     ///
     /// ```
