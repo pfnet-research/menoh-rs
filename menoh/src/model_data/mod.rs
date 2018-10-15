@@ -41,7 +41,7 @@ impl ModelData {
     /// Remove unused data using a `VariableProfileTable`.
     ///
     /// ```
-    /// use menoh::*;
+    /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// # let mut model_data = ModelData::from_onnx("MLP.onnx")?;
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
