@@ -38,17 +38,17 @@ impl ModelData {
         Ok(Self { handle })
     }
 
-    /// Load data from a slice of ONNX data.
+    /// Load data from a ONNX data.
     ///
     /// ```
     /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// # let onnx_data = include_bytes!("../../MLP.onnx");
-    /// let model_data = ModelData::from_onnx_slice(onnx_data)?;
+    /// let model_data = ModelData::from_onnx_bytes(onnx_data)?;
     /// # Ok(())
     /// # }
     /// ```
-    pub fn from_onnx_slice(data: &[u8]) -> Result<Self, Error> {
+    pub fn from_onnx_bytes(data: &[u8]) -> Result<Self, Error> {
         let mut handle = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_make_model_data_from_onnx_data_on_memory(

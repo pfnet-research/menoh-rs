@@ -8,6 +8,6 @@ fn from_onnx_invalid_path() {
 
 #[test]
 #[should_panic(expected = "OnnxParseError")]
-fn from_onnx_slice_invalid_data() {
-    ModelData::from_onnx_slice(b"0123456789").unwrap();
+fn from_onnx_bytes_invalid_data() {
+    ModelData::from_onnx_bytes(b"0123456789").unwrap();
 }
