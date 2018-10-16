@@ -1,45 +1,17 @@
 import argparse
 import numpy as np
-from unittest import mock
 
-import chainer
-import chainer.functions as F
-import chainer.links as L
-
-import onnx_chainer
+import onnx
+import onnx.numpy_helper
 
 
-class MLP(chainer.Chain):
-
-    def __init__(self):
-        super().__init__()
-        with self.init_scope():
-            self.fc1 = L.Linear(3, 4)
-            self.fc2 = L.Linear(4, 5)
-
-        self.fc1.W.array[:] = np.arange(-6, 6).reshape((4, 3))
-        self.fc1.b.array[:] = np.arange(-2, 2)
-
-        self.fc2.W.array[:] = np.arange(-10, 10).reshape((5, 4))
-        self.fc2.b.array[:] = np.arange(-2, 3)
-
-    def __call__(self, x):
-        x.node._onnx_name = 'input'
-        h = F.relu(self.fc1(x))
-        h.node._onnx_name = 'fc1'
-        h = F.relu(self.fc2(h))
-        h.node._onnx_name = 'fc2'
-        return h
+def make_tensor_value_info(name, shape):
+    return onnx.helper.make_tensor_value_info(
+        name, onnx.TensorProto.FLOAT, shape)
 
 
-class IDGenerator(object):
-
-    def __init__(self):
-        # keep original
-        self._id = id
-
-    def __call__(self, obj):
-        return getattr(obj, '_onnx_name', self._id(obj))
+def from_array(name, array):
+    return onnx.numpy_helper.from_array(array.astype(np.float32), name)
 
 
 def main():
@@ -47,11 +19,42 @@ def main():
     parser.add_argument('out')
     args = parser.parse_args()
 
-    model = MLP()
-    x = np.empty((1, 3), dtype=np.float32)
-    with chainer.using_config('train', False), \
-            mock.patch('builtins.id', IDGenerator()):
-        onnx_chainer.export(model, x, filename=args.out)
+    inputs = (
+        make_tensor_value_info('input', (3,)),
+        make_tensor_value_info('fc1_W', (4, 3)),
+        make_tensor_value_info('fc1_b', (4,)),
+        make_tensor_value_info('fc2_W', (5, 4)),
+        make_tensor_value_info('fc2_b', (4,)),
+    )
+
+    outputs = (
+        make_tensor_value_info('fc1', (4,)),
+        make_tensor_value_info('fc2', (5,)),
+    )
+
+    nodes = (
+        onnx.helper.make_node(
+            'Gemm', ('input', 'fc1_W', 'fc1_b'), ('_fc1',),
+            alpha=1., beta=1., transA=0, transB=1),
+        onnx.helper.make_node('Relu', ('_fc1',), ('fc1',)),
+        onnx.helper.make_node(
+            'Gemm', ('fc1', 'fc2_W', 'fc2_b'), ('_fc2',),
+            alpha=1., beta=1., transA=0, transB=1),
+        onnx.helper.make_node('Relu', ('_fc2',), ('fc2',)),
+    )
+
+    initializers = (
+        from_array('fc1_W', np.arange(-6, 6).reshape((4, 3))),
+        from_array('fc1_b',  np.arange(-2, 2)),
+        from_array('fc2_W', np.arange(-10, 10).reshape((5, 4))),
+        from_array('fc2_b',  np.arange(-2, 3)),
+    )
+
+    graph = onnx.helper.make_graph(
+        nodes, 'model', inputs, outputs, initializer=initializers)
+    model = onnx.helper.make_model(graph)
+    onnx.checker.check_model(model)
+    onnx.save(model, args.out)
 
 
 if __name__ == '__main__':
