@@ -28,5 +28,5 @@ install:
     fi
 before_script:
   - |
-    pip install numpy onnx
+    pip install --user numpy onnx
     python menoh/make_onnx.py menoh/MLP.onnx
