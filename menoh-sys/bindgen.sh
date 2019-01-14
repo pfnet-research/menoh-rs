@@ -1,9 +1,7 @@
-#! /usr/bin/env bash
+#! /usr/bin/env sh
 set -eu
 
-TARGET="$(dirname $(realpath $BASH_SOURCE))/src/lib.rs"
-
-cat - << EOD > "$TARGET"
+cat - << EOD
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
@@ -19,5 +17,4 @@ bindgen wrapper.h \
         --no-prepend-enum-name \
         --no-recursive-whitelist \
         --whitelist-function 'menoh_.*' \
-        --whitelist-type 'menoh_.*' \
-        >> "$TARGET"
+        --whitelist-type 'menoh_.*'
