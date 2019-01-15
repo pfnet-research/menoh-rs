@@ -23,6 +23,7 @@ install:
     fi
   - |
     if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
+        brew update
         brew tap pfnet-research/menoh
         brew install opencv menoh
     fi
