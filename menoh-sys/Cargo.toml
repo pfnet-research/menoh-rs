@@ -7,7 +7,7 @@ license = "MIT"
 readme = "../README.md"
 description = "Low-level binding for Menoh."
 build = "build.rs"
-exclude = ["**/*.bash"]
+exclude = ["**/*.sh"]
 
 [dependencies]
 
