@@ -41,29 +41,29 @@ pub enum Error {
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Error::StdError(message) => write!(f, "{}", message),
-            Error::UnknownError(message) => write!(f, "{}", message),
-            Error::InvalidFilename(message) => write!(f, "{}", message),
-            Error::UnsupportedOnnxOpsetVersion(message) => write!(f, "{}", message),
-            Error::OnnxParseError(message) => write!(f, "{}", message),
-            Error::InvalidDtype(message) => write!(f, "{}", message),
-            Error::InvalidAttributeType(message) => write!(f, "{}", message),
-            Error::UnsupportedOperatorAttribute(message) => write!(f, "{}", message),
-            Error::DimensionMismatch(message) => write!(f, "{}", message),
-            Error::VariableNotFound(message) => write!(f, "{}", message),
-            Error::IndexOutOfRange(message) => write!(f, "{}", message),
-            Error::JsonParseError(message) => write!(f, "{}", message),
-            Error::InvalidBackendName(message) => write!(f, "{}", message),
-            Error::UnsupportedOperator(message) => write!(f, "{}", message),
-            Error::FailedToConfigureOperator(message) => write!(f, "{}", message),
-            Error::BackendError(message) => write!(f, "{}", message),
-            Error::SameNamedVariableAlreadyExist(message) => write!(f, "{}", message),
-            Error::UnsupportedInputDims(message) => write!(f, "{}", message),
-            Error::SameNamedParameterAlreadyExist(message) => write!(f, "{}", message),
-            Error::SameNamedAttributeAlreadyExist(message) => write!(f, "{}", message),
-            Error::InvalidBackendConfigError(message) => write!(f, "{}", message),
-            Error::InputNotFoundError(message) => write!(f, "{}", message),
-            Error::OutputNotFoundError(message) => write!(f, "{}", message),
+            Error::StdError(message)
+            | Error::UnknownError(message)
+            | Error::InvalidFilename(message)
+            | Error::UnsupportedOnnxOpsetVersion(message)
+            | Error::OnnxParseError(message)
+            | Error::InvalidDtype(message)
+            | Error::InvalidAttributeType(message)
+            | Error::UnsupportedOperatorAttribute(message)
+            | Error::DimensionMismatch(message)
+            | Error::VariableNotFound(message)
+            | Error::IndexOutOfRange(message)
+            | Error::JsonParseError(message)
+            | Error::InvalidBackendName(message)
+            | Error::UnsupportedOperator(message)
+            | Error::FailedToConfigureOperator(message)
+            | Error::BackendError(message)
+            | Error::SameNamedVariableAlreadyExist(message)
+            | Error::UnsupportedInputDims(message)
+            | Error::SameNamedParameterAlreadyExist(message)
+            | Error::SameNamedAttributeAlreadyExist(message)
+            | Error::InvalidBackendConfigError(message)
+            | Error::InputNotFoundError(message)
+            | Error::OutputNotFoundError(message) => write!(f, "{}", message),
 
             Error::DtypeMismatch { actual, expected } => write!(
                 f,
