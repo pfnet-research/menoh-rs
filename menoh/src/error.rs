@@ -84,12 +84,10 @@ pub fn check(code: menoh_sys::menoh_error_code) -> Result<(), Error> {
     if code == menoh_sys::menoh_error_code_success {
         Ok(())
     } else {
-        let message = unsafe {
-            ffi::CStr::from_ptr(menoh_sys::menoh_get_last_error_message())
-                .to_owned()
-                .into_string()
-                .unwrap_or("[failed to decode message]".to_owned())
-        };
+        let message = String::from_utf8_lossy(
+            unsafe { ffi::CStr::from_ptr(menoh_sys::menoh_get_last_error_message()) }.to_bytes(),
+        )
+        .into_owned();
         let err = match code {
             menoh_sys::menoh_error_code_std_error => StdError(message),
             menoh_sys::menoh_error_code_unknown_error => UnknownError(message),
