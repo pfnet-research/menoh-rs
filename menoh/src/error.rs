@@ -37,40 +37,41 @@ pub enum Error {
     },
     NulError(ffi::NulError),
 }
+use Error::*;
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Error::StdError(message)
-            | Error::UnknownError(message)
-            | Error::InvalidFilename(message)
-            | Error::UnsupportedOnnxOpsetVersion(message)
-            | Error::OnnxParseError(message)
-            | Error::InvalidDtype(message)
-            | Error::InvalidAttributeType(message)
-            | Error::UnsupportedOperatorAttribute(message)
-            | Error::DimensionMismatch(message)
-            | Error::VariableNotFound(message)
-            | Error::IndexOutOfRange(message)
-            | Error::JsonParseError(message)
-            | Error::InvalidBackendName(message)
-            | Error::UnsupportedOperator(message)
-            | Error::FailedToConfigureOperator(message)
-            | Error::BackendError(message)
-            | Error::SameNamedVariableAlreadyExist(message)
-            | Error::UnsupportedInputDims(message)
-            | Error::SameNamedParameterAlreadyExist(message)
-            | Error::SameNamedAttributeAlreadyExist(message)
-            | Error::InvalidBackendConfigError(message)
-            | Error::InputNotFoundError(message)
-            | Error::OutputNotFoundError(message) => write!(f, "{}", message),
+            StdError(message)
+            | UnknownError(message)
+            | InvalidFilename(message)
+            | UnsupportedOnnxOpsetVersion(message)
+            | OnnxParseError(message)
+            | InvalidDtype(message)
+            | InvalidAttributeType(message)
+            | UnsupportedOperatorAttribute(message)
+            | DimensionMismatch(message)
+            | VariableNotFound(message)
+            | IndexOutOfRange(message)
+            | JsonParseError(message)
+            | InvalidBackendName(message)
+            | UnsupportedOperator(message)
+            | FailedToConfigureOperator(message)
+            | BackendError(message)
+            | SameNamedVariableAlreadyExist(message)
+            | UnsupportedInputDims(message)
+            | SameNamedParameterAlreadyExist(message)
+            | SameNamedAttributeAlreadyExist(message)
+            | InvalidBackendConfigError(message)
+            | InputNotFoundError(message)
+            | OutputNotFoundError(message) => write!(f, "{}", message),
 
-            Error::DtypeMismatch { actual, expected } => write!(
+            DtypeMismatch { actual, expected } => write!(
                 f,
                 "menoh dtype mismatch error: actural {}, expected {}",
                 actual, expected
             ),
-            Error::NulError(err) => err.fmt(f),
+            NulError(err) => err.fmt(f),
         }
     }
 }
@@ -90,49 +91,43 @@ pub fn check(code: menoh_sys::menoh_error_code) -> Result<(), Error> {
                 .unwrap_or("[failed to decode message]".to_owned())
         };
         let err = match code {
-            menoh_sys::menoh_error_code_std_error => Error::StdError(message),
-            menoh_sys::menoh_error_code_unknown_error => Error::UnknownError(message),
-            menoh_sys::menoh_error_code_invalid_filename => Error::InvalidFilename(message),
+            menoh_sys::menoh_error_code_std_error => StdError(message),
+            menoh_sys::menoh_error_code_unknown_error => UnknownError(message),
+            menoh_sys::menoh_error_code_invalid_filename => InvalidFilename(message),
             menoh_sys::menoh_error_code_unsupported_onnx_opset_version => {
-                Error::UnsupportedOnnxOpsetVersion(message)
+                UnsupportedOnnxOpsetVersion(message)
             }
-            menoh_sys::menoh_error_code_onnx_parse_error => Error::OnnxParseError(message),
-            menoh_sys::menoh_error_code_invalid_dtype => Error::InvalidDtype(message),
-            menoh_sys::menoh_error_code_invalid_attribute_type => {
-                Error::InvalidAttributeType(message)
-            }
+            menoh_sys::menoh_error_code_onnx_parse_error => OnnxParseError(message),
+            menoh_sys::menoh_error_code_invalid_dtype => InvalidDtype(message),
+            menoh_sys::menoh_error_code_invalid_attribute_type => InvalidAttributeType(message),
             menoh_sys::menoh_error_code_unsupported_operator_attribute => {
-                Error::UnsupportedOperatorAttribute(message)
+                UnsupportedOperatorAttribute(message)
             }
-            menoh_sys::menoh_error_code_dimension_mismatch => Error::DimensionMismatch(message),
-            menoh_sys::menoh_error_code_variable_not_found => Error::VariableNotFound(message),
-            menoh_sys::menoh_error_code_index_out_of_range => Error::IndexOutOfRange(message),
-            menoh_sys::menoh_error_code_json_parse_error => Error::JsonParseError(message),
-            menoh_sys::menoh_error_code_invalid_backend_name => Error::InvalidBackendName(message),
-            menoh_sys::menoh_error_code_unsupported_operator => Error::UnsupportedOperator(message),
+            menoh_sys::menoh_error_code_dimension_mismatch => DimensionMismatch(message),
+            menoh_sys::menoh_error_code_variable_not_found => VariableNotFound(message),
+            menoh_sys::menoh_error_code_index_out_of_range => IndexOutOfRange(message),
+            menoh_sys::menoh_error_code_json_parse_error => JsonParseError(message),
+            menoh_sys::menoh_error_code_invalid_backend_name => InvalidBackendName(message),
+            menoh_sys::menoh_error_code_unsupported_operator => UnsupportedOperator(message),
             menoh_sys::menoh_error_code_failed_to_configure_operator => {
-                Error::FailedToConfigureOperator(message)
+                FailedToConfigureOperator(message)
             }
-            menoh_sys::menoh_error_code_backend_error => Error::BackendError(message),
+            menoh_sys::menoh_error_code_backend_error => BackendError(message),
             menoh_sys::menoh_error_code_same_named_variable_already_exist => {
-                Error::SameNamedVariableAlreadyExist(message)
+                SameNamedVariableAlreadyExist(message)
             }
-            menoh_sys::menoh_error_code_unsupported_input_dims => {
-                Error::UnsupportedInputDims(message)
-            }
+            menoh_sys::menoh_error_code_unsupported_input_dims => UnsupportedInputDims(message),
             menoh_sys::menoh_error_code_same_named_parameter_already_exist => {
-                Error::SameNamedParameterAlreadyExist(message)
+                SameNamedParameterAlreadyExist(message)
             }
             menoh_sys::menoh_error_code_same_named_attribute_already_exist => {
-                Error::SameNamedAttributeAlreadyExist(message)
+                SameNamedAttributeAlreadyExist(message)
             }
             menoh_sys::menoh_error_code_invalid_backend_config_error => {
-                Error::InvalidBackendConfigError(message)
+                InvalidBackendConfigError(message)
             }
-            menoh_sys::menoh_error_code_input_not_found_error => Error::InputNotFoundError(message),
-            menoh_sys::menoh_error_code_output_not_found_error => {
-                Error::OutputNotFoundError(message)
-            }
+            menoh_sys::menoh_error_code_input_not_found_error => InputNotFoundError(message),
+            menoh_sys::menoh_error_code_output_not_found_error => OutputNotFoundError(message),
             _ => unreachable!(),
         };
         Err(err)
