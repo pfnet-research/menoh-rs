@@ -1,13 +1,11 @@
-use menoh_sys;
-use std::ffi;
+use crate::error::check;
+use crate::handler::Handler;
+use crate::Dtype;
+use crate::Error;
+use std::ffi::CString;
 use std::mem;
 use std::ptr;
 use std::slice;
-
-use error::check;
-use handler::Handler;
-use Dtype;
-use Error;
 
 /// Model, which executes computation.
 pub struct Model {
@@ -30,7 +28,7 @@ impl Model {
     /// # }
     /// ```
     pub fn get_variable_dims(&self, name: &str) -> Result<Vec<usize>, Error> {
-        let name = ffi::CString::new(name)?;
+        let name = CString::new(name)?;
         unsafe {
             let mut size = 0;
             check(menoh_sys::menoh_model_get_variable_dims_size(
@@ -54,7 +52,7 @@ impl Model {
     }
 
     fn get_variable_dtype(&self, name: &str) -> Result<menoh_sys::menoh_dtype, Error> {
-        let name = ffi::CString::new(name)?;
+        let name = CString::new(name)?;
         unsafe {
             let mut dtype = mem::uninitialized();
             check(menoh_sys::menoh_model_get_variable_dtype(
@@ -87,7 +85,7 @@ impl Model {
         T::check(self.get_variable_dtype(name)?)?;
         let dims = self.get_variable_dims(name)?;
 
-        let name = ffi::CString::new(name)?;
+        let name = CString::new(name)?;
         let mut buffer = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_model_get_variable_buffer_handle(
@@ -121,7 +119,7 @@ impl Model {
         T::check(self.get_variable_dtype(name)?)?;
         let dims = self.get_variable_dims(name)?;
 
-        let name = ffi::CString::new(name)?;
+        let name = CString::new(name)?;
         let mut buffer = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_model_get_variable_buffer_handle(

@@ -1,13 +1,11 @@
-use menoh_sys;
-use std::ffi;
+use crate::error::check;
+use crate::handler::Handler;
+use crate::Dtype;
+use crate::Error;
+use crate::ModelData;
+use crate::VariableProfileTable;
+use std::ffi::CString;
 use std::ptr;
-
-use error::check;
-use handler::Handler;
-use Dtype;
-use Error;
-use ModelData;
-use VariableProfileTable;
 
 /// Builder for `VariableProfileTable`.
 pub struct VariableProfileTableBuilder {
@@ -48,7 +46,7 @@ impl VariableProfileTableBuilder {
     where
         T: Dtype,
     {
-        let c_name = ffi::CString::new(name)?;
+        let c_name = CString::new(name)?;
         let dims: Vec<_> = dims.iter().map(|&d| d as _).collect();
         unsafe {
             check(
@@ -75,7 +73,7 @@ impl VariableProfileTableBuilder {
     /// # }
     /// ```
     pub fn add_output(&mut self, name: &str) -> Result<(), Error> {
-        let name = ffi::CString::new(name)?;
+        let name = CString::new(name)?;
         unsafe {
             check(
                 menoh_sys::menoh_variable_profile_table_builder_add_output_name(

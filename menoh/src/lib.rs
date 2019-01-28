@@ -144,8 +144,6 @@
 //! # }
 //! ```
 
-extern crate menoh_sys;
-
 mod builder;
 mod dtype;
 mod error;

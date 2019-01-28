@@ -1,12 +1,10 @@
-use menoh_sys;
-use std::ffi;
-use std::path;
+use crate::error::check;
+use crate::handler::Handler;
+use crate::Error;
+use crate::VariableProfileTable;
+use std::ffi::CString;
+use std::path::Path;
 use std::ptr;
-
-use error::check;
-use handler::Handler;
-use Error;
-use VariableProfileTable;
 
 /// Container of operators and values of constant variables.
 pub struct ModelData {
@@ -25,9 +23,9 @@ impl ModelData {
     /// ```
     pub fn from_onnx<P>(path: P) -> Result<Self, Error>
     where
-        P: AsRef<path::Path>,
+        P: AsRef<Path>,
     {
-        let path = ffi::CString::new::<&str>(&path.as_ref().to_string_lossy())?;
+        let path = CString::new::<&str>(&path.as_ref().to_string_lossy())?;
         let mut handle = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_make_model_data_from_onnx(

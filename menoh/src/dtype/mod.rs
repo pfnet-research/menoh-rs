@@ -1,6 +1,4 @@
-use menoh_sys;
-
-use Error;
+use crate::Error;
 
 /// Representation of scalar types supported by Menoh.
 pub unsafe trait Dtype {

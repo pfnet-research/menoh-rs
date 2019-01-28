@@ -1,13 +1,11 @@
-use menoh_sys;
-use std::ffi;
+use crate::error::check;
+use crate::handler::Handler;
+use crate::Error;
+use crate::Model;
+use crate::ModelData;
+use crate::VariableProfileTable;
+use std::ffi::CString;
 use std::ptr;
-
-use error::check;
-use handler::Handler;
-use Error;
-use Model;
-use ModelData;
-use VariableProfileTable;
 
 /// Builder for `Model`.
 pub struct ModelBuilder {
@@ -62,8 +60,8 @@ impl ModelBuilder {
         backend_name: &str,
         backend_config: &str,
     ) -> Result<Model, Error> {
-        let backend_name = ffi::CString::new(backend_name)?;
-        let backend_config = ffi::CString::new(backend_config)?;
+        let backend_name = CString::new(backend_name)?;
+        let backend_config = CString::new(backend_config)?;
         let mut handle = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_build_model(
