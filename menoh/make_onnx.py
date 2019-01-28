@@ -52,7 +52,8 @@ def main():
 
     graph = onnx.helper.make_graph(
         nodes, 'model', inputs, outputs, initializer=initializers)
-    model = onnx.helper.make_model(graph)
+    model = onnx.helper.make_model(
+        graph, opset_imports=[onnx.helper.make_opsetid('', 8)])
     onnx.checker.check_model(model)
     onnx.save(model, args.out)
 
