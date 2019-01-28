@@ -43,10 +43,9 @@ fn main() -> Result<(), Box<dyn Error>> {
         .build("mkldnn", "")?;
 
     let img = image::open(args.flag_i)?;
-    {
-        let (_, conv1_1_buf) = model.get_variable_mut::<f32>(CONV1_1_IN_NAME)?;
-        set_image(conv1_1_buf, &img, INSIZE);
-    }
+    let (_, conv1_1_buf) = model.get_variable_mut::<f32>(CONV1_1_IN_NAME)?;
+    set_image(conv1_1_buf, &img, INSIZE);
+
     model.run()?;
 
     let (_, fc6_buf) = model.get_variable::<f32>(FC6_OUT_NAME)?;

@@ -9,14 +9,12 @@
 //!         .add_output("fc2")?
 //!         .build("mkldnn", "")?;
 //!
-//!     {
-//!         let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
-//!         in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
-//!         println!("in:");
-//!         # assert_eq!(in_dims, &[2, 3]);
-//!         println!("    dims: {:?}", in_dims);
-//!         println!("    buf: {:?}", in_buf);
-//!     }
+//!     let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
+//!     in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
+//!     println!("in:");
+//!     # assert_eq!(in_dims, &[2, 3]);
+//!     println!("    dims: {:?}", in_dims);
+//!     println!("    buf: {:?}", in_buf);
 //!
 //!     model.run()?;
 //!
@@ -79,36 +77,6 @@
 //! let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
 //! // set data to the variable.
 //! in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
-//! # Ok(())
-//! # }
-//! ```
-//! Note: The lifetime of views has to end before executing `Model::run`.
-//! Blocks will be required to limit the lifetime.
-//! ```compile_fail
-//! // NG: `in_buf` lives after `model.run()`.
-//! # fn main() -> Result<(), menoh::Error> {
-//! # let mut model = menoh::Builder::from_onnx("MLP.onnx")?
-//! #     .add_input::<f32>("input", &[2, 3])?
-//! #     .add_output("fc2")?
-//! #     .build("mkldnn", "")?;
-//! let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
-//! in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
-//! model.run()?;
-//! # Ok(())
-//! # }
-//! ```
-//! ```
-//! // OK: the lifetime of `in_buf` is limited by a block.
-//! # fn main() -> Result<(), menoh::Error> {
-//! # let mut model = menoh::Builder::from_onnx("MLP.onnx")?
-//! #     .add_input::<f32>("input", &[2, 3])?
-//! #     .add_output("fc2")?
-//! #     .build("mkldnn", "")?;
-//! {
-//!     let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
-//!     in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
-//! }
-//! model.run()?;
 //! # Ok(())
 //! # }
 //! ```
