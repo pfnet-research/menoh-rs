@@ -9,7 +9,7 @@ Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 [Documentation](https://docs.rs/menoh)
 
 ## Requirements
-- Rust 1.27+
+- Rust 1.31+
 - [Menoh](https://github.com/pfnet-research/menoh) 1.1+
 
 ## Demo
