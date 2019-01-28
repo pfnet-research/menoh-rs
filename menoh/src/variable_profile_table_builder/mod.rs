@@ -16,7 +16,7 @@ impl VariableProfileTableBuilder {
     /// Create a builder.
     ///
     /// ```
-    /// use menoh::*;
+    /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// let vpt_builder = VariableProfileTableBuilder::new()?;
     /// # Ok(())
@@ -35,7 +35,7 @@ impl VariableProfileTableBuilder {
     /// Register a variable as input.
     ///
     /// ```
-    /// use menoh::*;
+    /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// vpt_builder.add_input::<f32>("input", &[2, 3])?;
@@ -64,7 +64,7 @@ impl VariableProfileTableBuilder {
     /// Register a variable as output.
     ///
     /// ```
-    /// use menoh::*;
+    /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
@@ -87,7 +87,7 @@ impl VariableProfileTableBuilder {
     /// Build a `VariableProfileTable` using a `ModelData`.
     ///
     /// ```
-    /// use menoh::*;
+    /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// # let mut model_data = ModelData::from_onnx("MLP.onnx")?;
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
