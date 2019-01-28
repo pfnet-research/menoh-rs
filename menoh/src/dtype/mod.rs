@@ -5,8 +5,6 @@ pub unsafe trait Dtype {
     /// Integer specifying the scalar type.
     ///
     /// ```
-    /// # extern crate menoh;
-    /// # extern crate menoh_sys;
     /// # use menoh::*;
     /// assert_eq!(f32::ID, menoh_sys::menoh_dtype_float as menoh_sys::menoh_dtype);
     /// ```
