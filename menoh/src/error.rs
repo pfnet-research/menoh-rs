@@ -1,7 +1,6 @@
 use std::error;
 use std::ffi::{CStr, NulError};
-use std::fmt;
-use std::fmt::{Display, Formatter};
+use std::fmt::{self, Display, Formatter};
 
 #[derive(Debug)]
 pub enum Error {

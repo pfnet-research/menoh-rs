@@ -4,8 +4,7 @@ use serde_derive::Deserialize;
 use std::cmp::Ordering;
 use std::error::Error;
 use std::fs::File;
-use std::io;
-use std::io::{BufRead, BufReader};
+use std::io::{self, BufRead, BufReader};
 use std::path::{Path, PathBuf};
 
 const USAGE: &'static str = r#"
