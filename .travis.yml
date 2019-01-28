@@ -13,6 +13,7 @@ install:
         curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.1.0/ubuntu1604_mkl-dnn_0.16-1_amd64.deb
         curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.1.0/ubuntu1604_menoh_1.1.0-1_amd64.deb
         curl -LO https://github.com/pfnet-research/menoh/releases/download/v1.1.0/ubuntu1604_menoh-dev_1.1.0-1_amd64.deb
+        sudo apt update
         sudo apt install ./ubuntu1604_*_amd64.deb
     fi
   - |
