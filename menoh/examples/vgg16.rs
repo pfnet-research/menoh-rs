@@ -1,16 +1,12 @@
-extern crate docopt;
-extern crate image;
-extern crate menoh;
-#[macro_use]
-extern crate serde_derive;
-
-use image::GenericImageView;
-use std::cmp;
-use std::error;
-use std::fs;
+use docopt::Docopt;
+use image::{DynamicImage, FilterType, GenericImageView};
+use serde_derive::Deserialize;
+use std::cmp::Ordering;
+use std::error::Error;
+use std::fs::File;
 use std::io;
-use std::io::BufRead;
-use std::path;
+use std::io::{BufRead, BufReader};
+use std::path::{Path, PathBuf};
 
 const USAGE: &'static str = r#"
 VGG16 example
@@ -25,13 +21,13 @@ Options:
 
 #[derive(Debug, Deserialize)]
 struct Args {
-    flag_i: path::PathBuf,
-    flag_m: path::PathBuf,
-    flag_s: path::PathBuf,
+    flag_i: PathBuf,
+    flag_m: PathBuf,
+    flag_s: PathBuf,
 }
 
-fn main() -> Result<(), Box<dyn error::Error>> {
-    let args: Args = docopt::Docopt::new(USAGE)
+fn main() -> Result<(), Box<dyn Error>> {
+    let args: Args = Docopt::new(USAGE)
         .and_then(|d| d.deserialize())
         .unwrap_or_else(|e| e.exit());
 
@@ -61,7 +57,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     indices.sort_unstable_by(|&i, &j| {
         softmax_buf[j]
             .partial_cmp(&softmax_buf[i])
-            .unwrap_or(cmp::Ordering::Equal)
+            .unwrap_or(Ordering::Equal)
     });
     let categories = load_category_list(args.flag_s)?;
     for &i in &indices[..5] {
@@ -71,9 +67,9 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     Ok(())
 }
 
-fn set_image(buf: &mut [f32], img: &image::DynamicImage, size: usize) {
+fn set_image(buf: &mut [f32], img: &DynamicImage, size: usize) {
     assert!(buf.len() <= 3 * size * size);
-    let img = img.resize_exact(size as _, size as _, image::FilterType::Nearest);
+    let img = img.resize_exact(size as _, size as _, FilterType::Nearest);
 
     const MEAN: [f32; 3] = [103.939, 116.779, 123.68];
     for c in 0..3 {
@@ -89,10 +85,10 @@ fn set_image(buf: &mut [f32], img: &image::DynamicImage, size: usize) {
 
 fn load_category_list<P>(path: P) -> io::Result<Vec<String>>
 where
-    P: AsRef<path::Path>,
+    P: AsRef<Path>,
 {
     let mut categories = Vec::new();
-    for line in io::BufReader::new(fs::File::open(path)?).lines() {
+    for line in BufReader::new(File::open(path)?).lines() {
         categories.push(line?);
     }
     Ok(categories)
