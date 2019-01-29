@@ -40,7 +40,7 @@ impl ModelData {
     /// ```
     /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
-    /// # let onnx_data = include_bytes!("../../MLP.onnx");
+    /// # let onnx_data = include_bytes!("../MLP.onnx");
     /// let model_data = ModelData::from_onnx_bytes(onnx_data)?;
     /// # Ok(())
     /// # }
