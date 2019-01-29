@@ -37,7 +37,7 @@ impl Builder {
     /// ```
     /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
-    /// # let onnx_data = include_bytes!("../../MLP.onnx");
+    /// # let onnx_data = include_bytes!("../MLP.onnx");
     /// let builder = Builder::from_onnx_bytes(onnx_data)?;
     /// # Ok(())
     /// # }
