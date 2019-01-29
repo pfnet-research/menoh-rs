@@ -1,5 +1,4 @@
 use crate::error::check;
-use crate::handler::Handler;
 use crate::Error;
 use crate::Model;
 use crate::ModelData;
@@ -31,7 +30,7 @@ impl ModelBuilder {
         let mut handle = ptr::null_mut();
         unsafe {
             check(menoh_sys::menoh_make_model_builder(
-                variable_profile_table.handle(),
+                variable_profile_table.handle,
                 &mut handle,
             ))?;
         }
@@ -66,12 +65,12 @@ impl ModelBuilder {
         unsafe {
             check(menoh_sys::menoh_build_model(
                 self.handle,
-                model_data.handle(),
+                model_data.handle,
                 backend_name.as_ptr(),
                 backend_config.as_ptr(),
                 &mut handle,
             ))?;
-            Ok(Model::from_handle(handle))
+            Ok(Model { handle })
         }
     }
 }

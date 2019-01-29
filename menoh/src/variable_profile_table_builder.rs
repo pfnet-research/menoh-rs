@@ -1,5 +1,4 @@
 use crate::error::check;
-use crate::handler::Handler;
 use crate::Dtype;
 use crate::Error;
 use crate::ModelData;
@@ -102,10 +101,10 @@ impl VariableProfileTableBuilder {
         unsafe {
             check(menoh_sys::menoh_build_variable_profile_table(
                 self.handle,
-                model_data.handle(),
+                model_data.handle,
                 &mut handle,
             ))?;
-            Ok(VariableProfileTable::from_handle(handle))
+            Ok(VariableProfileTable { handle })
         }
     }
 }

@@ -1,5 +1,4 @@
 use crate::error::check;
-use crate::handler::Handler;
 use crate::Error;
 use crate::VariableProfileTable;
 use std::ffi::CString;
@@ -8,7 +7,7 @@ use std::ptr;
 
 /// Container of operators and values of constant variables.
 pub struct ModelData {
-    handle: menoh_sys::menoh_model_data_handle,
+    pub(crate) handle: menoh_sys::menoh_model_data_handle,
 }
 
 impl ModelData {
@@ -76,19 +75,9 @@ impl ModelData {
         unsafe {
             check(menoh_sys::menoh_model_data_optimize(
                 self.handle,
-                variable_profile_table.handle(),
+                variable_profile_table.handle,
             ))
         }
-    }
-}
-
-impl Handler for ModelData {
-    type Handle = menoh_sys::menoh_model_data_handle;
-    unsafe fn from_handle(handle: Self::Handle) -> Self {
-        Self { handle }
-    }
-    unsafe fn handle(&self) -> Self::Handle {
-        self.handle
     }
 }
 

@@ -1,11 +1,10 @@
 use crate::error::check;
-use crate::handler::Handler;
 use crate::Error;
 use std::ffi::CString;
 
 /// Container of variable profiles (type, shape and flag of input/output).
 pub struct VariableProfileTable {
-    handle: menoh_sys::menoh_variable_profile_table_handle,
+    pub(crate) handle: menoh_sys::menoh_variable_profile_table_handle,
 }
 
 impl VariableProfileTable {
@@ -46,16 +45,6 @@ impl VariableProfileTable {
             }
             Ok(dims)
         }
-    }
-}
-
-impl Handler for VariableProfileTable {
-    type Handle = menoh_sys::menoh_variable_profile_table_handle;
-    unsafe fn from_handle(handle: Self::Handle) -> Self {
-        Self { handle }
-    }
-    unsafe fn handle(&self) -> Self::Handle {
-        self.handle
     }
 }
 

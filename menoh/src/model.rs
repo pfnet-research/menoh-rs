@@ -1,5 +1,4 @@
 use crate::error::check;
-use crate::handler::Handler;
 use crate::Dtype;
 use crate::Error;
 use std::ffi::CString;
@@ -9,7 +8,7 @@ use std::slice;
 
 /// Model, which executes computation.
 pub struct Model {
-    handle: menoh_sys::menoh_model_handle,
+    pub(crate) handle: menoh_sys::menoh_model_handle,
 }
 
 impl Model {
@@ -134,16 +133,6 @@ impl Model {
 
     pub fn run(&mut self) -> Result<(), Error> {
         unsafe { check(menoh_sys::menoh_model_run(self.handle)) }
-    }
-}
-
-impl Handler for Model {
-    type Handle = menoh_sys::menoh_model_handle;
-    unsafe fn from_handle(handle: Self::Handle) -> Self {
-        Self { handle }
-    }
-    unsafe fn handle(&self) -> Self::Handle {
-        self.handle
     }
 }
 

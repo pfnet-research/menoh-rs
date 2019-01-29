@@ -113,7 +113,6 @@
 mod builder;
 mod dtype;
 mod error;
-mod handler;
 mod model;
 mod model_builder;
 mod model_data;
