@@ -36,7 +36,7 @@ pub enum Error {
     },
     NulError(NulError),
 }
-use Error::*;
+use self::Error::*;
 
 impl Display for Error {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
