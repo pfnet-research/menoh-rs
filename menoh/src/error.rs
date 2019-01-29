@@ -39,7 +39,7 @@ pub enum Error {
 use self::Error::*;
 
 impl Display for Error {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
             StdError(message)
             | UnknownError(message)
