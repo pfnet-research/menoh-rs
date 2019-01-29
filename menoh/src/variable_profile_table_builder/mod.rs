@@ -46,13 +46,13 @@ impl VariableProfileTableBuilder {
     where
         T: Dtype,
     {
-        let c_name = CString::new(name)?;
+        let name = CString::new(name)?;
         let dims: Vec<_> = dims.iter().map(|&d| d as _).collect();
         unsafe {
             check(
                 menoh_sys::menoh_variable_profile_table_builder_add_input_profile(
                     self.handle,
-                    c_name.as_ptr(),
+                    name.as_ptr(),
                     T::ID,
                     dims.len() as _,
                     dims.as_ptr(),
