@@ -9,7 +9,7 @@ Rust binding for [Menoh](https://github.com/pfnet-research/menoh)
 [Documentation](https://docs.rs/menoh)
 
 ## Requirements
-- Rust 1.27+
+- Rust 1.31+
 - [Menoh](https://github.com/pfnet-research/menoh) 1.1+
 
 ## Demo
@@ -26,24 +26,20 @@ $ cargo run --example vgg16  # use Light_sussex_hen.jpg
 $ cargo run --example vgg16 -- --image <image>  # use your image
 ```
 
-## Example
+## Example (edition = "2018")
 
 ```rust
-extern crate menoh;
-
 fn main() -> Result<(), menoh::Error> {
     let mut model = menoh::Builder::from_onnx("MLP.onnx")?
         .add_input::<f32>("input", &[2, 3])?
         .add_output("fc2")?
         .build("mkldnn", "")?;
 
-    {
-        let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
-        in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
-        println!("in:");
-        println!("    dims: {:?}", in_dims);
-        println!("    buf: {:?}", in_buf);
-    }
+    let (in_dims, in_buf) = model.get_variable_mut::<f32>("input")?;
+    in_buf.copy_from_slice(&[0., 1., 2., 3., 4., 5.]);
+    println!("in:");
+    println!("    dims: {:?}", in_dims);
+    println!("    buf: {:?}", in_buf);
 
     model.run()?;
 

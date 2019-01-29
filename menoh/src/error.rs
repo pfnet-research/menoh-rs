@@ -1,7 +1,6 @@
-use menoh_sys;
 use std::error;
-use std::ffi;
-use std::fmt;
+use std::ffi::{CStr, NulError};
+use std::fmt::{self, Display, Formatter};
 
 #[derive(Debug)]
 pub enum Error {
@@ -35,12 +34,12 @@ pub enum Error {
         /// Requested dtype.
         expected: menoh_sys::menoh_dtype,
     },
-    NulError(ffi::NulError),
+    NulError(NulError),
 }
 use Error::*;
 
-impl fmt::Display for Error {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+impl Display for Error {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match self {
             StdError(message)
             | UnknownError(message)
@@ -85,7 +84,7 @@ pub fn check(code: menoh_sys::menoh_error_code) -> Result<(), Error> {
         Ok(())
     } else {
         let message = String::from_utf8_lossy(
-            unsafe { ffi::CStr::from_ptr(menoh_sys::menoh_get_last_error_message()) }.to_bytes(),
+            unsafe { CStr::from_ptr(menoh_sys::menoh_get_last_error_message()) }.to_bytes(),
         )
         .into_owned();
         let err = match code {
@@ -132,8 +131,8 @@ pub fn check(code: menoh_sys::menoh_error_code) -> Result<(), Error> {
     }
 }
 
-impl From<ffi::NulError> for Error {
-    fn from(value: ffi::NulError) -> Self {
-        Error::NulError(value)
+impl From<NulError> for Error {
+    fn from(value: NulError) -> Self {
+        NulError(value)
     }
 }

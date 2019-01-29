@@ -1,5 +1,3 @@
-use menoh_sys;
-
 use super::Dtype;
 
 #[test]

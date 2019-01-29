@@ -1,13 +1,11 @@
-use menoh_sys;
-use std::ffi;
+use crate::error::check;
+use crate::handler::Handler;
+use crate::Dtype;
+use crate::Error;
+use crate::ModelData;
+use crate::VariableProfileTable;
+use std::ffi::CString;
 use std::ptr;
-
-use error::check;
-use handler::Handler;
-use Dtype;
-use Error;
-use ModelData;
-use VariableProfileTable;
 
 /// Builder for `VariableProfileTable`.
 pub struct VariableProfileTableBuilder {
@@ -18,7 +16,7 @@ impl VariableProfileTableBuilder {
     /// Create a builder.
     ///
     /// ```
-    /// use menoh::*;
+    /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// let vpt_builder = VariableProfileTableBuilder::new()?;
     /// # Ok(())
@@ -37,7 +35,7 @@ impl VariableProfileTableBuilder {
     /// Register a variable as input.
     ///
     /// ```
-    /// use menoh::*;
+    /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// vpt_builder.add_input::<f32>("input", &[2, 3])?;
@@ -48,7 +46,7 @@ impl VariableProfileTableBuilder {
     where
         T: Dtype,
     {
-        let c_name = ffi::CString::new(name)?;
+        let c_name = CString::new(name)?;
         let dims: Vec<_> = dims.iter().map(|&d| d as _).collect();
         unsafe {
             check(
@@ -66,7 +64,7 @@ impl VariableProfileTableBuilder {
     /// Register a variable as output.
     ///
     /// ```
-    /// use menoh::*;
+    /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;
     /// # vpt_builder.add_input::<f32>("input", &[2, 3])?;
@@ -75,7 +73,7 @@ impl VariableProfileTableBuilder {
     /// # }
     /// ```
     pub fn add_output(&mut self, name: &str) -> Result<(), Error> {
-        let name = ffi::CString::new(name)?;
+        let name = CString::new(name)?;
         unsafe {
             check(
                 menoh_sys::menoh_variable_profile_table_builder_add_output_name(
@@ -89,7 +87,7 @@ impl VariableProfileTableBuilder {
     /// Build a `VariableProfileTable` using a `ModelData`.
     ///
     /// ```
-    /// use menoh::*;
+    /// # use menoh::*;
     /// # fn main() -> Result<(), Error> {
     /// # let mut model_data = ModelData::from_onnx("MLP.onnx")?;
     /// # let mut vpt_builder = VariableProfileTableBuilder::new()?;

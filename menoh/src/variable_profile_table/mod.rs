@@ -1,9 +1,7 @@
-use menoh_sys;
-use std::ffi;
-
-use error::check;
-use handler::Handler;
-use Error;
+use crate::error::check;
+use crate::handler::Handler;
+use crate::Error;
+use std::ffi::CString;
 
 /// Container of variable profiles (type, shape and flag of input/output).
 pub struct VariableProfileTable {
@@ -27,7 +25,7 @@ impl VariableProfileTable {
     /// # }
     /// ```
     pub fn get_variable_dims(&self, name: &str) -> Result<Vec<usize>, Error> {
-        let name = ffi::CString::new(name)?;
+        let name = CString::new(name)?;
         unsafe {
             let mut size = 0;
             check(menoh_sys::menoh_variable_profile_table_get_dims_size(

@@ -1,11 +1,10 @@
-use std::path;
-
-use Dtype;
-use Error;
-use Model;
-use ModelBuilder;
-use ModelData;
-use VariableProfileTableBuilder;
+use crate::Dtype;
+use crate::Error;
+use crate::Model;
+use crate::ModelBuilder;
+use crate::ModelData;
+use crate::VariableProfileTableBuilder;
+use std::path::Path;
 
 /// Helper to build `Model`.
 pub struct Builder {
@@ -25,7 +24,7 @@ impl Builder {
     /// ```
     pub fn from_onnx<P>(path: P) -> Result<Self, Error>
     where
-        P: AsRef<path::Path>,
+        P: AsRef<Path>,
     {
         Ok(Self {
             model_data: ModelData::from_onnx(path)?,
